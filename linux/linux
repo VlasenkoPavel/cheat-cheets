@@ -1,0 +1,207 @@
+http://www.opennet.ru/docs/RUS/bash_scripting_guide/         про bash скрипты
+https://1cloud.ru/help/linux/linux_zapusk_komand_fonovom_rezhime   // & запуск фоном
+https://www.opennet.ru/base/sec/ssh_pubkey_auth.txt.html      про ssh
+http://softhelp.org.ua/?p=5726                                про удаление
+https://proglib.io/p/unix-linux-books/                        книги
+https://proglib.io/p/6-best-linux-books/
+https://proglib.io/p/new-linux-tricks/                         16 ползных команд
+https://proglib.io/p/interesting-shell/                        o shell
+https://proglib.io/p/hacker-course/                           kali
+https://proglib.io/p/kali-linux-hacker/                       kali
+https://toster.ru/q/292256                                    //  apt-get clean
+http://rus-linux.net/MyLDP/consol/sed.html                    //sed
+https://www.shellhacks.com/ru/copy-files-ssh-10-examples/     //  scp
+https://habrahabr.ru/sandbox/52043/                           // чистим dash
+http://help.ubuntu.ru/wiki/%D0%BF%D0%B0%D0%BD%D0%B5%D0%BB%D1%8C_unity   // про uniti пилоложния и dash
+
+http://help.ubuntu.ru/wiki/%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D0%B8_%D0%B8_%D0%B3%D1%80%D1%83%D0%BF%D0%BF%D1%8B           // users
+http://help.ubuntu.ru/wiki/%D1%80%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE_%D0%BF%D0%BE_ubuntu_server/%D0%B1%D0%B5%D0%B7%D0%BE%D0%BF%D0%B0%D1%81%D0%BD%D0%BE%D1%81%D1%82%D1%8C/user_management               // users
+http://citforum.ru/programming/unix/threads/   //потоки
+
+//ОБЩЕЕ
+dconf reset -f /   // reset keysortcuts and othe
+https://www.omgubuntu.co.uk/2017/10/how-to-reset-ubuntu-desktop-to-default//
+
+lsb_release -a  //версия
+
+systemctl suspend     //уснуть
+systemctl hibernate
+
+sudo poweroff
+sudo reboot
+
+//ТЕРМИНАЛ
+ctrl + a //в начало строки
+ctrl + e //в конец строки
+ctrl + u //очистить строку
+ctrl + alt + t     открыть териминал
+
+//сеть
+ip a
+ifconfig
+ping -c 10 -p 800 localhost
+sudo netstat -tpln  //кто на портах
+sudo netstat -tpln | grep "tcp"
+
+//ПРОЦЕССЫ
+fg   //вызвать процесс из фона
+nohup yarn start-dev & потом bg //запуск фоном
+ps -o user= -p $$ | awk '{print $1}' //по PID
+
+ps axu | grep argouml  // по вхождению
+
+ps x  //Показать все процессы, запущенные вами
+ps ax  //Показать все процессы системы, а не только те, владельцем которых являетесь вы
+ps u  //Включить детализированную информацию о процессах
+ps w  //Показать полные названия команд, а не только те, что помещаются
+ps u $$  //$$ - переменная оболочки содержащая pid текущего процесса
+
+//ПОЛЬЗОВАТЕЛИ
+узнать текущего пользователя
+whoami
+echo $USER
+id -u -n    // по ID  
+
+
+cat /etc/passwd
+https://losst.ru/kak-posmotret-spisok-polzovatelej-v-ubuntu         //список пользователей
+
+--help список флагов
+после - флаги кмбинируются
+после -- флаги из нескольких символов
+флаги могут принимать аргументе
+
+
+pwd    показать где мы
+pwd -P  (при не ясных символических ссылках)
+
+cd ~ домашняя (/home/name)
+cd .. уровень выше
+сd / в корень
+
+ls	показать каталоги и файлы
+	-l  расширенные
+	-a показать все
+ls /home
+ls -la (-a???)  show hidden
+
+mkdir  create folder
+
+> filename   create file
+> folder/filename
+
+пользовательль хост в начале строки
+/bin папка с исполняемыми файлами
+
+cp name1 name2
+cp -R name1 name2   // с вложенными
+cp -rp /dir/* /to/dir/  //скпировать содержимое одной в другую рекурсивно без symbolic links
+mv name1 name2
+
+rm
+rm filename
+rm -r
+rm -rf (удалить все вложенные файлы и папки)
+
+echo textString
+echo textString > filename
+
+cat filename     вывети содержимое в терминал
+tail -n 10 name     выведет последние 10 строк
+
+su user
+
+pipeline
+|  //sdin на stdout другой
+grep -  поиск по шаблонам строк
+grep root /etc/passwd - строки /etc/passwd содержащие root
+grep root /etc/* - фсе файлы в etc содержащие root
+	-i нечувствительность к регистру
+	-v инверсия условия (не содержит)
+
+vim - (загрузитьв себя содержимое pipeline, только для vim)
+
+.bashrc - настройки shell-a (bash)
+	alias name='command'
+sourse ~/.bashrc  - подгрузить настройки в shell (или перезайти через exit)
+
+export PS1=""
+
+переменные
+HOME- домашняя папка
+EDITOR - редактор по умолчанию
+echo $EDITOR
+export EDITOR=vim       устаовить значение переменной
+EDITOR=vim command      установить значение только для конкретной комманды
+
+cron - для выполнения команд по расписанию
+crontab -e
+папки cron.hourly, cron.daily, cron.weekly, cron.monthly для root
+>> записать в файл   //перенаправляет stdout
+> перезаписать файл  //перенаправляет stdout
+2> //перенаправляет stderr
+>&
+< //перенаправляет stdin
+
+эпизод 11 7:19 как узнать процесс занимающий больше всего памяти
+
+chmod +x fileName  сделать файл исполняемым
+
+gcc -include stdio.h filename.c -o filename.exe компелирование с (exe не нужен)
+
+//мануалы
+man ls  //мануал по ls
+man -K keyword  //поиск в мануале по ключевому слову
+man 5 keyword  //поиск в 8 разделе мануале по ключевому слову
+--help (или -р)  //помощь по команде, ыбыввает и так и эдак
+info commandName  //другой вариант руководства
+
+set -C //задать параметр предотвращающий затирание файлов???????
+
+kill //отправить сигнал процессу, по умолчанию TERM - прерывание
+jobs  //узнать не висят ли в текущем терминале приостановленные процессы
+//внутреннее устройство Linux
+ctr+D останавливает текущий стандартный поток ввода из терминала
+ctr+C завершает работу программы
+rmdir удаляет пустую дирректорию
+
+*at
+at* - все файлы начинающиеся/заканчивающиеся/включающие
+*at*
+ ? - один произвольный символов
+ b?at //boat bdat
+ джокерный символ в '' просто выведет его
+
+
+less  постраничный вывод
+space - страница вперед
+b - назад
+q - выход
+/qwe
+?qwe -поиск в прямом и обратном направлении внутри резултата
+N - продолжение поиска
+
+grep ie /usr/share/dict/words | less
+
+diff file1 file2 //показать различия
+diff -u //другой формат
+
+file filename  //вывовди формфт файла
+
+find
+find dirname -name filename -print  //найти filename в dirname
+внутри find джокерные симвлы в ''
+locate // поиск по индксам, быстрее но может не в ряде случаев может не найти
+find programs //////
+readlink -f $(which java)
+
+head filename  //первые 10 строк
+tail
+head -n filename //первые name
+tail +n ..начиная со строки name
+
+pm2 restart all //когда проблемы с файловым сервисом
+sudo /sbin/reboot // supervisor restart
+
+
+df -h //size

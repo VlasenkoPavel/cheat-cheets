@@ -1,0 +1,10 @@
+echo $JAVA_HOME
+
+export PATH=$PATH:/path/to/newdir    //только для текущей сесии терминала
+
+nano /home/user/.bashrc
+export PATH=$PATH:/path/to/newdir     //действует всегда
+Или добавить в конец файла /etc/profile
+
+/etc/environment   //хранит PATH по умолчанию
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"

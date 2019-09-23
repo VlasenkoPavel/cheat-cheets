@@ -1,0 +1,4 @@
+https://stackoverflow.com/questions/48869369/property-value-does-not-exist-on-type-readonly  //props interface
+
+//создание элемента
+const Header = (props) => <h1>{props.title}</h1>

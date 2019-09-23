@@ -1,0 +1,54 @@
+branches -> isights -> network(left side) //network
+git clone https://VlasenkoPavel:**********@github.com/c7s/sber-marketing.git
+git clone ssh://git@gitlab.local:2222/tarach/test.git
+
+https://forum.freecodecamp.org/t/create-git-remote-repo-from-local-forked-repository/93279/2      //создание
+git clone https://username:password@remote
+git clone https://VlasenkoPavel:**********@github.com/c7s/sber-marketing.git
+
+git log --grep="SM-111" //поиск коммита
+
+new////////////////////////////////////////////
+git init
+git add .  // добавляет удаленные в отличие от *
+git commit -m "init"
+curl -u 'VlasenkoPavel' https://api.github.com/user/repos -d '{"name":"my-repo"}'
+git remote add origin https://github.com/VlasenkoPavel/my-repo.git                    ///  or?? // git remote add origin git@github.com:USER/REPO.git
+git remote set-url origin https://github.com/VlasenkoPavel/my-repo.git
+git remote -v
+git push origin master
+
+branch///////////////////////////////////////////////
+https://gist.github.com/lttlrck/9628955
+git branch -m old_branch new_branch         # Rename branch locally
+git push origin :old_branch                 # Delete the old branch
+git push --set-upstream origin new_branch   # Push the new branch, set local branch to track the new remote
+git branch -d <имя_ветки> //удалить локальную ветку
+git push origin --delete <имя_ветки> //удалить удаленную Ветку
+
+commit////////////////////////////////////////////////
+https://gist.github.com/gunjanpatel/18f9e4d1eb609597c50c2118e416e6a6   //отмена коммита
+https://githowto.com/ru/undoing_committed_changes
+http://christoph.ruegg.name/blog/git-howto-revert-a-commit-already-pushed-to-a-remote-reposit.html
+
+git commit -a --amend
+git reset --soft HEAD^ //Эта команда отменит последний коммит (но не изменения, которые вы внесли, они сохранятся).
+git reset --hard HEAD^ //вообще его удалить:
+git revert commit-sha1 //если вы их опубликовали, то не остается ничего другого, как сделать коммит, который отменяет какой-то коммит:
+
+If you do git reset --hard <SOME-COMMIT> then Git will:
+Make your current branch (typically master) back to point at <SOME-COMMIT>.
+Then make the files in your working tree and the index ("staging area") the same as the versions committed in <SOME-COMMIT>.
+
+merge////////////////////////////////////////////////
+git merge --no-ff origin/feature-SM-669_remove_userRole   //origin !! иначе мерджится локальная ветка
+
+
+https://forum.freecodecamp.org/t/create-git-remote-repo-from-local-forked-repository/93279/2      //создание
+
+https://ru.stackoverflow.com/questions/431520/%D0%9A%D0%B0%D0%BA-%D0%B2%D0%B5%D1%80%D0%BD%D1%83%D1%82%D1%8C%D1%81%D1%8F-%D0%BE%D1%82%D0%BA%D0%B0%D1%82%D0%B8%D1%82%D1%8C%D1%81%D1%8F-%D0%BA-%D0%B1%D0%BE%D0%BB%D0%B5%D0%B5-%D1%80%D0%B0%D0%BD%D0%BD%D0%B5%D0%BC%D1%83-%D0%BA%D0%BE%D0%BC%D0%BC%D0%B8%D1%82%D1%83  //откат к предыдущему
+
+https://eax.me/git-commands/  //шпоргалка
+
+ignore
+git rm --cached -r dist

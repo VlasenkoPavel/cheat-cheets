@@ -1,0 +1,67 @@
+http://onlyadmin.blogspot.com/2013/07/teamviewer-id-ubuntu.html
+mac adr in wi-fi settings (menu)
+
+////////////
+$ sudo teamviewer --daemon stop
+$ ifconfig
+enp3s0 Link encap:Ethernet HWaddr 5c:f9:dd:5e:64:be
+$ sudo ifconfig enp3s0 down
+$ sudo ifconfig enp3s0 hw ether 5c:f9:dd:5e:64:bf
+$ sudo ifconfig enp3s0 up
+$ sudo teamviewer --daemon start
+
+sudo teamviewer --daemon stop
+sudo ifconfig wlo1 down
+sudo ifconfig wlo1 hw ether 58:FB:84:18:ED:AF
+sudo ifconfig wlo1 up
+sudo teamviewer --daemon start
+
+sudo teamviewer --daemon stop
+sudo ifconfig eno1 down
+sudo ifconfig eno1 hw ether c8:d3:ff:1d:08:48
+sudo ifconfig eno1 up
+sudo teamviewer --daemon start
+//////////////
+
+1) Запускаем Teamviewer и убеждаемся что везде одинаковый id
+2) Убедились идем далее, здесь покажу на примере одного ПК, надо будет проделать процедуру на всех проблемных
+3)Зайти в Приложения - Стандартные - Терминал (либо нажать комбинацию CTRL+ALT+T)
+4)Откроется окно для ввода команд
+
+Ввести
+sudo dpkg -r teamviewer
+
+Появится строка для ввода пароля ввести свой (qwerty)
+После выполнения может появиться строка
+/home/user/.config/teamviewer8 is not owned by you
+
+3) Надо удалить указанную папку введя
+rm -r ~/.config/teamviewer8/
+
+4)Проверить что папка удалилась ввести
+ls ~/.config/teamviewer8/
+
+Если напишет /home/user/.config/teamviewer8/: No such file or directory
+значит удалилась
+
+5) Теперь меняем МАС карты, т.к id привязывается к MAC адрессу.
+ifconfig
+Смотрим MAC возле HWaddr
+
+ifconfig eth0 hw ether  08:00:27:d0:e7:8с
+
+6)Теперь сделаем так чтобы при перезагрузке остался этот MAC
+ В /etc/network/if-pre-up.d/ создать файл от root (например macchange) со следующим содержимым
+
+! /bin/sh
+ifconfig eth0 hw ether 08:00:27:d0:e7:8с (адрес заменить на желаемый).
+
+или через /etc/profile
+
+Далее /etc/init.d/networking restart и с помощью ifconfig посмотреть что адрес остался.
+Также желательно перегрузиться и убедиться что новый  MAC применился.
+
+7) Теперь зайти на http://www.teamviewer.com/ru/download/linux.aspx
+внизу будет Ubuntu,Debian нажать на Download deb v.8.0.17147 рядом написанно 32-Bit / Multiarch при загрузке выбрать открыть с помощью "Центр приложений Ubuntu" нажать ОК
+откроется окно центра приложений нажать установить или Install
+Затем зайти в Приложения - Интернет и запустить его

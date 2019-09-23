@@ -1,0 +1,22 @@
+https://help.ubuntu.ru/wiki/java
+http://itisgood.ru/2019/02/04/kak-ustanovit-versiju-java-po-umolchaniju-v-ubuntu-debian/
+http://qaru.site/questions/16531214/how-to-use-jdk-without-jre-in-java-11
+
+
+update-java-alternatives --list
+sudo update-alternatives --config java
+java -version
+sudo  update-alternatives --config javac
+
+Выполните команду ниже, чтобы установить текущую настройку Java по умолчанию.
+
+export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
+
+Для JRE используйте:
+export JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:jre/bin/java::")
+Постоянство может быть достигнуто путем размещения команды экспорта в вашем .bashrc или /etc/profile
+
+
+
+/usr/lib/jvm/java-11-openjdk-amd64/bin/javac
+/usr/lib/jvm/java-11-openjdk-amd64/bin/java

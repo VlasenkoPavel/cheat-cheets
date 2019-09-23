@@ -1,0 +1,179 @@
+## подклчение
+ENTER без ; просто переносит на новую строку
+mysql -uroot -p
+mysql -uroot -p < script.sql
+
+service mysql restart;        /// root user
+
+помощь 
+\h
+
+показать таблицы
+
+USE geodata;
+
+SHOW DATABASES;
+SHOW TABlES;
+SHOW COLUMNS FROM countryes;
+SHOW INDEXES FROM countryes;
+
+CREATE DATABASE db_name;
+CREATE TABLE country (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL);
+
+DROP DATABASE db_name;
+DROP TABLE country;
+
+RENAME TABLE country TO countryes;
+
+ALTER TABLE countryes MODIFY name VARCHAR(255);
+
+переименование name to title
+ALTER TABLE countryes CHANGE name title VARCHAR(255);
+
+ALTER TABLE countryes ADD COLUMN country_id INT NOT NULL;
+
+внешний ключ для свящывания таблицы    countryes towns_id   с    towns id
+ALTER TABLE countryes ADD FOREIGN KEY fk_towns (towns_id) REFERENCES towns (id);
+
+ALTER TABLE countryes DROP FOREIGN KEY fk_towns; выдает ошибку???
+
+
+
+SELECT
+///////////////////////////////////////////////////////
+SELECT * FROM departments;
+SELECT dept_no FROM departments;
+SELECT 1 + 2;  // 3
+SELECT 'a' < 'b'; // сработает, не строгая типизация
+SELECT 'qwe' AS test;
+SELECT CONCAT(dept_no, '', dept_name) AS fullname FROM departments;   //объединяет строки 
+SELECT * FROM departments WHERE 'dep_name' = 'Finance';
+SELECT * FROM departments WHERE 'dep_name' = 'Finance' OR 1 = 1; // >=, <= l3 1:40 пояснения
+
+OR AND IN BETWEEN LIKE (можно использовать совместно с OR AND и др.) REGEXP MAX DESC (по убыванию)
+/////////////////////////////////
+SELECT * FROM departments WHERE dept_no BETWEEN 'd003' AND 'd009'; // вберет и тсортеерует по столбцу
+SELECT * FROM departments WHERE dept_no IN (SELECT dept_no FROM departments WHERE dept_name = 'Finance' OR dept_name = 'Research');
+SELECT * FROM departments WHERE dept_name LIKE '% %'; // все где есть пробел
+SELECT * FROM departments WHERE dept_name LIKE 'Q%'; // все что начинается на Q
+SELECT * FROM departments WHERE dept_name LIKE '%s'; // все что заканчивается на s
+SELECT * FROM departments WHERE dept_name REGEXP '^C'; // REGEXP BINARY для регистрозависимого поиска
+	
+GROUP BY
+/////////////////////////////////
+SELECT COUNT(dept_name) AS count_dept FROM departments WHERE dept_no BETWEEN 'd005' AND 'd009' GROUP BY dept_name; // GROUP BY сгрупирует по имени(в данном случаевсего 1 елемент в каждой), COUNT выведет кол-во в группе
+SELECT COUNT(first_name) AS gender_counter, gender FROM employees GROUP BY gender; // вторая часть указывает обрабатываемые столбцы, ее лучше всегда указывать
+SELECT COUNT(first_name) AS gender_counter FROM employees GROUP BY gender; // так лучше не делать
+SELECT COUNT(first_name) AS names_count, first_name FROM employees GROUP BY first_name; // имя и сколько раз встречается
+
+HAVING
+//////////////////////////////////
+SELECT COUNT(first_name) AS names_count, first_name FROM employees GROUP BY first_name; // имя и сколько раз встречается
+SELECT COUNT(first_name) AS names_count, first_name FROM employees GROUP BY first_name HAVING first_name LIKE 'Z%'; // как предыдущий, о только для имен начинающихся на Z;
+
+ORDER BY  // сортирует 
+/////////////////////////////////
+SELECT COUNT(first_name) AS names_count, first_name FROM employees GROUP BY first_name HAVING first_name LIKE 'Z%' ORDER BY names_count;
+
+LIMIT
+/////////////////////////////////
+SELECT COUNT(first_name) AS names_count, first_name FROM employees GROUP BY first_name HAVING first_name LIKE 'Z%' ORDER BY names_count LIMIT 5;
+
+JOIN
+///////////////////////////// 
+Основное различие в том, как соединяются таблицы, если нет общих записей. Простой JOIN - тоже самое что INNER JOIN и означает показывать только общие записи обоих таблиц. Каким образом записи считаются общими определяется полями в join-выражении. Например следующая запись FROM t1 JOIN t2 on t1.id = t2.id  означает что будут показаны записи с одинаковыми id, существующие в обоих таблицах.
+LEFT JOIN (или LEFT OUTER JOIN) означает показывать все записи из левой таблицы (той, которая идет первой в join-выражении) независимо от наличия соответствующих записей в правой таблице
+RIGHT JOIN (или RIGHT OUTER JOIN) действует в противоположность LEFT JOIN - показывает все записи из правой (второй) таблицы и только совпавшие из левой (первой) таблицы. также есть еще и full [outer] join, возвращает все записи как справа, так и слева.
+//////////////////////////////
+SELECT * FROM departments LEFT JOIN dept_manager ON departments.dept_no = dept_manager.dept_no;
+SELECT * FROM departments LEFT JOIN dept_manager ON departments.dept_no = dept_manager.dept_no LEFT JOIN employees ON dept_manager.emp_no = employees.emp_no;
+SELECT dept_name, first_name FROM departments LEFT JOIN dept_manager ON departments.dept_no = dept_manager.dept_no LEFT JOIN employees ON dept_manager.emp_no = employees.emp_no;
+SELECT dept_name, CONCAT(first_name, ' ', last_name) AS full_name FROM departments LEFT JOIN dept_manager ON departments.dept_no = dept_manager.dept_no LEFT JOIN employees ON dept_manager.emp_no = employees.emp_no;
+SELECT CONCAT(first_name, ' ', last_name) AS full_name, MAX(salary) AS max_sal FROM employees JOIN salaries ON salaries.emp_no = employees.emp_no GROUP BY full_name ORDER BY max_sal DESC LIMIT 1; // хрень какая то
+SELECT CONCAT(first_name, ' ', last_name) AS full_name, salary FROM employees JOIN salaries ON salaries.emp_no = employees.emp_no ORDER BY salary  DESC LIMIT 1;
+SELECT SUM(salary) AS dep_sal, COUNT(DISTINCT dept_emp.emp_no) AS dept_count, dept_no FROM dept_emp JOIN salaries ON dept_emp.emp_no = salaries.emp_no GROUP BY dept_no; // после DISINCT с указанием таблицы, иначе ошибка  field list is ambiguous l4 1:00	
+	
+UNION // объединяет ответы разных запросов
+//////////////////////////////////////////
+(SELECT COUNT(first_name) AS names_count, first_name FROM employees GROUP BY first_name HAVING first_name LIKE 'Z%' LIMIT 5) UNION (SELECT COUNT(first_name) AS names_count, first_name FROM employees GROUP BY first_name HAVING first_name LIKE 'S%' LIMIT 5);
+
+
+
+INSERT
+///////////////////////////////////////////////////
+INSERT INTO table_name (col_name1, col_name2) VALUES (val1, val2);
+
+UPDATE
+////////////////////////////////////////////////////
+UPDATE table_name SET col_name1 = 'val1' WHERE col_name2 = 'val2');
+UPDATE category SET discount = 3 WHERE id IN ( 2 , 5 ); 
+
+DELETE
+///////////////////////////////////////////////////
+DELETE FROM table_name WHERE col_name = 'val';
+
+INSERT + SELECT
+///////////////////////////////////////////////////
+INSERT INTO table_name (col_name1, col_name2) SELECT (col_name1, col_name2) FROM table_name WHERE col_name = 'val'; 
+ field list is ambiguous
+
+VIEW
+//////////////////////////////////////////////////
+CREATE VIEW five_deps AS SELECT FROM departments LIMIT 5;
+SELECT * FROM five_deps; 
+DROP VIEW five_deps; 
+
+PROCEDURE
+//////////////////////////////////////////////
+USE employees;
+delimiter //       переопределяем ; на двойной слэш (или еще что) l4 2:00;
+CREATE PROCDURE create_simple_table (OUT param INT)  //// OUT может быть заменен на IN
+	BEGIN
+		SELECT COUNT(salary) AS sal_count FROM salaries LIMIT 5;	
+		SET param = param + 1;
+	END//
+delimiter ;
+
+CALL create_simple_table (@a); // @a - переменная a
+SELECT @a; // значение будет в @a; 
+
+FUNCTION
+/////////////////////////////////////////////
+DETERMENISTIC и NONDETERMENISTIC  // реультат опрделятся соержимым и аргументами или нет???
+
+CREATE FUNCTION full_name(first_name CHAR(50), last_name CHAR(50))
+	RETURNS CHAR(100) DETERMENISTIC
+	RETURN CONCAT(first_name, ' ', last_name)
+
+
+TRIGGER
+////////////////////////////////////////////
+DELIMITER // 
+CREATE TRIGGER set_full_name INSERT ON employees  //// привязываем к событию 
+	FOR EACH ROW
+	BEGIN
+		UPDATE employees SET full_name = get_full_name(new.first_name, new.last_name); 
+	END//
+DELIMITER ;
+
+TRANSACTION
+/////////////////////////////////////////////
+START TRANSACTION;
+...
+SAVEPOINT testpoint;
+
+...
+ROLLBACK; ///////Откатить изменения, после коммита не сработает
+ROLLBACK TO testpoint; //////откатить на savepoint
+RELEASE SAVEPOINT identifier;
+COMMIT; //принять изменения;
+
+LOCK-S
+//////////////////////////////////////////////
+LOCK lock_name TABLE table_name WRITE; //READ блокирует только чтение, WRITE - все
+...
+UNLOCK TABLES; 
+
+EXPLAIN запрос // вместо результата получим инфу
+
+

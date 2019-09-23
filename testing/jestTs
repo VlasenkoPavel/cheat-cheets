@@ -1,0 +1,30 @@
+npm uninstall -g typescript
+npm install -g tslint typescript
+
+https://www.npmjs.com/package/ts-jest-babel-7
+https://github.com/palantir/tslint/issues/2647
+
+https://www.npmjs.com/package/ts-jest
+https://github.com/basarat/typescript-book/blob/master/docs/testing/jest.md
+http://jonathancreamer.com/testing-typescript-classes-with-jest-and-jest-mocks/
+https://rjzaworski.com/2016/12/testing-typescript-with-jest
+
+https://github.com/Tobias4872/typeorm-unit-testing
+
+/////////////////////////////
+https://github.com/kulshekhar/ts-jest/issues/797
+
+package.json
+    ...
+    "build": "./node_modules/.bin/tsc --project tsconfig.build.json",
+    "build-dev": "./node_modules/.bin/tsc --watch --project tsconfig.build.json",
+
+tsconfig.build.json
+    {
+    "extends": "./tsconfig.json",
+    "exclude": [
+        "**/*.spec.ts",
+        "**/*.test.ts"
+    ]
+    }
+/////////////////////////////

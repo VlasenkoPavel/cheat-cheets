@@ -1,0 +1,130 @@
+let allPhotos = await photoRepository.find();
+console.log("All photos from the db: ", allPhotos);
+
+let firstPhoto = await photoRepository.findOneById(1);
+console.log("First photo from the db: ", firstPhoto);
+
+let meAndBearsPhoto = await photoRepository.findOne({ name: "Me and Bears" });
+console.log("Me and Bears photo from the db: ", meAndBearsPhoto);
+
+let allPublishedPhotos = await photoRepository.find({ isPublished: true });
+console.log("All published photos: ", allPublishedPhotos);
+
+let [allPhotos, photosCount] = await photoRepository.findAndCount();
+console.log("All photos: ", allPhotos);
+console.log("Photos count: ", photosCount);
+
+find
+////////////////////////////////////////
+Repository.find({
+    select: ["firstName", "lastName"],
+    relations: ["profile", "photos", "videos"],      // краткая запись для for join и leftJoinAndSelect ???
+    where: {
+        firstName: "Timber",
+        lastName: "Saw"
+    },
+    order: {
+        "name": "ASC",      //прямая
+        "id": "DESC"      //обратная
+    },
+    skip: 5,               //смещение
+    take: 10,              // limit
+    cache: true
+});
+
+userRepository.find({
+    join: {
+        alias: "user",
+        leftJoinAndSelect: {
+            "profile": "user.profile",
+            "photo": "user.photos",
+            "video": "user.videos"
+        }
+    }
+});
+
+uodate
+/////////////////////////////////////////
+let photoToUpdate = await photoRepository.findOneById(1);
+photoToUpdate.name = "Me, my friends and polar bears";
+await photoRepository.save(photoToUpdate);
+
+remove
+////////////////////////////////////////
+let photoToRemove = await photoRepository.findOneById(1);
+await photoRepository.remove(photoToRemove);
+
+QueryBuilder
+//////////////////////////////////////////
+let photos = await connection
+    .getRepository(Photo)
+    .createQueryBuilder("photo") // first argument is an alias. Alias is what you are selecting - photos. You must specify it.
+    .innerJoinAndSelect("photo.metadata", "metadata")
+    .leftJoinAndSelect("photo.albums", "album")
+    .where("photo.isPublished = true")
+    .andWhere("(photo.name = :photoName OR photo.name = :bearName)")
+    .orderBy("photo.id", "DESC")
+    .skip(5)
+    .take(10)
+    .setParameters({ photoName: "My", bearName: "Mishka" })
+    .getMany();
+
+const userRoleDb: any = await this.userRoleDbService
+	.createQueryBuilder('ur')
+	.where('(ur.roleId = 8 OR ur.roleId = 9)')
+	.getMany();
+
+const queryBuilder = getRepository(ActivityDb).createQueryBuilder('activity')
+        .select('activity.id')
+        .where(`activity.name = 'test_activiti333'`);
+const result = await queryBuilder.getRawOne();   // getRawOne() важен при использовании select
+
+
+
+const queryBuilder = getConnection().createQueryBuilder()
+        .select('activity.id')
+        .from(ActivityDb, 'activity')
+        .where(`activity.name = 'test_activiti333' OR activity.name = 'test_activity444'`);
+const result = await queryBuilder.getRawMany();
+
+result= [ anonymous { activity_id: 57 }, anonymous { activity_id: 58 } ]     //if getRawOne     result= anonymous { activity_id: 57 }
+
+
+const queryBuilder = getConnection().createQueryBuilder()
+        .select('array_agg(activity.id)')
+        .from(ActivityDb, 'activity')
+        .where(`activity.name = 'test_activiti333' OR activity.name = 'test_activity444'`);
+
+const result = await queryBuilder.getRawMany();
+
+result= [ anonymous { array_agg: [ 57, 58 ] } ]            //  array_agg  реззультат в виде массива
+
+
+
+
+const photosSums = await getRepository(User)
+    .createQueryBuilder("user")
+    .select("user.id")
+    .addSelect("SUM(user.photosCount)", "sum")
+    .where("user.id = :id", { id: 1 })
+    .getRawMany();
+
+// result will be like this: [{ id: 1, sum: 25 }, { id: 2, sum: 13 }, ...]
+
+    @Column("simple-array") values: number[] = [];
+    public subordinationPath: number[];
+
+.where('array_position(user_role_subordination.subordinationPath, (:userId)) IS NULL', {userId});
+
+    private async getOwnActivitiesTaskIds(userId: number): Promise<string[]> {
+        return (await getRepository(TaskModel).createQueryBuilder('task')
+            .select(`array_agg(task.id::TEXT)`, 'taskIds')
+            .leftJoin('task.activity', 'activity')
+            .where('activity.authorId = (:userId)', { userId })
+            .orWhere('activity.responsibleId = (:userId)', { userId })
+            .getRawMany()as any)[0].taskIds;
+    }
+
+///////////////////////////// set parametr
+this.qb.orderBy(`:userId = ANY (favorite_by_users)`, 'ASC', 'NULLS LAST')
+    .setParameter('userId', userId);

@@ -1,0 +1,7 @@
+cd /etc/NetworkManager/system-connections
+Remove the connections with this command
+sudo rm 3monkey* 
+This will remove all connections starting with name 3monkey
+
+Restart the network manager service
+sudo service NetworkManager restart 

@@ -1,0 +1,18 @@
+//show list
+ls -al ~/.ssh
+
+ssh-keygen -t rsa -b 4096 -C "psvlasenko@gmail.com"  // -> Generating public/private rsa key pair.
+
+
+//add
+eval "$(ssh-agent -s)"    // -> Agent pid 59566
+ssh-add ~/.ssh/id_rsa  //ading private key
+
+
+sudo apt-get install xclip
+xclip -sel clip < ~/.ssh/id_rsa.pub
+
+ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts   //may be
+
+//remove
+ssh-keygen -R  //remove all keys from agent

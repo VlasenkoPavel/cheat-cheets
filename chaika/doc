@@ -1,0 +1,9 @@
+Теперь у нас есть demo-стенд: http://188.246.227.17
+user: chaika
+password: P,Ys8E=^f9}af]$v
+
+$ ssh root@188.246.227.17
+
+https://github.com/gitChaika/chaika-cms
+
+ssh chaika@178.57.79.151 -p 42390

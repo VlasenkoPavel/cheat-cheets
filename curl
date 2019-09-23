@@ -1,0 +1,6 @@
+curl -v -H "userId: 20" http://127.0.0.1:3001/activity | json_pp
+curl -v -H "userId: 20" http://127.0.0.1:3001/activity | json_pp | grep -A 100 -B 10 ': 1519'
+curl -v -X PUT -H 'userId:129' -H 'Content-Type:application/json' -d '{"userIds":[137,139,531,129,130,133,242,353,577,16]}' http://0.0.0.0:3001/ownership/activity/330
+curl -v -H 'userId:1' http://127.0.0.1:3001/task/f910db2c-197f-4c50-9167-81dcbc7b91a7 | jq
+curl -v -H 'userId:1' http://127.0.0.1:3001/task/f910db2c-197f-4c50-9167-81dcbc7b91a7 | json_format
+

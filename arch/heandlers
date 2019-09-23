@@ -1,0 +1,19 @@
+GROUP
+
+POST      /group                                                /companyUnit
+POST      /group/:id/subGroup                                   убрать
+DELETE    /group/:id/sub-group/:subGroupId                      /companyUnit/:id
+GET       /group/:id                                            /companyUnit/:id + флаг subUnit=t/f
+GET       /group                                                /companyUnit
+GET       /group/:id/subGroups                                  убрать  ( флаг /companyUnit/:id)
+GET       /group/marketing/                                     убрать
+GET       /group/:groupId/userRole/:userRoleId/subordinate      !!!!!!!убрать (флаг user !!!!!!! )
+GET       /group/:Id                                            /companyUnit/:id
+
+GROUP ROLE
+
+post   /group/:id/role                                  /companyUnit/:id/role
+get     /group/:id/role                                 /companyUnit/:id/role
+get     /group/:id/role/:roleId/right                   /companyUnit/:id/role/:roleId/right
+put     /group/:id/role/:roleId                         /companyUnit/:id/role/:roleId
+put     /group/:id/role/:roleId/right/:rightId          /companyUnit/:id/role/:roleId/right/:rightId

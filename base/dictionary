@@ -1,0 +1,125 @@
+inheritance	    наследование
+interaction	    взаимодействие
+instead		    вместо
+established	    установленный
+omit		    пропускать
+useless		    бесполезный
+maintain	    поддерживать
+enough		    достаточно
+particularly	в частности
+mark		    отметка
+consist		    состоять
+at least	    как минимум
+inferred 	    выведено
+manually	    вручную
+assign 		    назначать
+comma 		    запятая
+precision	    точность
+digits		    цифры
+unsigned	    неподписанный
+collation	    сравнение
+marshal		    выстраивать
+arbitrary	    произвольный
+Adjacency	    смежность
+Benefit		    польза
+reference	    ссылка
+drawback	    недостаток
+simplicity	    простота
+efficient	    эффективное
+nested          вложенные
+Enumeration     перечисление
+prefer          предпочитать
+undesired       нежелательный
+explicit        явный
+describes       описывает
+junction        соединительная
+disallowed      запрещено
+Eager           нетерпеливый
+features        функции
+existance       существование
+indices         индексы, указатели
+subscribers     подписчики
+expecting       ожидая
+fetch           получение
+advantage       преимущество
+forced          принудительный
+invocation      вызов
+almost          почти, практически
+complexity      сложность
+samples         образец
+stacked         сложены
+pretences       отговорки, требования
+denote          обозначать
+rather          скорее
+overhead        накладные расходы
+pending         ожидающий
+coupling        связность
+cohesion        зацепление
+opportunity     возможность
+threads         поток
+embraces        охватывать
+convince        убеждать
+otherwise       в противном случае
+either          один из двух
+ensures         обесечивать, гарантировать
+advise          советовать
+hood            капюшон
+under the hood  под капюшоном (капотом)
+inference       (логический) вывод
+assert          утверждать предполагать
+                (добавлять факт утвеждения в БД)
+implementation  реализация, разаботка
+Separation
+of concerns (SoC)   разделение ответственности
+curly braces        фигурные скобки
+confusions      смятение, путаница
+decision        решение, заключение
+adoption        принятие, выбор
+gains           прирост
+closer          ближе
+appealing       призыв, влечение
+seamlessly      плотно, вплотную
+bringing        приводить, внедрять
+distinguish     отличаться
+care            забота
+accuracy        точность
+subsequent      последующий
+parentheses     скобки
+received        получен, принят
+plain           гладкий, очевидный
+chunk           кусок
+attractive      заманчивый
+engage          нанимать, быть занятым
+revenue         доход
+enjoy           пользоваться, получать удовольствие
+seamlessl       полный
+annoying        раздрадающий
+advertisements  рекламма, объявления
+skip            пропуск
+argued          спорить, убеждать
+substract       разность
+divide          частное
+remaining       остальной
+swap            обмен
+frequensy       частотный
+submit          отправить, подать
+yield           давать
+bundle          связка, пучок
+crutch          костыль
+intermediate    промежуточный
+terminal        конечная операция
+operation       (операция сведения)
+odd             нечетный
+even            четный
+destination     цель
+remainder       остаток
+split           разбивать
+inclusive       включительно
+vowels          гласные
+assignment      назначение
+crosscutting    сквозные
+derived         полученный
+derived class   дочерний класс
+occured         случаться
+matches         совпадать
+affiliation     принадлежность, членство

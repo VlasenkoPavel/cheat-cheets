@@ -1,0 +1,2 @@
+SM_ENV=test SM_DB_NAME=test_sber_marketing node ./dist/bin/testDb/ClearTestDb && psql -h localhost -p 5432 -U gorod test_sber_marketing < /home/psvl/Desktop/smDumps/prod/1204_sm_prod.sql && SM_DB_NAME=test_sber_marketing yarn migrate-test && && SM_ENV=test SM_DB_NAME=test_sber_marketing node ./dist/bin/testDb/AddAdmin
+psql sber_marketing -c "DROP SCHEMA public CASCADE;CREATE SCHEMA public;GRANT ALL ON SCHEMA public TO postgres;GRANT ALL ON SCHEMA public TO public;"

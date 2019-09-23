@@ -1,0 +1,109 @@
+UPDATE activity SET start=subquery.start
+FROM (
+    SELECT activity.id as id, stage."beginDate" as start
+    FROM  activity
+    JOIN stage ON stage."activityId" = activity.id
+    AND stage."type" = 'Preparation'
+) AS subquery
+WHERE activity.id=subquery.id;
+
+//////////////////////////////////////////////////////////////
+
+            CREATE TABLE task_reading (
+                task_id INTEGER NOT NULL REFERENCES task(id),
+                user_id INTEGER NOT NULL REFERENCES "user"(id),
+                reading_time TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+            );
+
+            ALTER TABLE task_reading ADD CONSTRAINT "task_reading_pkey" PRIMARY KEY (task_id, user_id);
+
+            CREATE OR REPLACE FUNCTION move_comment_reading_data() RETURNS VOID AS $$
+            DECLARE
+                reading RECORD;
+            BEGIN
+                FOR reading IN
+                    SELECT "taskId", "userId", "lastReadingDate" FROM date_comment_reading
+                        WHERE
+                        EXISTS (
+                            SELECT * from "user" WHERE id=date_comment_reading."userId"
+                        )
+                        AND EXISTS (
+                            SELECT * from task WHERE id=date_comment_reading."taskId"
+                        )
+                LOOP
+                    INSERT INTO task_reading (task_id, user_id, reading_time)
+                    VALUES(reading."taskId", reading."userId", reading."lastReadingDate")
+                    ON CONFLICT (task_id, user_id) DO NOTHING;
+                END LOOP;
+            END;
+            $$ LANGUAGE plpgsql;
+
+            SELECT move_comment_reading_data();
+
+            DROP TABLE date_comment_reading;
+/////////////////////////////////////////////////////////////////////////////////
+
+
+            CREATE MATERIALIZED VIEW activity_view (
+                id,
+                name,
+                author_id,
+                responsible_id,
+                status,
+                create_time,
+                update_time,
+                technical_status,
+                start_date,
+                end_date,
+                realization_start_date,
+                realization_end_date,
+                type_id,
+                division_id,
+                product_id,
+                organization_id,
+                product_name,
+                product_image_path,
+                favorite_by_users,
+                participant_ids,
+                work_type_ids
+            ) AS SELECT
+                activity.id,
+                activity.name,
+                activity."authorId",
+                activity."responsibleId",
+                activity."status",
+                activity."createTime",
+                activity."updateTime",
+                activity.technical_status,
+                activity.start_date,
+                activity.end_date,
+                activity.realization_start_date,
+                activity.realization_end_date,
+                activity."typeId",
+                activity."divisionId",
+                activity."productId",
+                product."organizationId",
+                product.name,
+                product."imagePath",
+                favorite_by.user_ids,
+                participant.user_ids,
+                work_type.work_type_ids
+            FROM activity
+                LEFT JOIN product ON activity."productId"=product.id
+                LEFT JOIN (
+                    SELECT "activityId" as activity_id,  array_agg("userId"::INTEGER) as user_ids
+                    FROM user_favorite_activity GROUP BY "activityId"
+                ) as favorite_by ON activity.id = favorite_by.activity_id
+                LEFT JOIN (
+                    SELECT activity_id,  array_agg(user_id::INTEGER) as user_ids
+                    FROM activity_participant GROUP BY activity_id
+                ) as participant ON activity.id = participant.activity_id
+                LEFT JOIN (
+                    SELECT activity_id,  array_agg(work_type_id::VARCHAR) as work_type_ids
+                    FROM activity_work_type GROUP BY activity_id
+                ) as work_type ON activity.id = work_type.activity_id;
+
+/////////////////////////////////////////////////
+            CREATE EXTENSION "uuid-ossp";
+            ALTER TABLE ACTIVITY ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();
+/////////////////////////////////////////////////

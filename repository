@@ -1,0 +1,87 @@
+export interface IRepository<E extends Identifiable> {
+    get(id: E['id']): Promise<E | undefined>;
+    save(entity: E): Promise<void | E['id']>;
+}
+
+export interface ISearchRepository<E extends Identifiable, FO extends FindOption<E['id']>> extends IRepository<E> {
+    getOrFail(id: E['id']): Promise<E>;
+    find(option?: FO): Promise<E[]>;
+}
+
+
+@injectable()
+export class RepositoryMock<E extends Identifiable> {
+    private entityMap: Map<E['id'], E>;
+
+    constructor(map: Map<E['id'], E>) {
+        this.entityMap = map || new Map();;
+    }
+
+    public get(id: E['id']): Promise<E | undefined> {
+        return this.promisify(() => this.entityMap.get(id));
+    }
+
+    public save(entity: E): Promise<void> {
+        return this.promisify(() => { this.entityMap.set(entity.id, entity) });
+    }
+
+
+    protected promisify<T>(callback: (arg?: any) => T): Promise<T> {
+        return new Promise(resolve => process.nextTick(() => resolve(callback())));
+    }
+}
+
+////
+import 'reflect-metadata';
+import { Context } from '@root/core';
+import { dependencyLoader, dbIntegrationTestLoader, appLoader } from '@root/core/configuration';
+import { Application } from '@root/core/Application';
+import * as supertest from 'supertest';
+import { keys } from 'lodash';
+import { hasDefinedKeys } from '@components/lib/hasDefinedKeys';
+
+export class ScenarioTester {
+    private context: Context;
+    private app: Application;
+    private requester: supertest.SuperTest<supertest.Test>;
+
+    constructor(context: Context) {
+        this.context = context;
+        this.app = this.context.getComponent(Application);
+    }
+
+    public async run(): Promise<void> {
+        beforeAll(async () => {
+            await this.app.run();
+            this.requester = supertest(this.app.getServer());
+        });
+
+        afterAll(async () => {
+            await this.app.stop();
+        });
+
+        describe('app test', async () => {
+            it('test', async() => {
+                const response = await this.get('/activity', { userId: 1 });
+                console.log('response=');console.dir(response.body, {colors: true, depth: 3}); //test
+
+                expect(response.status).toBe(200);
+                expect(this.app).toBeInstanceOf(Application);
+            });
+        });
+    }
+
+    private get(url: string, params: {[key: string]: string | number | boolean }): supertest.Test {
+        return this.requester.get(`${url}${this.toQueryString(params)}`);
+    }
+
+    private toQueryString(params: {[key: string]: string | number | boolean }) {
+        return hasDefinedKeys(params)
+            ? keys(params).reduce((ac: string, cur: string) => ac = `${ac}&${cur}=${params[cur]}`, '?')
+            : ''
+    }
+}
+
+const context = Context.getInstance();
+context.load(appLoader, dependencyLoader, dbIntegrationTestLoader);
+new ScenarioTester(context).run();

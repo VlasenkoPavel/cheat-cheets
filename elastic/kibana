@@ -1,0 +1,4 @@
+discover
+file  // word
+"file logstash" // phrase
+message: "file logstash" //in current field

@@ -1,0 +1,119 @@
+ssh -p 22 ${target_host} 'cd /home/gorod/opt/sber-marketing && nohup docker-compose up &'
+https://docs.docker.com/compose/compose-file/#command
+
+docker images - список доступных локально образов 
+docker search elasticsearch
+
+docker stat
+docker pull
+docker ps
+docker ps -a
+docker kill id
+docker rmi -f id
+docker run -it busybox sh
+docker run -p 8888:80 [CONTAINER] - форвардинг порта
+--rm, тогда контейнер будет автоматически удаляться при завершении
+-d открепит (detach) терминал, -P сделает все открытые порты публичными и случайными,  --name имя, которое мы хотим дать контейнеру.
+docker port [CONTAINER] увидеть порты.
+
+docker stop ID 
+docker stop $(docker ps -q) //остановить все
+exit 
+
+DELETE
+///////////////////////////////////
+docker rm 305297d7a235 ff0a5c3750b9
+docker rm $(docker ps -a -q -f status=exited)
+docker rmi
+
+docker rmi -f $(docker images -a -q)
+
+BUILD
+/////////////////////////////////////
+docker build -t user-service .
+
+docker build . -t demo
+docker run demo node -e "console.log('Hello, World')"
+
+sudo service docker restart
+
+docker build -t example --build-arg ssh_prv_key="$(cat ~/.ssh/id_rsa)" --build-arg ssh_pub_key="$(cat ~/.ssh/id_rsa.pub)" --squash .
+
+docker build -t demo --build-arg sshPublicKey="$(cat ~/.ssh/id_rsa.pub)" --build-arg sshPrivateKey="$(cat ~/.ssh/id_rsa)" .
+
+docker run -t -i demo node app
+^p^q для выхода
+
+docker run -d -it -p3003:3003 demo node app
+docker kill adoring_hoover
+docker logs adoring_hoover
+docker kill $(docker ps -q)
+docker system prune
+
+-yqq нужен для игнорирования вывода и автоматического выбора "Yes" во всех местах
+
+NETWORK
+////////////////////////////////////
+docker network ls
+docker network inspect bridge
+docker network inspect foodtrucks
+docker network create foodtrucks             //создает новую сеть bridge
+docker run -dp 9200:9200 --net foodtrucks --name es elasticsearch   // --net запустить контейнеры внутри сети, дать контейнеру название es
+
+docker network rm foodtrucks
+
+COMPOSE
+////////////////////////////////////////////////
+docker-compose up
+docker-compose up -d
+docker-compose stop
+
+
+EXAMPLES
+////////////////////////////////////
+apt-get -yqq install curl
+
+docker run -it --rm prakhar1989/foodtrucks-web bash
+
+docker run -it --rm prakhar1989/foodtrucks-web bash
+root@35180ccc206a:/opt/flask-app# curl 172.17.0.2:9200
+bash: curl: command not found
+root@35180ccc206a:/opt/flask-app# apt-get -yqq install curl
+root@35180ccc206a:/opt/flask-app# curl 172.17.0.2:9200
+
+BASH EXAMPLES
+////////////////////////////////////
+#!/bin/bash
+
+# build the flask container
+docker build -t prakhar1989/foodtrucks-web .
+
+# create the network
+docker network create foodtrucks
+
+# start the ES container
+docker run -d --net foodtrucks -p 9200:9200 -p 9300:9300 --name es elasticsearch
+
+# start the flask app container
+docker run -d --net foodtrucks -p 5000:5000 --name foodtrucks-web prakhar1989/foodtrucks-web
+docker build -t demo --build-arg sshPublicKey="$(cat /home/pvlasenko/.ssh/id_rsa.pub)" --build-arg sshPrivateKey="$(cat /home/pvlasenko/.ssh/id_rsa)" .
+
+
+docker run --rm -P --name pg_test user-service-db
+psql -h localhost -p 5432 -d sm_users -U gorod --password
+docker run --rm -P --name pg_test usdb
+docker run -v /dist:/opt/app/dist -it --rm  userserv bash
+
+доступ:
+sudo groupadd docker
+sudo gpasswd -a ${USER} docker
+sudo service docker restart
+
+подключение к работаюющему контейнеруб (можно по имени??)
+docker exec -i -t 6ee6223a3ce3 bash
+
+//про postfix
+https://community.vscale.io/hc/ru/community/posts/211887505-%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-%D0%B8-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-Docker-Docker-Compose-Postfix-OpenDKIM-%D0%BD%D0%B0-Debian-%D0%B2-VScale-%D0%B4%D0%BB%D1%8F-%D0%BE%D1%82%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8-e-mail-%D1%81-%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D1%8C%D1%8E
+
+https://github.com/docker/compose/issues/3442   //network_mode
+

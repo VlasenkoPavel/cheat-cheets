@@ -1,0 +1,5 @@
+https://docker.crank.ru/docs/docker-compose/compose-file-reference/
+
+optionally specifying read-only access (ro) or read-write (rw)
+volumes:
+ - ~/configs:/etc/configs/:ro

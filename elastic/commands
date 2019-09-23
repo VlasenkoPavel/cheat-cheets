@@ -1,0 +1,1 @@
+curl -u elastic -XGET http://localhost:9200/_xpack?pretty

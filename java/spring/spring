@@ -1,0 +1,238 @@
+https://repository.genmymodel.com/wangsiyuanse/Spring-Framework    //uml
+http://williamstallings.com/Cryptography/   Cryptography
+
+https://thoughts-on-java.org/result-set-mapping-complex-mappings/
+http://qaru.site/questions/175701/mapping-nativequery-results-into-a-pojo  // mapping
+http://qaru.site/questions/60439/jpa-how-to-convert-a-native-query-result-set-to-pojo-class-collection //mapping, xml
+https://www.baeldung.com/jpa-sql-resultset-mapping
+
+!!!!!!!!!!!!!!!!!!!!!
+Автосвязывание не рекомендуется p.187
+
+singletone p.167
+scope=prototype/singletone p.168, когда использовать singletone p.170,
+перечень scope p.171
+режимы автосвязывания p.175
+ApplicationContextAware p.173 внедряемый locator ???????
+filePath p.216
+
+Стадии создания компонента, CommonAnnotationBeanPostProcessor p.198, p.213
+методы инициализации объявленные по разному будут вызваны по очереди
+
+/////дескрипторы и пространсва имен
+<beans>
+    attributes: default-lazy-init="true", default-init-method p.202
+    profile p.278 -Dspring.profiles.active="myProfile"
+    <bean>
+        attributes: id, name, class <alias> p.156,
+            p.274 class импорт java конфигурации
+            depends-on p.172, p.175 не использовать эту дичь без крайней необходимости
+            autowire, lazy-init p.176, primary p.180
+            parent, abstract p.188
+            init-method p.200, без аргументов p.204
+            destroy-metod p.214 не вызывается для компонентов со scope prototype, (вызываются при вызове destroySingletons p.215, destroy p.222)
+            factory-bean s5 237
+            factory-method p.237, 415
+
+            p:componentName-ref="componentName" просранство имен p.100
+            p:name="Bill"  p.118
+            p:name="${user.name}" p.288  заполнители свойств SpEl
+            p:title-ref="childId" p.129
+            с:_0 просранство имен p.110
+        <constructor-arg value="...">?  p.108
+        attributes: index p.108, type p.113
+        <property>
+            attributes: name="propName", ref="ferId" p.143
+            <ref local="componentId"/> p.126
+            <ref bean="componentNameOrId"/> p.126 or id ??????
+            <ref parent="childTitle"/> p.129  ссылка на родителятолько через дескриптор <property> p.130
+            <list>,<map>,<set>,<props> внедрение List,Map,Set,Properties p.131
+    <alias> p.156
+
+    <spring:message>, <fmt:message> p.255
+    <aop:config> s5 395,
+        <aop:pointcut> s5 395, 398
+        <aop:aspect>
+        <aop:before>
+        <aop:around> s5 400
+        <aop:after> s5 401
+        <aop:after-returning> s5 401
+    <aop:aspectj-autoproxy> s5 405, 407
+        proxy-target-class s5 407
+    <util:properties> s5 435
+    <jee:jndi-lookup> s5 439
+    </jdbs:embeded-detabse> s5 440
+        <jdbs:script> s5 441
+    <tx:annotation-driven> s5 497
+    <jpa:repositories> s5 583
+    <jpa:audition> s5 601
+<context:component-scan> s5 ... 497
+    <context:include-filter> s5 583
+<context:property-placeholder> p.269, p.288
+    local-override="true" p.288
+    loction p.288
+<context:annotation-config> p.274
+<root-node> s5 440
+
+////logback.xml s5 425
+
+////////annotation
+При отсутствие режима активации игнорируются
+@Component, разновидности: s5 124
+@Service p.124, 530
+@Repository,
+@Controller p.160
+@Repository s5 460
+
+@Autowired p.107
+@Resourse p.107, s5 461
+@Inject p.107
+setName()
+
+@Autowired - только к одному из конструкторов
+constructor(@Value("some text") String message)
+с:_0 позволяет избавиться от @Value p.110
+constructor(@Value("90") int someValue) p.112
+
+@Autowired
+pivate Inspiration insperationBean;
+
+@Value("Bill")
+private String name;
+
+<util:map id="mapId"...> p.138
+@Resourse(name="mapId")
+private Map<String,Object> map;
+
+@Autowired
+@Qualifier("map")
+private Map<String,Object> map; p.139 особенности @Autowired, предпочтительно через @Resourse
+
+@Required, @Autowired atr. required p.293
+
+@Lookup, @Scope("prototype")
+
+@Autowired
+@Qualifier("singet") p.181 про автосвязывание, p.186
+setSinger(Singer singer) { this.singer=singer }; p.146
+
+@Scope p.168 not singletone
+
+@PostConstruct p.207 (требует изменений в файле конфигурации)
+@PreDestroy p.218
+
+@Controller p.254
+
+@Profile p.280
+
+//////////
+@Configuration, @Bean  p.264, p.102, p.162, aliases p.163, p.186 (автосвязывание)
+@ComponentScan ->  p.270, 497
+@Import p.272
+@ImportSource p.272
+
+@Profile p.280
+@ActiveProfiles p.282 test only
+
+@AliasFor p.164-165 @Award, @Trophy
+
+@Lazy
+@Bean(
+    initMetod="methodName1", p.211
+    destroyMetod="methodName2" p.220
+)
+
+@PropertSourse p.267
+@Lazy p.269
+@Scope p.269
+DependsOn p.269
+@Autowired p.269, p.270
+
+@EnableTransactionalManagement s5 275, 497, 541
+@EnableWebSecurity p.275
+@EnableGlobalMethodSecurity p.275
+
+
+///////////JSR-330 p.290 docs linc
+
+@Named p.290
+@Inject p.290
+@Singletone p.291
+
+
+/////////spring-boot p.297, p.305 doc link
+@SpringBootApplication s5 p.300, 302, 486
+    basePackages p.302s
+    scanBasePackageClasses p.304
+@EnableAutoConfiguration p.302
+
+@RestController p.303
+@RequestMapping p.303
+
+////////AOP
+AOP Spring Boot 409
+@SpringBootApplication s5 410
+
+http://aopalliance.sourceforge.net/ p.312
+org.aopalliance.interceptor p.313
+https://github.com/hoverruan/aopalliance/blob/master/aopalliance/src/main/org/aopalliance/intercept/MethodInterceptor.java
+https://www.eclipse.org/aspectj/doc/next/runtime-api/org/aspectj/lang/ProceedingJoinPoint.html
+
+proxy: JDK, CGLIB p.315
+
+/////AspectJ s5 411
+@AspectJ s5 401
+@Aspect s5 403
+@Pointcut s5 403
+@Before s5 403
+@Arround s5 404
+@EnableAspectJAutoOroxy -> <aop:aspectj-autoproxy>  s5 407
+
+
+/// hibernate
+s5 530 annotation for methods or attributes
+@Column s5 501
+@Temporal s5 501
+@EnableGlobalMethodSecurity s5 501
+@Id s5 501
+@GeneratedValue s5 501
+    strategy
+@Version s5 502
+
+@OneToMany s5 505
+    mapedBy
+    cascade
+    orphanRemoval
+@ManyToOne s5 506
+@JoinColunm s5 506
+
+@ManyToMany s5 507
+    fetch s5 513
+@JoinTable s5 507
+@JoinColunm s5 507
+
+@NamedQueries s5 514
+@NamedQuery s5 514
+
+@Transactional
+    readOnly s5 510
+
+//////// JPA
+@PersistenceContext s5 545
+@SqlResultSetMapping s5 547, 570
+    @EntityResult s5 570
+
+@StaticMetamodel s5 572
+
+///data
+@NoRepositoryBean s5 580
+@EnableJpaRepositories s5 584
+
+@CreatedBy s5 593
+@CreatedDate s5 593
+@LastModifiedBy s5 593
+@LastModifyedDate s5 593
+@EntityListners s5 593, 600
+@MapedSuperclass s5 596
+
+@EnableJpaAudition s5 601

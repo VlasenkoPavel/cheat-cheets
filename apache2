@@ -1,0 +1,40 @@
+https://codebeer.ru/ustanovka-php7-i-apache2-v-debian-8/  ap+php
+https://habrahabr.ru/post/330772/ apache php mode
+
+http://localhost
+https://losst.ru/ustanovka-lamp-ubuntu-16-04  // установка
+http://help.ubuntu.ru/wiki/web-server   //базовая установка
+
+http://linux-notes.org/vklyuchit-modul-mod_rewrite-dlya-apache-v-debian-ubuntu/   // про mod_rewrite
+http://www.cyberforum.ru/apache/thread776136.html
+
+http://loco.ru/materials/129-yii-kak-izbavitsya-ot-index-php //  .hpaccess yii
+
+#RewriteEngine on
+### Если директория или файл созданы, то не использовать правила
+### а обращаться к файлу напрямую
+### для картинок например
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteRule . index.php  
+туда же
+
+http://tuxtweaks.com/2010/01/how-to-uninstall-lamp-in-ubuntu-9-10-karmic-koala/      uninstall
+
+<VirtualHost *:80>
+    ServerName app
+    DocumentRoot /var/www/app/web
+    <Directory /var/www/app/web>
+        AllowOverride All
+    </Directory>
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName app
+    DocumentRoot /var/www/app/frontend/web
+    <Directory /var/www/app/frontend/web>
+        AllowOverride All
+    </Directory>
+</VirtualHost>
+
+

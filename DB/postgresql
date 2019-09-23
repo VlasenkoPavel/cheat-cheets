@@ -1,0 +1,131 @@
+psql sber_marketing -c "DROP SCHEMA public CASCADE;CREATE SCHEMA public;GRANT ALL ON SCHEMA public TO postgres;GRANT ALL ON SCHEMA public TO public;"
+DROP SCHEMA public CASCADE;CREATE SCHEMA public;GRANT ALL ON SCHEMA public TO postgres;GRANT ALL ON SCHEMA public TO public;
+
+Полный список агрегатных функций:
+postgrespro.ru/doc/functions-aggregate.html
+
+JSON и JSONB и функции для работы с ними
+www.postgrespro.ru/docs/datatype-json
+www.postgrespro.ru/docs/functions-json
+
+Подробнее о настройках аутентификации:
+postgrespro.ru/doc/client-authentication.html
+
+service postgresql start
+
+postgres -D /usr/local/pgsql/data
+postgres -D /usr/local/pgsql/data >logfile 2>&1
+
+журнал сообщений находится в файле
+/var/log/postgresql/postgresql-9.6-main.log.
+
+Вся информация, которая попадает в базу данных, в каталоге:
+/var/lib/pgstgresql/9.6/main/.
+
+/etc/postgresql/9.6/main/postgresql.conf — основной конфигурационный файл, содержащий значения параметров сервера;
+/etc/postgresql/9.6/main/pg_hba.conf — файл, определяющий настройки доступа.
+по умолчанию доступ разрешен только с локального компьютера и только для пользователя ОС postgres.
+
+Полный список команд управления:
+$ service postgresql
+
+service postgresql stop
+service postgresql start
+
+\? полный список команд
+\help create table
+CREATE DATABASE test;
+\c test
+
+Для массовой загрузка данных из внешнего источника, команда insert — не лучший выбор, используйте copy:
+postgrespro.ru/doc/sql-copy.html.
+
+distinct - выбрать уникальные значения
+
+После слова select можно указывать не только столбцы, но и любые выражения. Если не указать фразу from,
+то результирующая таблица будет содержать одну строку.
+SELECT 2+2 AS result;
+
+SELECT * FROM courses WHERE hours > 45;
+
+Условие должно иметь логический тип. Оно может содержать отношения
+ =, <> (или !=), >, >=, <, <=; может
+
+объединять более простые условия с помощью логических операций и круглых скобок
+and, or, not
+
+В результирующую таблицу попадают только те строки, для которых условие фильтрации истинно; если значение
+ложно или не определено, строка отбрасывается.
+
+• результат сравнения чего-либо с неопределенным значением не определен;
+• результат логических операций с неопределенным значением, как правило, не определен
+(исключения: true or null = true, false and null = false);
+• для проверки определенности значения используются специальные отношения
+is null (is not null), is distinct from (is not distinct from), функция coalesce.
+
+прямым или декартовым произведением таблиц — к каждой строке одной таблицы добавляется каждая строка другой.
+Во фразе where условие соединения.
+SELECT courses.title, exams.s_id, exams.score FROM courses, exams WHERE courses.c_no = exams.c_no;
+
+Запросы можно формулировать и в другом виде, указывая соединения с помощью ключевого слова join. Выведем
+SELECT students.name, exams.score FROM students JOIN exams ON students.s_id = exams.s_id AND exams.c_no = 'CS305';
+
+SELECT name, start_year FROM students WHERE s_id NOT IN (SELECT s_id FROM exams WHERE score < 5);
+
+Предикат exists, проверяет, что подзапрос возвратил хотя бы одну строку. Предыдущий запрос в другом виде:
+SELECT name, start_year FROM students WHERE NOT EXISTS
+    (SELECT s_id FROM exams WHERE exams.s_id = students.s_id AND score < 5);
+
+SELECT s.name, ce.score FROM students s
+JOIN (SELECT exams.* FROM courses, exams WHERE courses.c_no = exams.c_no AND courses.title = 'Базы данных') ce
+ON s.s_id = ce.s_id;
+Здесь s — псевдоним таблицы, а ce — псевдоним подзапроса. Псевдонимы выбирают короткие, но понятные.
+
+SELECT * FROM exams ORDER BY score, s_id, c_no DESC;
+Строки упорядочены сначала по возрастанию оценки, для совпадающих оценок — по возрастанию номера билета,
+при совпадении первых двух ключей — по убыванию номера курса.
+
+общее количество проведенных экзаменов, количество сдававших их студентов и средний балл:
+SELECT count(*), count(distinct s_id), avg(score) FROM exams;
+
+Аналогичную информацию можно получить в разбивке по номерам курсов:
+SELECT c_no, count(*), count(DISTINCT s_id), avg(score) FROM exams GROUP BY c_no;
+
+Отличие   having от where в том, что where применяются до группировки (используют столбцы исходных таблиц),
+а условия having — после группировки (столбцы таблицы-результата)
+SELECT students.name FROM students, exams WHERE students.s_id = exams.s_id AND exams.score = 5
+GROUP BY students.name HAVING count(*) > 1;
+
+UPDATE courses SET hours = hours*2 WHERE c_no = 'CS301';
+
+DELETE FROM exams WHERE score < 5;
+
+в таблицу можно добавить новый столбец:
+ALTER TABLE students ADD g_no text REFERENCES groups(g_no);
+
+json //////////////////////////
+
+SELECT s.name, sd.details FROM student_details sd, students s WHERE s.s_id=sd.s_id AND sd.details->>'достоинства' IS NOT NULL;
+
+оператор «#>»
+SELECT sd.de_id, s.name, sd.details#>'{хобби,гитарист,гитары}' FROM student_details sd, students s WHERE s.s_id=sd.s_id
+AND sd.details#>'{хобби,гитарист,гитары}'IS NOT NULL;
+
+@> — оператор вхождения в объект. Он напоминает #> для JSON.
+Найдем запись, где упоминается дочь матери-героини
+SELECT s.name, jsonb_pretty(sd.details_b) FROM student_details sd, students s
+WHERE s.s_id=sd.s_id AND sd.details_b @> '{"достоинства":{"мать-героиня":{}}}';
+функцию jsonb_pretty(), форматирует вывод типа JSONB.
+
+функция jsonb_each(), разворачивающей пары ключ-значение:
+test=# SELECT s.name, jsonb_each(sd.details_b) FROM student_details sd, students s
+WHERE s.s_id=sd.s_id AND sd.details_b @> '{"достоинства":{"мать-героиня":{}}}';
+
+Но главное - возможность в JSONB создавать индексы, поддерживающие операторы @>, обратный ему <@ и др.
+Среди поддерживающих JSONB есть полезнейший для поиска обратный индекс GIN. Для JSON индексы
+не поддерживаются, поэтому для приложений с серьезной нагрузкой как правило лучше выбирать JSONB, а не JSON.
+
+////////////////////////////////
+
+подключиться к новой базе данных от имени созданного пользователя:
+\c appdb gorod localhost 5432

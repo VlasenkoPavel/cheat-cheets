@@ -1,0 +1,11 @@
+0.0.0.0 not localhost or 127.0.0.1 - connection reset by peer
+https://nickjanetakis.com/blog/docker-tip-54-fixing-connection-reset-by-peer-or-similar-errors
+
+dockerignore
+https://nickjanetakis.com/blog/docker-tip-54-fixing-connection-reset-by-peer-or-similar-errors
+
+https://github.com/wsargent/docker-cheat-sheet/tree/master/ru
+https://rock-it.pl/how-to-write-excellent-dockerfiles/
+https://www.flux7.com/docker-tutorial-series-part-3-automation-is-the-word-using-dockerfile/
+https://linoxide.com/linux-how-to/docker-commands-cheat-sheet/
+https://blog.carbonteq.com/docker-cheat-sheet-part-1/

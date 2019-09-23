@@ -1,0 +1,46 @@
+/etc/init.d/redis-server restart
+/etc/init.d/redis-server stop
+/etc/init.d/redis-server start
+
+docker exec -it test_redis_1 redis-cli -h localhost -p 6379
+
+redis-benchmark (расположен в той же директории, что и redis-server и redis-cli).
+
+flushdb стереть все значения в вашей базе данных, введя команду
+select 1
+set users:leto "{name: leto, planet: dune, likes: [spice]}"
+hset
+get users:leto
+
+Srting
+    strlen <ключ> используется для вычисления длины значения, связанного с ключом;
+    getrange <ключ> <начало> <конец> возвращает подстроку из строки;
+    append <ключ> <значение> добавляет значение к концу существующей строки (или создает новое, если указанный ключ не определен).
+    incr, incrby, decr и decrby. выполнение инкремента/декремента
+    setbit и getbit
+
+Hashes
+    hset, hget
+    hset users:goku powerlevel 9000
+    hget users:goku powerlevel
+    Мы также можем устанавливать значения сразу нескольких полей, получать все поля со значениями, выводить список всех полей и удалять отдельные поля:
+    hmset users:goku race saiyan age 737
+    hmget users:goku race powerlevel
+    hgetall users:goku
+    hkeys users:goku
+    hdel users:goku age
+
+//// node
+import * as redis from 'redis';
+
+const client = redis.createClient();
+
+client.subscribe("pubsub");
+
+client.on("message", (channel, message) => {
+  console.log(channel + ": " + message);
+});
+
+in redis-cli:
+publish pubsub "Hello Wonky!"
+(integer) 1

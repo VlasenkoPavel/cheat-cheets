@@ -1,0 +1,304 @@
+https://vivazzi.ru/it/remote-access-postgresql/   удаленный доступ
+https://stackoverflow.com/questions/971786/constraint-name-update-in-postgresql  //преименование ключей
+https://gist.github.com/igorpronin/f25cd61ffb976fbc6854b9c2684e5f01    // sheets
+https://postgrespro.ru/education/courses //курсы
+https://evileg.com/ru/post/12/   //про деревья массивы и т.д.
+http://haru-atari.com/ru/blog/2/using-postgresql-arrays-for-working-with-materialized-path //materialized-path
+
+select count(*) from activity;
+psql > SELECT name, setting FROM pg_settings WHERE category = 'File Locations';
+
+pg_dump -C dbname | ssh -C remoteuser@remotehost "psql dbname"   //накат данных на удаленный сервер
+
+http://qaru.site/questions/12996/drop-all-tables-in-postgresql  // удалени е всех таблиц
+
+psql -c "create database user_right owner gorod encoding 'UTF8' lc_collate 'ru_RU.UTF-8' LC_CTYPE 'ru_RU.UTF-8' template template0;" postgres
+
+pg_dump sber_marketing -c > /home/pvlasenko/Desktop/sber_marketing.sql   // dump c удалением предыдущего
+
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO public;
+
+sber_marketing=# select "id" from "activity" where "activity"."name" = 'test_activiti333';   //одинарные и двойные кавычки важны
+
+
+COUNT(*)::int  //приведение типа
+
+накатить
+psql sber_marketing < sber_marketing.sql
+
+https://romantelychko.com/blog/266/    //показать все индексы
+
+SELECT n.nspname AS "schema", c.relname AS "index" FROM pg_catalog.pg_class AS c LEFT JOIN pg_catalog.pg_namespace AS n ON n.oid = c.relnamespace WHERE c.relkind = 'i' AND n.nspname NOT IN ('pg_catalog', 'pg_toast') ORDER BY c.relname ASC;    //показать все индексы
+
+update "ad_campaign" set "companyId" = 1 where "companyId" IS NULL;
+update "ad_campaign" set "companyId" = NULL where "companyId" = 1;
+
+
+ALTER INDEX commerce_contractor_pkey RENAME TO whatever_new_name;
+ALTER TABLE name RENAME CONSTRAINT constraint_name TO new_constraint_name;
+
+
+PostgreSQL: справочник по командам psql, pg_dump, pg_restore
+Все команды запускаются под пользователем postgres (postgresql-суперпользователь)
+
+Команды psql
+
+\? Справка по командам psql.
+
+\c dbname - подсоединение к БД dbname.
+
+\l - список баз данных.
+
+\dt - список всех таблиц.
+
+\d table - структура таблицы table.
+
+\d+ более подробная информация по конкретному объекту.
+
+\du - список всех пользователей и их привилегий.
+
+\dt+ - список всех таблиц с описанием.
+
+\dt *s* - список всех таблиц, содержащих s в имени.
+
+\di Список индексов.
+
+\dv Список представлений.
+
+\df Список функций.
+
+\dn Список схем.
+
+\dx Список установленных расширений.
+
+\dp Список привилегий.
+
+\i FILE - выполнить команды из файла FILE.
+
+\o FILE - сохранить результат запроса в файл FILE.
+
+\a - переключение между режимами вывода: с/без выравнивания.
+
+\x - изменение формата
+
+\timing - включение тайминга
+
+
+$ su - postgres
+
+psql -l - список баз данных.
+
+psql -d dbname - подключение к БД dbname.
+mysql
+psql -f file.sql - выполнение команд из файла file.sql.
+
+psql -U postgres -d dbname -c "CREATE TABLE test(some_id serial PRIMARY KEY, some_text text);" - выполнение команды в базе dbname.
+
+psql -d dbname -H -c "SELECT * FROM test" -o test.html - вывод результата запроса в html-файл.
+
+Просмотр списка и путей к конфигурационным файлам
+
+# или список всех конфигурационных параметров
+psql > show all;
+
+Список активных соединений с информацией о: pid процесса, выполняющегося запроса, пользователя, базы данных.
+
+psql > SELECT * FROM pg_stat_activity;
+Создание индексов
+
+# primary key
+psql > ALTER TABLE tableName ADD PRIMARY KEY (id);
+
+# unique index
+psql > CREATE UNIQUE INDEX indexName ON tableName (columnNames);
+
+
+Бекап и восстановление таблиц
+
+В PostgreSQL есть две утилиты для бекапа pg_dump и pg_dumpall. pg_dump используется для бекапа одной базы, pg_dumpall для бекапа всех баз и сервера в целом (необходимо запускать под postgresql-суперпользователем).
+
+Создание бекапа базы mydb, в сжатом виде
+
+pg_dump -h localhost -p 5432 -U someuser -F c -b -v -f mydb.backup mydb
+Создание бекапа базы mydb, в виде обычного текстового файла, включая команду для создания БД
+
+pg_dump -h localhost -p 5432 -U someuser -C -F p -b -v -f mydb.backup mydb
+Создание бекапа базы mydb, в сжатом виде, с таблицами которые содержат в имени payments
+
+pg_dump -h localhost -p 5432 -U someuser -F c -b -v -t *payments* -f payment_tables.backup mydb
+Дамп данных только одной, конкретной таблицы. Если нужно создать резервную копию нескольких таблиц, то имена этих таблиц перечисляются с помощью ключа -t для каждой таблицы.
+
+pg_dump -a -t table_name -f file_name database_name
+Создание резервной копии с сжатием в gz
+
+pg_dump -h localhost  -O -F p -c -U postgres mydb | gzip -c > mydb.gz
+
+
+
+Список наиболее часто используемых опций:
+
+-h host - хост, если не указан то используется localhost или значение из переменной окружения PGHOST.
+
+-p port - порт, если не указан то используется 5432 или значение из переменной окружения PGPORT.
+
+-u - пользователь, если не указан то используется текущий пользователь, также значение можно указать в переменной окружения PGUSER.
+
+-a, --data-only - дамп только данных, по-умолчанию сохраняются данные и схема.
+
+-b - включать в дамп большие объекты (blog'и).
+
+-s, --schema-only - дамп только схемы.
+
+-C, --create - добавляет команду для создания БД.
+
+-c - добавляет команды для удаления (drop) объектов (таблиц, видов и т.д.).
+
+-O - не добавлять команды для установки владельца объекта (таблиц, видов и т.д.).
+
+-F, --format {c|t|p} - выходной формат дампа, custom, tar, или plain text.
+
+-t, --table=TABLE - указываем определенную таблицу для дампа.
+
+-v, --verbose - вывод подробной информации.
+
+-D, --attribute-inserts - дамп используя команду INSERT с списком имен свойств.
+
+select version(); psql test //версия
+
+
+
+Бекап всех баз данных используя команду pg_dumpall.
+
+pg_dumpall > all.sql
+
+# проверка бекапа
+
+grep "^[\]connect" all.sql
+\connect db1
+\connect db2
+В PostgreSQL есть две утилиты для восстановления базы из бекапа.
+
+psql - восстановление бекапов, которые хранятся в обычном текстовом файле (plain text);
+pg_restore - восстановление сжатых бекапов (tar);
+Восстановление всего бекапа с игнорированием ошибок
+
+psql -h localhost -U someuser -d dbname -f mydb.sql
+Восстановление всего бекапа с остановкой на первой ошибке
+
+psql -h localhost -U someuser --set ON_ERROR_STOP=on -f mydb.sql
+Для восстановления из tar-арихива нам понадобиться сначала создать базу с помощью CREATE DATABASE mydb; (если при создании бекапа не была указана опция -C) и восстановить
+
+pg_restore --dbname=mydb --jobs=4 --verbose mydb.backup
+Восстановление резервной копии БД, сжатой gz
+
+gunzip mydb.gz
+psql -U postgres -d mydb -f mydb
+Начиная с версии 9.2 можно восстановить только структуру таблиц с помощью опции --section
+
+# создаем БД
+CREATE DATABASE mydb2;
+
+# восстанавливаем
+pg_restore --dbname=mydb2 --section=pre-data --jobs=4 mydb.backup
+Обслуживание таблицы
+
+VACUUM ANALYZE table;
+
+REINDEX DATABASE dbName;
+
+REINDEX TABLE tabName;
+Перенос директории с данным (data directory)
+
+Узнать текущий путь
+
+# способ 1
+$ su - postgres
+$ psql
+psql > SHOW data_directory;
+
+# способ 2
+$ ps ax | grep 'postgres -D'
+Создадим новую директорию, назначим пользователя и инициализируем
+
+mkdir -p /pathto/postgresql/data
+chown -R postgres:postgres /pathto/postgresql
+
+su - postgres
+initdb -D /pathto/postgresql/data
+Теперь надо подправить файл с сервисом, который стартует postgresql
+
+# под arch linux
+sudo vim /etc/systemd/system/multi-user.target.wants/postgresql.service
+
+Environment=PGROOT=/pathto/postgresql/
+PIDFile=/pathto/postgresql/data/postmaster.pid
+Очищение таблицы
+
+Очищение таблицы tablename и обнуление счетчика с ID.
+
+TRUNCATE TABLE tablename RESTART IDENTITY CASCADE;
+CASCADE нужен на случай если tablename связана с другой таблицей.
+
+Удаление NULL у поля
+
+ALTER TABLE movies ALTER COLUMN year DROP NOT NULL;
+Утилиты
+
+pgcli утилита командной строки с авто-дополнениям и подсветкой синтаксиса.
+
+Установка
+
+pip install pgcli
+Запуск
+
+pgcli -U postgres -W dbname
+
+autoincrement
+PostgreSQL has the data types smallserial, serial and bigserial. These are similar to AUTO_INCREMENT property supported by some other databases.
+
+psql sm_users < /etc/sm_users.sql
+
+CREATE TABLE "SC_Tag"."tagdata_2015-01_new"
+    ("id_tag", "f_time", "value")
+    AS SELECT "F_TagName_ID", "F_Date", "F_ConvertedValue"
+        FROM "SC_Tag"."tagdata_2015-01"
+
+ CREATE TABLE "new_table_name" AS SELECT a.uniquekey, a.some_value + b.some_value FROM "table_a" AS a, "table_b" AS b WHERE a.uniquekey=b.uniquekey;
+ ALTER TABLE "new_table_name" ADD PRIMARY KEY (uniquekey);
+
+sber_marketing=# select id, "firstName" from "user" where "user"."firstName" = 'admin';
+
+There are three match types: MATCH FULL, MATCH PARTIAL, and MATCH SIMPLE (which is the default). MATCH FULL will not allow one column of a multicolumn foreign key to be null unless all foreign key columns are null; if they are all null, the row is not required to have a match in the referenced table. MATCH SIMPLE allows any of the foreign key columns to be null; if any of them are null, the row is not required to have a match in the referenced table. MATCH PARTIAL is not yet implemented. (Of course, NOT NULL constraints can be applied to the referencing column(s) to prevent these cases from arising.)
+
+select "subUser".id as "subUserId", "subUser"."firstName" as "subUserFirstName", "parentUser".id as "parentUserId",
+"parentUser"."firstName" as "parentUserFirsrName"
+from user_role_subordination
+left join user_role as "sub_user_role" on (user_role_subordination."subUserRoleId" = sub_user_role.id)
+left join user_role as "parent_user_role" on (user_role_subordination."parentUserRoleId" = parent_user_role.id)
+left join "user" as "subUser" on (sub_user_role."userId" = "subUser".id)
+left join "user" as "parentUser" on (parent_user_role."userId" = "parentUser".id);
+
+
+ALTER SEQUENCE group_id_seq RESTART WITH 1;  //reset autoincrement
+
+
+service postgresql start
+
+postgres -D /usr/local/pgsql/data
+postgres -D /usr/local/pgsql/data >logfile 2>&1 &
+
+https://dzone.com/articles/autocommit-in-postgresqls-psql  //autocommit
+\set AUTOCOMMIT off
+\echo :AUTOCOMMIT
+
+
+SELECT DISTINCT table_name FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE table_schema = 'public' AND column_name='updateTime' OR column_name='createTime';
+
+ALTER TABLE "${element.table_name}"
+    ALTER COLUMN "createTime" set DEFAULT NOW(),
+    ALTER COLUMN "updateTime" set DEFAULT NOW();
+

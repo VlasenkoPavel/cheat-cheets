@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="john" name="jon johnny,jonathan;jim" class="java.lang.String"/>
+
+    <alias name="john" alias="ion"/>
+
+    <!-- constructor injection p.108 -->
+    <bean id="provider"
+        class="com.apress.prospring5.ch3.xml.ConfigurableMessageProvider"
+        c:message="I hope that someone gets my message in a bottle"/>
+
+    <bean id="constructorConfusion"
+        class="com.apress.prospring5.ch3.xml.ConstructorConfusion">
+        <constructor-arg type="int">
+            <value>90</value>
+        </constructor-arg>
+    </bean>
+
+
+    <!-- collection injection p.131 -->
+    <bean id="lyricHolder" class="com.apress.prospring5.ch3.xml.LyricHolder"/>
+
+    <bean id="injectCollection" class="com.apress.prospring5.ch3.xml.CollectionInjection">
+        <property name="map">
+            <map>
+                <entry key="someValue" value="It's a Friday, we finally made it"/>
+                <entry key="someBean" value-ref="lyricHolder"/>
+            </map>
+        </property>
+        <property name="props">
+            <props>
+                <prop key="firstName">John</prop>
+                <prop key="secondName">Mayer</prop>
+            </props>
+        </property>
+        <property name="set">
+            <set>
+                <value>I can't believe I get to see your face</value>
+                <ref bean="lyricHolder"/>
+            </set>
+        </property>
+        <property name="list">
+            <list>
+                <value>You've been working and I've been waiting</value>
+                <ref bean="lyricHolder"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- not singletone -->
+    <bean id="nonSingleton" class="com.apress.prospring5.ch3.annotated.Singer"
+          scope="prototype" c:_0="John Mayer"/>
+</beans>

@@ -1,0 +1,47 @@
+https://meandubuntu.ru/2007/07/%D1%80%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%BE%D1%80-uml-%D0%B4%D0%BB%D1%8F-linux/  //редакторы UML
+https://askubuntu.com/questions/138273/how-to-remove-an-icon-from-unity-dash          //remove from dash 3 dir
+
+https://stackoverflow.com/questions/9207092/are-there-any-good-free-lightweight-linux-uml-design-tools       // UML
+http://help.ubuntu.ru/wiki/programs_installation // tar
+https://losst.ru/kak-ustanovit-tar-gz-v-ubuntu //tar
+https://github.com/nylas/nylas-mail/issues/156   //   libgcrypt11
+
+locate docker-compose //найти
+whereis
+
+java -jar name
+sudo dpkg -i name
+tar xvf name.tar
+ps axu | grep argouml
+
+
+wind + s //крупные окна программы
+ctr + alt + up/down //переключение рабочих столов
+ctr + alt + shift + up/down //перетащить открытую программу на другой стол
+
+7za a -tzip -pPASSWORD -mem=AES256 d2019.zip d2019.docx   //arch with password
+http://rus-linux.net/MyLDP/sec/encrypted-zip.html
+
+
+//autostart
+First, open up Skype, go to Tools > Settings and uncheck "Automatically start Skype".
+startup applications (left up conner)
+or
+rm ~/.config/autostart/skypeforlinux.desktop
+mkdir ~/.config/autostart/skypeforlinux.desktop
+
+//testdisk
+https://ualinux.com/ru/stream/vosstanavlivaem-dannye-v-ubuntu-linux
+sudo apt install testdisk
+sudo testdisk
+
+NO Log
+выбрать диск
+Proceed
+После предлагается выбрать тип таблицы разделов, в большинстве случаев это первый пункт "Intel / PC Partition".
+Analyse
+Quick Search
+Завершилось сканирование флешки, смотрим результаты нажав "p"
+Выбираем директорию для восстановления -> "c".
+Выбираем папку куда копировать копирования -> "С".
+

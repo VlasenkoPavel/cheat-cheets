@@ -1,0 +1,321 @@
+https://github.com/typeorm/typeorm/blob/master/test/functional/database-schema/column-types/postgres/entity/Post.ts  //columns
+select: boolean !!!!!!!!!!!!!!! in entity column option
+@TreeChildren() @TreeParent() @TreeLevelColumn() //деревья
+@ManyToMany(type => Category, category => category.questions, { eager: true}) //всегда загружать relations
+Lazy relations //подгрузка relations
+await repository.remove(timber);
+@Entity("my_users")  //anather name
+@Entity("my_users")  //anather name
+@OneToOne(type => PhotoMetadata, metadata => metadata.photo, { cascade: true}) //autosave relation object
+.setParameters({ photoName: "My", bearName: "Mishka" }) //queryBuilder
+remove //delete
+https://github.com/typeorm/typeorm/blob/master/docs/transactions.md  //transactions
+https://github.com/typeorm/typeorm/issues/4674 // Save array of jsonb in Postgres
+
+без "" все lowercase
+
+let allPhotos = await photoRepository.find();
+console.log("All photos from the db: ", allPhotos);
+
+let firstPhoto = await photoRepository.findOneById(1);
+console.log("First photo from the db: ", firstPhoto);
+
+let meAndBearsPhoto = await photoRepository.findOne({ name: "Me and Bears" });
+console.log("Me and Bears photo from the db: ", meAndBearsPhoto);
+
+let allPublishedPhotos = await photoRepository.find({ isPublished: true });
+console.log("All published photos: ", allPublishedPhotos);
+
+let [allPhotos, photosCount] = await photoRepository.findAndCount();
+console.log("All photos: ", allPhotos);
+console.log("Photos count: ", photosCount);
+
+find
+////////////////////////////////////////
+Repository.find({
+    select: ["firstName", "lastName"],
+    relations: ["profile", "photos", "videos"],      // краткая запись для for join и leftJoinAndSelect ???
+    where: {
+        firstName: "Timber",
+        lastName: "Saw"
+    },
+    order: {
+        "name": "ASC",      //прямая
+        "id": "DESC"      //обратная
+    },
+    skip: 5,               //смещение
+    take: 10,              // limit
+    cache: true
+});
+
+userRepository.find({
+    join: {
+        alias: "user",
+        leftJoinAndSelect: {
+            "profile": "user.profile",
+            "photo": "user.photos",
+            "video": "user.videos"
+        }
+    }
+});
+
+uodate
+/////////////////////////////////////////
+let photoToUpdate = await photoRepository.findOneById(1);
+photoToUpdate.name = "Me, my friends and polar bears";
+await photoRepository.save(photoToUpdate);
+
+remove
+////////////////////////////////////////
+let photoToRemove = await photoRepository.findOneById(1);
+await photoRepository.remove(photoToRemove);
+
+QueryBuilder
+//////////////////////////////////////////
+let photos = await connection
+    .getRepository(Photo)
+    .createQueryBuilder("photo") // first argument is an alias. Alias is what you are selecting - photos. You must specify it.
+    .innerJoinAndSelect("photo.metadata", "metadata")
+    .leftJoinAndSelect("photo.albums", "album")
+    .where("photo.isPublished = true")
+    .andWhere("(photo.name = :photoName OR photo.name = :bearName)")
+    .orderBy("photo.id", "DESC")
+    .skip(5)
+    .take(10)
+    .setParameters({ photoName: "My", bearName: "Mishka" })
+    .getMany();
+
+const userRoleDb: any = await this.userRoleDbService
+	.createQueryBuilder('ur')
+	.where('(ur.roleId = 8 OR ur.roleId = 9)')
+	.getMany();
+
+const queryBuilder = getRepository(ActivityDb).createQueryBuilder('activity')
+        .select('activity.id')
+        .where(`activity.name = 'test_activiti333'`);
+const result = await queryBuilder.getRawOne();   // getRawOne() важен при использовании select
+
+
+
+const queryBuilder = getConnection().createQueryBuilder()
+        .select('activity.id')
+        .from(ActivityDb, 'activity')
+        .where(`activity.name = 'test_activiti333' OR activity.name = 'test_activity444'`);
+const result = await queryBuilder.getRawMany();
+
+result= [ anonymous { activity_id: 57 }, anonymous { activity_id: 58 } ]     //if getRawOne     result= anonymous { activity_id: 57 }
+
+
+const queryBuilder = getConnection().createQueryBuilder()
+        .select('array_agg(activity.id)')
+        .from(ActivityDb, 'activity')
+        .where(`activity.name = 'test_activiti333' OR activity.name = 'test_activity444'`);
+
+const result = await queryBuilder.getRawMany();
+
+result= [ anonymous { array_agg: [ 57, 58 ] } ]            //  array_agg  реззультат в виде массива
+
+
+
+
+    protected async getUserParamsWithEmbed(id: Number, query: OneUserQuery): Promise<any> {
+        const isNeedRole = query.embed && query.embed.length > 0;
+        const isNeedSubordinate = query.embed && query.embed.indexOf('subordinate') !== -1;
+
+        const queryBuilder: SelectQueryBuilder<any> = getRepository(UserDb)
+        .createQueryBuilder('user');
+
+        if (isNeedRole) {
+            queryBuilder.leftJoinAndSelect('user.roles', 'role');
+        }
+
+        if (isNeedSubordinate) {
+            queryBuilder.leftJoinAndMapOne('user.userRole', 'user_role', 'UserRole', '(user.id = "UserRole"."userId")')
+                        .leftJoinAndMapMany(
+                            'UserRole.subordinate',
+                            'user_role_subordination',
+                            'subordinate',
+                            '"UserRole".id = subordinate."subUserRoleId"'
+                        );
+        }
+
+        queryBuilder.andWhere('user.id = (:id)', {id});
+
+        return await queryBuilder.getOne();
+    }
+
+
+
+//one to many
+
+     @Column()
+     public roleId: number;	     public roleId: number;
+-} 	+
++    @ManyToOne(type => UserDb, user => user.userRoles)
++    public user: UserDb;
+
+////
++    @UpdateDateColumn({type: 'timestamp'})
++    public updateTime: Date;
++
++    @OneToMany(type => UserRoleDb, userRole => userRole.user)
++    public userRole: UserRoleDb[];
+////
+
++        const queryBuilder: SelectQueryBuilder<UserRoleDb> = getRepository(UserRoleDb).createQueryBuilder('user_role')
++            .select('user_role.userId, role.id, role.groupId, role.name')
++            .innerJoin(RoleDb, 'role', '(user_role.roleId = role.Id)');
++
++        const {roleIds, groupIds, sortingOrder} = query;
++
++        if (roleIds && roleIds.length) {
++            queryBuilder.where( 'role.id in (:roleIds)', {roleIds});
++        }
++
++        if (groupIds && groupIds.length) {
++            queryBuilder.andWhere('role.groupId in (:groupIds)', {groupIds});
++        }
++
++        sortingOrder ? queryBuilder.orderBy('role.name', sortingOrder) :
++        queryBuilder.orderBy('role.name', 'ASC');
++
++        return await queryBuilder.getRawMany();
++    }
+
+
+
+
+const queryBuilder: SelectQueryBuilder<any> = getRepository(UserDb)
+.createQueryBuilder('user')
+//pres obj and field, table_name, alias,
+.leftJoinAndMapOne('user.user_role', 'user_role', 'user_role', '(user.id = user_role.userId)')
+.andWhere('user.id = (:id)', {id});
+
+
+    protected async getUserParamsWithEmbed(id: Number, query: OneUserQuery): Promise<any> {
+        const isNeedRole = query.embed && query.embed.length > 0;
+        const isNeedSubordinate = query.embed && query.embed.indexOf('subordinate') !== -1;
+
+        const queryBuilder: SelectQueryBuilder<any> = getRepository(UserDb)
+        .createQueryBuilder('user');
+
+        if (isNeedRole) {
+            queryBuilder.leftJoinAndSelect('user.roles', 'role');
+        }
+
+        if (isNeedSubordinate) {
+            queryBuilder.leftJoinAndMapOne('user.user_role', 'user_role', 'userRole', '(user.id = "userRole"."userId")')
+                        .leftJoinAndMapMany(
+                            'userRole.subordinate',
+                            'user_role_subordination',
+                            'subordinate',
+                            '"userRole".id = subordinate."subUserRoleId"'
+                        );
+        }
+
+        queryBuilder.andWhere('user.id = (:id)', {id});
+
+        return await queryBuilder.getOne();
+    }
+
+# Using subqueries
+ queryBuilder.where('user.id IN (:...ids)', { ids });
+
+
+ @Column('simple-array') public subordinationPath: number[];
+
+
+    protected async getChefUserRoleIds(userId: number): Promise<number[]> {
+        const queryResult: any = await getRepository(UserDb).query(`
+            WITH RECURSIVE temp AS (
+                SELECT user_role_subordination."subUserRoleId", user_role_subordination."parentUserRoleId"
+                FROM "user_role_subordination"
+                INNER JOIN user_role ON user_role_subordination."subUserRoleId" = user_role.id
+                INNER JOIN "user" ON user_role."userId" = "user".id
+                WHERE "user".id = ${userId}
+
+                UNION
+                SELECT user_role_subordination."subUserRoleId", user_role_subordination."parentUserRoleId" FROM "user_role_subordination"
+                INNER JOIN user_role ON user_role_subordination."subUserRoleId" = user_role.id
+                JOIN temp ON user_role_subordination."subUserRoleId" = temp."parentUserRoleId"
+            )
+            SELECT * FROM temp
+        `);
+
+        const chefUserRolesIds =
+            queryResult && queryResult.length
+                ? (lodash.uniq(queryResult.map((item: any) => item.parentUserRoleId).reverse()) as Array<number>)
+                : [];
+
+        return chefUserRolesIds;
+    }
+
+protected getFilterByInfluenceSubQuery(): SubQuery {
+        const { degreesOfInfluence, areTagsConjunct } = this.filterParams;
+        const degreesAsParams = {};
+        const subQuery = getRepository(NewsModel).createQueryBuilder('news_fi').subQuery()
+            .select(['"id"'])
+            .from(NewsModel, 'news_fi_sub');
+
+        if (degreesOfInfluence) {
+            if (areTagsConjunct) {
+                degreesOfInfluence.forEach((degree, i) => {
+                    degreesAsParams[`degree_${i}`] = degree;
+                    subQuery.andWhere(`"degreeOfInfluence" = :degree_${i}`);
+                });
+            } else {
+                subQuery.orWhere(`"degreeOfInfluence" IN (:...degreesOfInfluence)`);
+            }
+        }
+
+        return {
+            query: subQuery.getQuery(),
+            params: {
+                ...degreesAsParams,
+                degreesOfInfluence
+            }
+        };
+    }
+
+this.query.andWhere(new Brackets(qb => {
+            if (areTagsConjunct) {
+                if (filterByTagsSubQuery) {
+                    qb.andWhere('news.id IN' + filterByTagsSubQuery.query, filterByTagsSubQuery.params);
+                }
+                if (filterByInfluenceSubQuery) {
+                    qb.andWhere('news.id IN' + filterByInfluenceSubQuery.query, filterByInfluenceSubQuery.params);
+                }
+            } else {
+                if (filterByTagsSubQuery) {
+                    qb.orWhere('news.id IN' + filterByTagsSubQuery.query, filterByTagsSubQuery.params);
+                }
+                if (filterByInfluenceSubQuery) {
+                    qb.orWhere('news.id IN' + filterByInfluenceSubQuery.query, filterByInfluenceSubQuery.params);
+                }
+            }
+        }));
+
+/////
+public async getEhrEvents({ id, occurredAfter }: EhrEventFindOption, manager: EntityManager = getManager()): Promise<DomainEvent[]> {
+    const qb = manager
+        .createQueryBuilder(EventModel, 'event')
+        .leftJoin(
+            subQuery => subQuery
+                .select('entry_id, ehr_id, update_time, creation_time')
+                .from(EntryModel, 'entry'),
+            'entry',
+            'event.entity_id = entry.entry_id AND event.occurred_on = entry.update_time',
+        )
+        .where('event.entity_id = :id OR entry.ehr_id = :id', { id })
+        .andWhere('event.technical_status != :status', { status: TechnicalStatus.deleted })
+        .orderBy('entry.creation_time', 'ASC', 'NULLS FIRST')
+        .addOrderBy('event.ver', 'ASC');
+
+    if (occurredAfter) {
+        qb.andWhere('event.occurred_on > :occurredAfter', { occurredAfter });
+    }
+
+    const models = await qb.getMany();
+
+    return this.createEvents(models);
+}

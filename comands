@@ -1,0 +1,64 @@
+
+содержимое
+ls 
+
+ctr + D - выход из суперюзера
+
+sudo chmod -R 755 /var/www
+
+установка deb пакета
+sudo dpkg -i *.deb
+
+apt-get -f install
+
+mysql-workbench
+sudo /etc/PHPstorm/bin/phpstorm.sh
+
+service apache2 restart
+
+babel
+sudo npm init -y
+sudo npm install babel-cli babel-core babel-preset-es2017 --save-dev
+"build": "babel src -d dist --preset es2017"
+
+npm i -g npm
+
+
+tar -xvf *.tar.gz
+
+systemctl start apache2
+
+mysql-workbench
+
+unzip filename
+
+service postgresql restart
+
+/etc/vpnc
+vpnc connect --enable-1des
+
+  yarn start
+    Starts the development server.
+
+  yarn build
+    Bundles the app into static files for production.
+
+  yarn test
+    Starts the test runner.
+
+  yarn eject
+    Removes this tool and copies build dependencies, configuration files
+    and scripts into the app directory. If you do this, you can’t go back!
+
+We suggest that you begin by typing:
+
+  cd app
+  yarn start
+
+sudo apt-get purge ttf-mscorefonts-installer
+
+ssh-keygen -f id_rsa -p  //смена passphrase 
+
+
+
+

@@ -1,0 +1,18 @@
+https://www.npmjs.com/package/gulp-typescript  //формат вывода ошибок
+const gulp = require('gulp');
+const typescript = require('typescript');
+const ts = require('gulp-typescript');
+
+const project = ts.createProject('./tsconfig.json', {typescript});
+
+module.exports = function compile(emitError) {
+    return () => (
+        gulp.src('./src/**/*ts')
+            .pipe(project(ts.reporter.longReporter()))
+            .once('error', () => {
+                if (emitError) {
+                    throw new Error('Found compile errors');
+                }
+            }).js.pipe(gulp.dest('dist'))
+    )
+}

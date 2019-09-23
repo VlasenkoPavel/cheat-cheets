@@ -1,0 +1,60 @@
+https://medium.com/@mtiller/debugging-with-typescript-jest-ts-jest-and-visual-studio-code-ef9ca8644132
+
+it('Is throw error if authorId in form not equal request author id', async() => {
+    const userId = user2.id;
+    const user = this.userRepository.get(userId);
+    const fail = async() => await this.useCase.execute(user, this.testParams);
+
+    await expect(fail()).rejects.toThrow(
+        `Request author id: ${userId} not equal activity authorId: ${this.testParams.authorId}`
+    );
+});
+
+/////////////// tsconfig.json
+    "include": [
+        "src/**/*.ts"
+    ],
+    "exclude": [
+        "./node_modules",
+        "./dist",
+        "src/**/*.test.ts"
+    ]
+////////////////////////////
+
+/////////// jest.config.js
+module.exports = {
+    // globals: {
+    //     'ts-jest': {
+    //         skipBabel: true,
+    //         useBabelrc: true,
+    //         enableTsDiagnostics: true,
+    //         tsConfigFile: '<rootDir>/tsconfig.json',
+    //         babelConfig: {
+    //             presets: ['env']
+    //         }
+    //     }
+    // },
+    transform: {
+        '^.+\\.tsx?$': 'ts-jest'
+    },
+    testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$',
+    testURL: "http://localhost/",
+    moduleDirectories: [
+        'node_modules',
+        'src'
+    ],
+    moduleNameMapper: {
+        '^@application/(.*)': '<rootDir>/dist/application/$1',
+        '^@domain/(.*)': '<rootDir>/dist/domain/$1',
+        '^@use-cases/(.*)': '<rootDir>/dist/use-cases/$1',
+        "^@infrastructure/(.*)$": '<rootDir>/dist/infrastructure/$1',
+        '^@root/(.*)': '<rootDir>/$1',
+        '^@components/(.*)': '<rootDir>/dist/components/$1',
+        '^@test/(.*)': '<rootDir>/dist/test/$1',
+    },
+    moduleFileExtensions: [
+        'ts',
+        'js'
+    ]
+ }
+////////////////////////////

@@ -1,0 +1,2 @@
+sudo service supervisor restart
+tail -f /opt/sber-marketing-backend/shared/logs/backend.log

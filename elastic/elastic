@@ -1,0 +1,123 @@
+https://stackoverflow.com/questions/18330541/how-to-handle-multiple-heterogeneous-inputs-with-logstash  //if in logstash
+
+docker network create esnet
+docker run -d --name elasticsearch --net esnet -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.1.1
+docker run -d --name kibana --net esnet -p 5601:5601 kibana:7.1.1
+
+docker run --rm -it -v /home/psvl/Desktop/Learning-Elastic-Stack-6/Chapter03/files:/usr/share/logstash/files -v /home/psvl/Desktop/Learning-Elastic-Stack-6/Chapter03/files/logstash_products.conf:/usr/share/logstash/pipeline/logstash_products.conf --net chika-docker_default -e xpack.monitoring.elasticsearch.hosts=http://es:9200 logstash:7.1.1
+docker run --rm -it -v /home/psvl/Desktop/Learning-Elastic-Stack-6/Chapter04/files:/usr/share/logstash/files -v /home/psvl/Desktop/Learning-Elastic-Stack-6/Chapter04/files/logstash_network_traffic_data.conf:/usr/share/logstash/pipeline/logstash_network_traffic_data.conf --net chika-docker_default -e xpack.monitoring.elasticsearch.hosts=http://es:9200 logstash:7.1.1
+docker run --rm -it -v /home/psvl/Desktop/cheat-cheets/elastic/logstash/simple.conf:/usr/share/logstash/pipeline/simple.conf -v /home/psvl/Desktop/chaika-cms/backend/boiler/runtime/chaika.log:/log/chaika.log --net chika-docker_default -e xpack.monitoring.elasticsearch.hosts=http://es:9200 logstash:7.1.1
+docker run --rm -it -v /home/psvl/Desktop/Learning-Elastic-Stack-6/Chapter07/apache.conf:/usr/share/logstash/pipeline/apache.conf -v /home/psvl/Desktop/elastic-data/logs:/log/logs --net chaika-docker_default -e xpack.monitoring.elasticsearch.hosts=http://es:9200 logstash:7.1.1
+
+curl -G localhost:9200
+
+curl -XGET 'localhost:9200/user/_search?search_type=scan&scroll=10m&size=50' -d '{"query" : {"match_all" : {}}}'
+curl 'localhost:9200/_cat/indices?v'
+
+
+GET indexname  //index mapping?
+GET /indexname/_mapping
+
+
+
+/// GET
+GET /_cat/indices?v     /* get all indices */
+
+GET /indexname
+GET /indexname/_mapping    /* index mapping */
+
+GET /_search
+GET /_all
+GET /_all/_search
+
+GET /patient/_search       /* all in patient */
+GET /patient/_search
+{
+  "query" : {"match_all" : {}}
+}
+
+GET /patient,cms/_search    /* all in patient and csm */
+
+//UPDATE
+POST /patient/_update/9f56a65c-24b9-47e8-892c-bbb7ca112bd0
+{
+  "doc": {"firstName" : "Iavan" }
+
+}
+//upsert
+POST /patient/_update/9f56a65c-24b9-47e8-892c-bbb7ca112bd1
+{
+  "doc": { ... },
+  "doc_as_upsert": true
+}
+
+///script
+POST /cms/_update/1
+{
+  "script": {
+    "source": "ctx._source.number += params.increment",
+    "lang": "painless",
+    "params": {
+      "increment": 2
+    }
+  }
+}
+
+/// create index
+PUT /cms
+{
+  "settings": {
+    "number_of_shards": 5,
+    "number_of_replicas": 1
+  }
+}
+
+PUT /cms
+{
+  "settings": {
+    "number_of_shards": 5,
+    "number_of_replicas": 1
+  },
+  "mappings": {
+    "properties": {
+      "userId": {
+        "type": "text"
+      },
+      "number": {
+        "type": "integer"
+      }
+    }
+  }
+}
+
+//update mapping
+POST /cms/_mapping
+{
+  "properties": {
+    "name": {
+      "type": "text"
+    }
+  }
+}
+
+
+//analyze
+
+POST _analyze
+{
+    "tokenizer": "standard",
+    "text": "Tokenizer breaks characters into tokens!"
+}
+
+POST index_standard_analyzer/_analyze
+{
+    "field": "my_text",
+    "text": "The Standard Analyzer works this way."
+}
+
+
+//other
+query bool should // p 81.
+slop c.86
+constant_score //p 89
+boost // p 90

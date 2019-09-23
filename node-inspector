@@ -1,0 +1,1 @@
+export SM_ENV=dev && node --inspect --debug-brk dist/app.js

@@ -1,0 +1,107 @@
+https://proselyte.net/tutorials/maven/plugins/      //
+http://java-online.ru/maven-pom.xhtml
+
+https://proselyte.net/tutorials/maven/build-life-cycle/
+http://java-course.ru/begin/maven_first/
+https://mvnrepository.com/
+http://programmerz.ru/questions/937/what-are-maven-goals-and-phases-and-what-is-their-difference-question.html //цели
+https://www.ibm.com/developerworks/ru/library/j-5things13/index.html
+https://winterbe.com/posts/2018/08/29/migrate-maven-projects-to-java-11-jigsaw/  //11
+
+локальный репозиторий по умолчанию в папке ${user.home}\.m2\repository.
+
+mvn -h
+mvn archetype:generate > archetypes.txt
+
+просмотреть настройки Super POM файла:
+mvn help:effective-pom
+
+Одной из пособенностей maven'a является справка online, К примеру
+справку по фазе компиляции можно получить следующей командой:
+mvn help:describe -Dcmd=compile
+
+mvn archetype:generate -DgroupId=com.psvlasenko -DartifactId=spring-boot-jdbc -DarchetypeArtifactId=maven-archetype-quickstart -DarchetypeVersion=1.4 -DinteractiveMode=false
+mvn archetype:generate -DgroupId=edu.javacourse -DartifactId=sample -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+
+mvn package // запуск цикла до фазы package
+
+mvn install
+mvn exec:java -Dexec.mainClass=com.psvl.app.annotated.HelloWorldSpringAnnotated
+*
+* exec:java - запуск плагина:  http://www.mojohaus.org/exec-maven-plugin/index.html
+*
+* указываем имя и через двоеточие — цель. В данном случае цель java запускает собранное приложение.
+* Завершает нашу команду указание параметра exec.mainClass с указанием класса.
+* Передача параметров плагину: -D за которым идет имя параметра, “=” его значение.
+* Так можно передавать параметры всем плагинам.
+* Eще один способ установки параметров — сразу в файле pom.xml:
+* <plugin>
+*     <groupId>org.codehaus.mojo</groupId>
+*     <artifactId>exec-maven-plugin</artifactId>
+*     <version>1.6.0</version><dependency>
+*     <configuration>
+*         <mainClass>edu.javacourse.contact.test.ContactTest</mainClass>
+*     </configuration>
+* </plugin>
+* Теперь проект можно запускать:
+*
+mvn exec:java
+
+
+mvn clean
+Удаляет target. Проект всегда готов к сборке, но после фазы clean мы все делается заново — компиляция и собирка.
+Если не “чистить” проект, то директория target не удаляется.
+
+mvn clean package   // two commands
+
+mvn install   // скачивает все необходимое в локальное хранилище
+
+default lifecycle is defined without any associated plugin.
+Первая группа - фазы сборки:
+    validate: проверка корректности pom.xml
+    initialize:
+    generate-sources:
+    process-sources:
+    generate-resources:
+    process-resources:
+    compile: компиляция файлов java
+    process-classes:
+    generate-test-sources:
+    process-test-sources:
+    generate-test-resources:
+    process-test-resources:
+    test-compile:
+    process-test-classes:
+    test: запуск модульных тестов
+    prepare-package:
+    package: сборка файлов проекта в архив
+    pre-integration-test:
+    integration-test:
+    post-integration-test:
+    verify: проверка через интеграционные тесты
+    install: установка в локальный репозиторий
+    deploy: установка на удаленный репозиторий
+
+Вторая группа состоит по сути только из одной команды:
+    clean — очистка проекта
+
+Tретья — тоже одна команда:
+    site — создание документации на проект
+
+<dependency>
+    <groupId>net.sf.json-lib</groupId>
+    <artifactId>json-lib</artifactId>
+    <version>2.4</version>
+    <classifier>jdk15</classifier>    //  необязательный параметр
+</dependency>
+
+
+для добавления, блиотеки carousel-lib.jar в локальный репозиторий можно использовать
+команду mvn install (команда должна быть однострочной) :
+mvn install:install-file \
+    -Dfile=${FILE_PATH}/carousel-lib.jar \
+    -DgroupId=ru.carousel \
+    -DartifactId=carousel-lib \
+    -Dversion=1.0 \
+    -Dpackaging=jar \
+    -DgeneratePom=true

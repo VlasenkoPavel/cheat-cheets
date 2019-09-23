@@ -1,0 +1,37 @@
+Andrey VorobyevВ четверг в 14:24
+Вчера была встреча про di. И на ней было много путаницы, но в конце вроде разобрались. Попробую резюмировать, добавив пруфов.
+
+
+DI vs DI container.
+
+Тут коротко и хорошо говорится про di.
+http://sergeyteplyakov.blogspot.com/2014/11/di-vs-dip-vs-ioc.html
+
+Тут очень подробно
+http://sergeyteplyakov.blogspot.com/2012/12/di-constructor-injection.html
+http://sergeyteplyakov.blogspot.com/2013/01/di-property-injection.html
+http://sergeyteplyakov.blogspot.com/2013/02/di-method-injection.html
+
+Как видно из статей di - это принцип, в котором ни слова не говорится ни о каких контейнерах.
+
+di - это принцип.
+di контейнер - это паттерн, упрощающий реализацию принципа di.
+
+
+
+DI container vs Service locator.
+
+Тут хорошо про сервис локатор
+http://sergeyteplyakov.blogspot.com/2013/03/di-service-locator.html
+
+Важно понимать, что inversify и typeDI умеют выступать и в качестве DI container и в качестве Service locator.
+
+И как выяснилось, все в основном используют эти библиотеки для Service locator.
+
+http://sergeyteplyakov.blogspot.com/2013/03/di-service-locator.html
+http://sergeyteplyakov.blogspot.com/2013/02/di-method-injection.html
+http://sergeyteplyakov.blogspot.com/2013/01/di-property-injection.html
+http://sergeyteplyakov.blogspot.com/2012/12/di-constructor-injection.html
+http://sergeyteplyakov.blogspot.com/2014/11/di-vs-dip-vs-ioc.html
+http://sergeyteplyakov.blogspot.com/2012/12/di-constructor-injection.html
+http://sergeyteplyakov.blogspot.com/2014/11/di-vs-dip-vs-ioc.html

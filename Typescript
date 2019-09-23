@@ -1,0 +1,44 @@
+https://www.typescriptlang.org/docs/home.html //doc
+https://typescriptrus.blogspot.com/
+https://derickbailey.com/2016/03/09/creating-a-true-singleton-in-node-js-with-es6-symbols/      // true singleton
+https://github.com/Microsoft/TypeScript/issues/3069 // set
+https://basarat.gitbooks.io/typescript/docs/tips/singleton.html      // singletone
+https://blog.mariusschulz.com/2017/01/06/typescript-2-1-keyof-and-lookup-types   // ключи и значения объекта
+
+https://stackoverflow.com/questions/12710905/how-do-i-dynamically-assign-properties-to-an-object-in-typescript // obj.props
+
+https://stackoverflow.com/questions/43740513/typescript-access-dynamic-property-with-syntax // dynamic property
+
+export declare type ObjectType<T> = { new (): T; } | Function;  //класс
+    private models: ObjectType<BaseModel>[];
+
+interface LooseObject {
+    [key: string]: any
+}
+
+с доп атрибутами
+export interface RoleSourse {
+    id: number;
+    name: string;
+    groupId: number;
+    [key: string]: any;
+}
+
+groupIds?: (number | 'none')[];
+
+export function Listen<T>(eventClass: EventClass<T>) {
+    return function(
+        target: Object,
+        propertyKey: string | symbol,
+        descriptor: TypedPropertyDescriptor<DomainEventHandler<T>>
+    ): TypedPropertyDescriptor<any> {
+        const publisher = Container.get(IDomainEventPublisherToken);
+        publisher.subscribe<T>(eventClass, async (eventClass:  DomainEvent<T>) => {
+            await target[propertyKey].bind(target)(eventClass);
+        });
+
+        return descriptor;
+    };
+}
+
+const { parentId, organizationId, ...data } = departmentForm; // остальные в объект data

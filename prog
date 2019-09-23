@@ -1,0 +1,11 @@
+https://askubuntu.com/questions/767479/how-to-install-staruml-and-its-dependencies  //libgcrypt11
+http://staruml.io/download/release/v2.0.2/StarUML-v2.0.2-64-bit.deb    //libgcrypt11
+
+http://staruml.io/download     // starUml
+
+https://losst.ru/kak-ustanovit-tar-gz-v-ubuntu  // tar
+
+sudo dpkg -i '/home/pavel/Downloads/modelio-open-source3.7_3.7.1_amd64.deb'
+sudo apt-get -f install                                                        // if dependency proplems
+sudo dpkg -i '/home/pavel/Downloads/modelio-open-source3.7_3.7.1_amd64.deb'  //again
+
