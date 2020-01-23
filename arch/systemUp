@@ -235,6 +235,10 @@ https://www.pgcli.com/install
 python3 --version
 sudo apt install python3-pip
 
+https://github.com/dbcli/pgcli/compare/master...boerwastaken:postgresql-12#diff-8859be39408e4fbeea82b923784d9e65  //postgres 12 fix
+/usr/local/lib/python2.7/dist-packages/pgcli/pgcompleter.py
+/usr/local/lib/python2.7/dist-packages/pgcli/pgexecute.py
+
 // iphone
 sudo apt install ipheth-utils
 включаем режим модема на iPhone (tethering) - важно включить режим модема до подключения телефона к компьютеру

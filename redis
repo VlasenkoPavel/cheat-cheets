@@ -2,6 +2,8 @@
 /etc/init.d/redis-server stop
 /etc/init.d/redis-server start
 
+nc -v redis.mydomain.com 6379  // https://stackoverflow.com/questions/21795340/linux-install-redis-cli-only   check connection
+
 docker exec -it test_redis_1 redis-cli -h localhost -p 6379
 
 redis-benchmark (расположен в той же директории, что и redis-server и redis-cli).

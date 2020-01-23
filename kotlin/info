@@ -1,0 +1,6 @@
+source "/home/psvl/.sdkman/bin/sdkman-init.sh"
+sdk help
+
+sudo snap install — classic kotlin
+
+http://developer.alexanderklimov.ru/android/kotlin/collection.php#fold // like docs

@@ -3,3 +3,5 @@ https://medium.com/@stasonmars/%D0%BF%D0%BE%D0%BB%D0%BD%D0%BE%D0%B5-%D0%BF%D0%BE
 https://developer.mozilla.org/ru/docs/Web/JavaScript/EventLoop
 https://habr.com/company/hexlet/blog/266443/   //closures
 https://scotch.io/tutorials/nodejs-cron-jobs-by-examples // cron
+
+Object.keys(require('module')._cache)  // list of loaded modules

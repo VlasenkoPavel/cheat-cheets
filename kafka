@@ -1,0 +1,68 @@
+docker:
+https://medium.com/rahasak/kafka-and-zookeeper-with-docker-65cff2c2c34f
+
+docker exec chaika-kafka kafka-topics.sh --list --zookeeper zookeeper:2181
+docker exec chaika-kafka kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic topic2 --from-beginning
+docker exec chaika-kafka kafka-topics.sh --delete --topic topic1 --zookeeper zookeeper:2181
+
+
+
+
+/////////// kafkajs 
+import { test, TestSuite } from 'chaika-test-pvl';
+import { Kafka } from 'kafkajs';
+import { wait } from 'chaika-utils';
+
+export class KafkaTestsSuite extends TestSuite {
+
+    @test()
+    public async kafka(): Promise<void> {
+
+        const topic = 'test-topic';
+
+
+        const kafka = new Kafka({
+            clientId: 'my-app',
+            brokers: ['127.0.0.1:9092'],
+        })
+
+        const admin = kafka.admin();
+        const producer = kafka.producer();
+        const consumer = kafka.consumer({ groupId: 'test-group' });
+
+        await admin.connect();
+        await producer.connect();
+        await consumer.connect();
+
+        await admin.createTopics({
+            // waitForLeaders: true,
+            topics: [{ topic }],
+        })
+
+        // Producing
+        await producer.send({ topic, messages: [{ value: 'Hello KafkaJS user!' }] });
+
+        // Consuming
+        await consumer.subscribe({ topic, fromBeginning: true });
+
+        await consumer.run({
+            eachMessage: async ({ topic, partition, message }) => {
+                console.log('message:', {
+                  partition,
+                  offset: message.offset,
+                  value: message.value.toString(),
+                })
+            },
+        });
+
+        await wait(300);
+
+        await producer.disconnect();
+        await consumer.disconnect();
+
+        await admin.deleteTopics({ topics: [topic] });
+        await admin.disconnect();
+    }
+
+}
+////////////////////
