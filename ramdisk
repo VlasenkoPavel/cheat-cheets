@@ -1,0 +1,50 @@
+https://linuxhint.com/ramdisk_ubuntu_1804/
+https://blog.xenot.ru/ramdisk-ubuntu-18-04.fuck
+
+sudo mkdir /mnt/ramdisk
+sudo mount -t tmpfs -o rw,size=2G tmpfs /mnt/ramdisk
+
+df -h  // checking
+sudo umount /mnt/ramdisk
+sudo cp -v /etc/fstab /etc/fstab.backup // backup copy
+
+sudo nano /etc/fstab
+add line:
+tmpfs  /mnt/ramdisk  tmpfs  rw,size=2G  0   0
+df -h  // checking
+
+sudo mkdir /mnt/ramdisk_backup
+
+sudo nano /lib/systemd/system/ramdisk-sync.service
+
+/////////////////////////////////////////
+[Unit]
+Before=umount.target
+
+[Service]
+Type=oneshot
+User=root
+ExecStartPre=/bin/chown -Rf psvl /home/psvl/Desktop/ramdisk/
+ExecStart=/usr/bin/rsync -ar /home/psvl/ramdisk-backup/ /home/psvl/Desktop/ramdisk/
+ExecStop=/usr/bin/rsync -ar /home/psvl/Desktop/ramdisk/ /home/psvl/ramdisk-backup/ --delete
+ExecStopPost=/bin/chown -Rf psvl /home/psvl/ramdisk-backup/
+RemainAfterExit=yes
+
+
+[Install]
+WantedBy=multi-user.target
+//////////////////////////////////////////////
+
+sudo systemctl enable ramdisk-sync.service
+sudo reboot
+sudo systemctl status ramdisk-sync // checking
+
+// cron
+#!/bin/bash
+echo "ramdisk-backup"
+/usr/bin/rsync -ar /home/psvl/Desktop/ramdisk/ /home/psvl/ramdisk-backup/ --delete
+
+sudo ln -s /home/psvl/bin/ramdisk-backup.sh /bin/ramdisk-backup
+
+sudo crontab -e -> than add:
+5 * * * * psvl ramdisk-backup

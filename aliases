@@ -1,0 +1,12 @@
+
+Edit ~/.bash_aliases or ~/.bashrc file using: vi ~/.bash_aliases
+
+~/.bash_aliases file only works if the following line presents in the ~/.bashrc file:
+if [ -f ~/.bash_aliases ]; then
+. ~/.bash_aliases
+fi
+
+Append your bash alias
+For example append: alias update='sudo yum update'
+Save and close the file.
+Activate alias by typing: source ~/.bash_aliases

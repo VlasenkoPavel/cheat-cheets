@@ -127,10 +127,13 @@ Changes will take effect immediately.
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
+**************************** VIDEO DRIVER *****************************************
 VIDEO DRIVER
 $ ubuntu-drivers devices
 $ sudo ubuntu-drivers autoinstall
+
+https://www.nvidia.com/content/DriverDownload-March2009/confirmation.php?url=/XFree86/Linux-x86_64/440.44/NVIDIA-Linux-x86_64-440.44.run&lang=us&type=TITAN   // gtx1050ti
+sudo sh ./NVIDIA-Linux-x86_64-440.44.run --add-this-kernel
 
 //остальное если возникли проблемы
 https://linuxconfig.org/how-to-install-the-nvidia-drivers-on-ubuntu-18-04-bionic-beaver-linux // video driver
@@ -142,9 +145,7 @@ lspci | grep -E "VGA|3D"
 http://www.nvidia.ru/Download/driverResults.aspx/77579/ru
 
 https://askubuntu.com/questions/149206/how-to-install-nvidia-run    // x serverstophttps://rtfm.co.ua/ubuntu-ustanovka-drajverov-nvidia-na-primere-nvidia-geforce-gtx-550-ti/
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+************************************************************************************
 
 
 git clone ssh://git@gitlab.local:2222/tarach/test.git
@@ -180,20 +181,23 @@ sudo apt-get update
 sudo apt-get install gtk-theme-config
 https://losst.ru/nastrojka-unity-v-ubuntu-15-10  //theme config
 
-
-https://www.digitalocean.com/community/tutorials/java-apt-get-ubuntu-16-04-ru   // java
+********** java **********
+https://www.digitalocean.com/community/tutorials/java-apt-get-ubuntu-16-04-ru
 https://andreyex.ru/ubuntu/kak-ustanovit-java-s-apt-na-ubuntu-18-04/
 https://help.ubuntu.ru/wiki/java
- http://nodde.ru:1017
+http://nodde.ru:1017
+***********************************
 
-https://www.linuxbabe.com/bittorrent/install-deluge-bittorrent-client-ubuntu-18-04  // torrent deluge
+********** deluge (torrent) **********
+https://www.linuxbabe.com/bittorrent/install-deluge-bittorrent-client-ubuntu-18-04
 sudo add-apt-repository ppa:deluge-team/ppa
 sudo apt install deluge
+**************************************
 
-
+************* phpstorm *****************
 sudo apt update
 sudo apt install vlc    //vls
-https://www.jetbrains.com/phpstorm/download/download-thanks.html?platform=linux  //phpstorm
+https://www.jetbrains.com/phpstorm/download/download-thanks.html?platform=linux
 https://gist.github.com/zaxoavoki/42196371a640c39dba7607a1657c2673
 
 
@@ -211,8 +215,9 @@ https://roothat.ru/how-to-activation-phpstorm-2017-2018-license-server/
 https://losst.ru/kak-ustanovit-tar-gz-v-ubuntu  //tar  make
 sudo dpkg -i *.deb
 
-
+************* system backup ********************
 https://losst.ru/otkat-sistemy-ubuntu //timeshift
+************************************************
 
 //reset keyboard shortcut
 Install and run dconf-editor:
@@ -230,7 +235,7 @@ setting -> devices // set primary display
 
 sudo apt install -y postgresql-client  //psql
 
-//// pgcli
+********** pgcli **********
 https://www.pgcli.com/install
 python3 --version
 sudo apt install python3-pip
@@ -238,12 +243,22 @@ sudo apt install python3-pip
 https://github.com/dbcli/pgcli/compare/master...boerwastaken:postgresql-12#diff-8859be39408e4fbeea82b923784d9e65  //postgres 12 fix
 /usr/local/lib/python2.7/dist-packages/pgcli/pgcompleter.py
 /usr/local/lib/python2.7/dist-packages/pgcli/pgexecute.py
+************************************************************
 
-// iphone
+************ iphone ******************
 sudo apt install ipheth-utils
 включаем режим модема на iPhone (tethering) - важно включить режим модема до подключения телефона к компьютеру
 подключаем телефон к компьютеру, после чего в системе появляется новый интерфейс (у меня он называется eth1).
 С помощью network manager-а подключаемся к сети
 
 https://websiteforstudents.com/set-apps-to-auto-startup-at-logon-on-ubuntu-17-10-18-04/  //autoload startup
+**********************************************
+
+********** gitlab ***********
+https://subscription.packtpub.com/book/application_development/9781783986842/2/ch02lvl1sec20/adding-your-ssh-key-to-gitlab
+
+
+*******masterpdf4*********
+sudo apt install libqt5printsupport5
+sudo apt install libqt5network5
 

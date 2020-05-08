@@ -1,7 +1,10 @@
+https://linuxize.com/post/install-java-on-ubuntu-18-04/
+
 https://help.ubuntu.ru/wiki/java
 http://itisgood.ru/2019/02/04/kak-ustanovit-versiju-java-po-umolchaniju-v-ubuntu-debian/
 http://qaru.site/questions/16531214/how-to-use-jdk-without-jre-in-java-11
 
+sudo update-alternatives --config java   // path to java
 
 update-java-alternatives --list
 sudo update-alternatives --config java

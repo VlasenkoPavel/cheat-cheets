@@ -1,3 +1,4 @@
+https://kb.objectrocket.com/elasticsearch/how-to-update-a-document-in-elasticsearch-with-nodejs //node update
 https://stackoverflow.com/questions/18330541/how-to-handle-multiple-heterogeneous-inputs-with-logstash  //if in logstash
 
 docker network create esnet
@@ -121,3 +122,51 @@ query bool should // p 81.
 slop c.86
 constant_score //p 89
 boost // p 90
+
+
+
+
+GET /dictionary/_search
+{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "query_string": {
+            "fields": ["title^2","value^1.5"],
+            "query": "вакй*",
+            "boost": 1
+          }
+        },
+        {
+          "query_string": {
+            "fields": ["title^2","value^1.5"],
+            "query": "вак~",
+            "boost": 1,
+            "fuzzy_prefix_length": 2
+          }
+        }
+      ]
+    }
+  },
+  "size": 100
+}
+
+GET /dictionary/_search
+{
+  "query": {
+    "query_string": {
+      "query": "(mkb10 OR mkb10~ OR mkb10*) AND (вак OR вак~ OR вак*)",
+      "fields": ["id^2","name^2","title^2","value^1.5"],
+      "default_operator": "AND",
+      "fuzzy_prefix_length": 2
+    }
+  },
+  "size": 100
+}
+
+****************cluster_block_exception************************
+https://selleo.com/til/posts/esrgfyxjee-how-to-fix-elasticsearch-forbidden12index-read-only
+curl -XPUT -H "Content-Type: application/json" http://localhost:9200/_cluster/settings -d '{ "transient": { "cluster.routing.allocation.disk.threshold_enabled": false } }'
+curl -XPUT -H "Content-Type: application/json" http://localhost:9200/_all/_settings -d '{"index.blocks.read_only_allow_delete": null}'
+**************************

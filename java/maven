@@ -1,3 +1,5 @@
+https://linuxize.com/post/how-to-install-apache-maven-on-ubuntu-18-04/   // install
+
 https://proselyte.net/tutorials/maven/plugins/      //
 http://java-online.ru/maven-pom.xhtml
 
@@ -16,7 +18,7 @@ mvn archetype:generate > archetypes.txt
 просмотреть настройки Super POM файла:
 mvn help:effective-pom
 
-Одной из пособенностей maven'a является справка online, К примеру
+Одной из способенностей maven'a является справка online, К примеру
 справку по фазе компиляции можно получить следующей командой:
 mvn help:describe -Dcmd=compile
 
@@ -105,3 +107,31 @@ mvn install:install-file \
     -Dversion=1.0 \
     -Dpackaging=jar \
     -DgeneratePom=true
+
+********************* var enable ******************************************
+https://github.com/microsoft/vscode-java-pack/issues/313
+https://sandny.com/2019/10/08/enable-the-preview-feature-in-java-13-with-maven/
+<release>11</release> - java version, chek: mvn -version
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <version>3.8.0</version>
+      <configuration>
+        <release>13</release>
+        <compilerArgs>
+          --enable-preview
+        </compilerArgs>
+      </configuration>
+    </plugin>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-surefire-plugin</artifactId>
+      <version>3.0.0-M3</version>
+      <configuration>
+        <argLine>--enable-preview</argLine>
+      </configuration>
+    </plugin>
+  </plugins>
+ </build>

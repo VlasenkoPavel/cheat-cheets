@@ -205,3 +205,4 @@ sudo /sbin/reboot // supervisor restart
 
 
 df -h //size
+du -h --max-depth=1 /var/lib/docker
