@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="17f1bcb2-448e-4086-b754-90f10537794e" name="Default Changelist" comment="" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list default="true" id="17f1bcb2-448e-4086-b754-90f10537794e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/DB/queries.sql" beforeDir="false" afterPath="$PROJECT_DIR$/DB/queries.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/elastic/elastic" beforeDir="false" afterPath="$PROJECT_DIR$/elastic/elastic" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ide/idea" beforeDir="false" afterPath="$PROJECT_DIR$/ide/idea" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/linux/linux" beforeDir="false" afterPath="$PROJECT_DIR$/linux/linux" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,17 +16,11 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1Rc6Yjz5xISqJNMzAgGUfxbeHIA" />
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -34,6 +32,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1555253209074</updated>
+      <workItem from="1591254405748" duration="4000" />
     </task>
     <servers />
   </component>
@@ -47,5 +46,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

@@ -23,50 +23,6 @@ https://code.visualstudio.com/docs/extensionAPI/vscode-api-commands
 markdownlint
 @recommended
 
-//debugger
-https://code.visualstudio.com/docs/editor/debugging
-
-f9 // add/remove breakpoint
-shift+f9 //inline breakpoint
-ctr+spaace //Launch.json  see the list of available attributes
-add configuration // right botom coner, add "configurations"
-multiline in REPL Shift+Enter
-
-{
-	"version": "0.2.0",
-	"configurations": [
-		{
-			"name": "Launch",
-			"type": "node",
-			"request": "launch",
-			"program": "node_modules/nightwatch/bin/runner.js",
-			"stopOnEntry": false,
-			"args": [
-			"--test buildOutput/JavaScript1.js --env devtest-chrome-win8"
-			],
-			"cwd": ".",
-			"runtimeExecutable": null,
-			"runtimeArgs": [
-					"--nolazy"
-				],
-				"env": {
-					"NODE_ENV": "development"
-				},
-				"externalConsole": true,
-				"sourceMaps": false,
-				"outDir": null
-		},
-		{
-			"name": "Attach",
-			"type": "node",
-			"request": "attach",
-			"port": 5858
-		}
-	]
-}
-
-////////////////////////////
-
 ctr + m //tab focus off/on
 
 /group/.*/role   // поиск с произвольным символов
@@ -86,9 +42,10 @@ ctr + f12 реализация выделенного класса/интерф�
 shif +f12 //показать где используется метод
 Ctrl+Shift+F10 - Bring up a Peek window that shows the definition of a symbol.
 ctr  //при выделенном чем-нибудь показывает подробно описание сигнатур
-ctr + t //list of simbols
+ctr + t // list of simbols, search symbol
 ctr+G //go to line
 ctr+e //resently closed
+ctr + alt + s // search editor
 
 
 ctr + ~  //open terminal
@@ -163,9 +120,50 @@ config
     "editor.formatOnSave": true
 }
 
+**************** debugger ****************************
+https://code.visualstudio.com/docs/editor/debugging
+
+f9 // add/remove breakpoint
+shift+f9 //inline breakpoint
+ctr+spaace //Launch.json  see the list of available attributes
+add configuration // right botom coner, add "configurations"
+multiline in REPL Shift+Enter
+
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Launch",
+			"type": "node",
+			"request": "launch",
+			"program": "node_modules/nightwatch/bin/runner.js",
+			"stopOnEntry": false,
+			"args": [
+			"--test buildOutput/JavaScript1.js --env devtest-chrome-win8"
+			],
+			"cwd": ".",
+			"runtimeExecutable": null,
+			"runtimeArgs": [
+					"--nolazy"
+				],
+				"env": {
+					"NODE_ENV": "development"
+				},
+				"externalConsole": true,
+				"sourceMaps": false,
+				"outDir": null
+		},
+		{
+			"name": "Attach",
+			"type": "node",
+			"request": "attach",
+			"port": 5858
+		}
+	]
+}
 
 
-//SNIPPETS
+**************** SNIPPETS ****************************
 {
 	/*
 		// Place your snippets for TypeScript    "workbench.colorCustomizations" : {

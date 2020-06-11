@@ -1,0 +1,222 @@
+GET indexname  //index mapping?
+GET /indexname/_mapping
+
+/// GET
+GET /_cat/indices?v     /* get all indices */
+
+GET /indexname
+GET /indexname/_mapping    /* index mapping */
+
+GET /_search
+GET /_all
+GET /_all/_search
+
+GET /patient/_search       /* all in patient */
+GET /patient/_search
+{
+  "query" : {"match_all" : {}}
+}
+
+GET /patient,cms/_search    /* all in patient and csm */
+
+//UPDATE
+POST /patient/_update/9f56a65c-24b9-47e8-892c-bbb7ca112bd0
+{
+  "doc": {"firstName" : "Iavan" }
+
+}
+//upsert
+POST /patient/_update/9f56a65c-24b9-47e8-892c-bbb7ca112bd1
+{
+  "doc": { ... },
+  "doc_as_upsert": true
+}
+
+///script
+POST /cms/_update/1
+{
+  "script": {
+    "source": "ctx._source.number += params.increment",
+    "lang": "painless",
+    "params": {
+      "increment": 2
+    }
+  }
+}
+
+/// create index
+PUT /cms
+{
+  "settings": {
+    "number_of_shards": 5,
+    "number_of_replicas": 1
+  }
+}
+
+PUT /cms
+{
+  "settings": {
+    "number_of_shards": 5,
+    "number_of_replicas": 1
+  },
+  "mappings": {
+    "properties": {
+      "userId": {
+        "type": "text"
+      },
+      "number": {
+        "type": "integer"
+      }
+    }
+  }
+}
+
+//update mapping
+POST /cms/_mapping
+{
+  "properties": {
+    "name": {
+      "type": "text"
+    }
+  }
+}
+
+
+//analyze
+
+POST _analyze
+{
+    "tokenizer": "standard",
+    "text": "Tokenizer breaks characters into tokens!"
+}
+
+POST index_standard_analyzer/_analyze
+{
+    "field": "my_text",
+    "text": "The Standard Analyzer works this way."
+}
+
+
+//other
+query bool should // p 81.
+slop c.86
+constant_score //p 89
+boost // p 90
+
+
+
+
+GET /dictionary/_search
+{
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "query_string": {
+            "fields": ["title^2","value^1.5"],
+            "query": "вакй*",
+            "boost": 1
+          }
+        },
+        {
+          "query_string": {
+            "fields": ["title^2","value^1.5"],
+            "query": "вак~",
+            "boost": 1,
+            "fuzzy_prefix_length": 2
+          }
+        }
+      ]
+    }
+  },
+  "size": 100
+}
+
+GET /dictionary/_search
+{
+  "query": {
+    "query_string": {
+      "query": "(mkb10 OR mkb10~ OR mkb10*) AND (вак OR вак~ OR вак*)",
+      "fields": ["id^2","name^2","title^2","value^1.5"],
+      "default_operator": "AND",
+      "fuzzy_prefix_length": 2
+    }
+  },
+  "size": 100
+}
+
+
+********************************* lookup ******************************
+GET /service_price/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "nested" : {
+            "path" : "prices",
+            "query" : {
+              "terms": {
+                "prices.priceListId": {
+                  "index" : "network",
+                  "id" : "5d8f337e-b227-4a14-ad8b-88149d8d8a11",
+                  "path" : "priceListId"
+                }
+              }
+            }
+          }
+        },
+        {
+          "terms": {
+            "status": ["active"]
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET /service_price/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "nested" : {
+            "path" : "prices",
+            "query" : {
+              "bool": {
+                "should": [
+                  {
+                    "terms": {
+                      "prices.priceListId": {
+                        "index" : "network",
+                        "id" : "5d8f337e-b227-4a14-ad8b-88149d8d8a11",
+                        "path" : "priceListId"
+                      }
+                    }
+                  },
+                  {
+                    "terms": {
+                      "prices.priceListId": {
+                        "index" : "network",
+                        "id" : "8abc96b7-b812-4903-95dd-69775a7eefa3",
+                        "path" : "priceListId"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "terms": {
+            "status": ["active"]
+          }
+        }
+      ]
+    }
+  }
+}
+**********************************************************************

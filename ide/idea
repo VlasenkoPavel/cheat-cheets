@@ -1,7 +1,35 @@
 https://losst.ru/ustanovka-intellij-idea-na-ubuntu-16-04   // install
 https://ioboot.in/kak-smenit-temu-v-intellij-idea/  // color theme more batter add as plagin
+https://stackoverflow.com/questions/42846236/intellij-how-to-change-background-color-of-project-folder-window // files color
+// awesome console plagin - for terminal clickable path
+`File | Settings | Editor | Color Scheme | General > Editor > Gutter background`
 
 Ctrl+D  //  Дублировать строку под курсором.
 Ctrl+Y  //  Удалить строку под курсором.
 alt + f12 // open terminal
 Ctrl+P brings up a list of valid parameters (If the cursor is between the parentheses of a method call).
+Ctrl+Shift+F // find
+Ctrl+Shift+R // replace
+Ctrl+f then alt+j // select occurrence
+alt + 1 // open file sidebar
+
+terminal caret // :( https://www.jetbrains.com/help/idea/terminal-emulator.html
+File > Settings... > Editor > Code Style > Hard wrap at  // line length
+
+alt+f12 then esc // switch between terminal and editor
+
+Press Ctrl twice, and then without releasing it, press up or down arrow keys.  // multi caret
+shift + alt + click
+
+Ctrl + up/down   // move line up/down
+
+alt + shift + right/left arrow // go back/forward
+
+Ctrl+N - find class
+Ctrl+f12 - method list
+Ctrl+b - go to
+
+tips
+alt+shift+7 // all occurrence (usages)
+
+
