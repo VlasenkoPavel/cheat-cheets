@@ -1,0 +1,81 @@
+https://console.developers.google.com/  // admin console
+https://console.cloud.google.com/home/dashboard?authuser=1&project=chaika-cms-281415&supportedpurview=project // google cloud
+
+https://cloud.google.com/iam/docs/overview  // base concepts
+https://cloud.google.com/docs/authentication/getting-started // Getting Started with Authentication
+
+
+https://developers.google.com/identity/protocols/oauth2 // about authorization
+https://developers.google.com/identity/protocols/oauth2/web-server // authorization for web server
+
+https://support.google.com/googleapi/answer/6158862?hl=en&ref_topic=7013279  // create project, api key, clint id, secret
+https://support.google.com/googleapi/answer/6158862?hl=en&ref_topic=7013279
+https://developers.google.com/identity/protocols/oauth2/web-server#incrementalAuth
+
+https://developers.google.com/admin-sdk/directory/v1/guides/prerequisites // directory api enabling
+
+
+https://cloud.google.com/iam/docs/service-accounts
+https://developers.google.com/identity/protocols/oauth2/service-account#delegatingauthority // service account authorization, Manage Domain Wide Delegation
+
+
+Gsuite admin console -> Security -> API Controls (API PERMISSIONS) -> Domain-wide Delegation
+https://developers.google.com/identity/protocols/oauth2/scopes // scopes
+
+
+import { google } from 'googleapis';
+
+const scopes = ['https://www.googleapis.com/auth/admin.directory.user'];
+
+async function main () {
+    const auth = new google.auth.GoogleAuth({
+        clientOptions: { subject: 'p.slotinsky@chaika.com', scopes },
+        scopes,
+    });
+
+    const service = google.admin({ version: 'directory_v1', auth });
+
+    // await service.users.insert({ requestBody: {
+    //     name: {
+    //         familyName: 'testFamilyName',
+    //         fullName: 'testFamilyName testPatron testName',
+    //         givenName: 'testName',
+    //     },
+    //     password: '123qwe_123qwe',
+    //     primaryEmail: 'testName@chaika.com'
+    // }});
+
+    // await service.users.delete({ userKey: 'testName@chaika.com' });
+
+    const resp = await service.users.list({
+        customer: 'my_customer',
+        maxResults: 100,
+        orderBy: 'email',
+    })
+
+    console.log('response:', resp.data.users);
+}
+
+main().catch(console.error);
+
+import { JWT } from 'google-auth-library';
+
+const scopes = ['https://www.googleapis.com/auth/admin.directory.user'];
+
+async function main () {
+    const keyFile = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+    const keys = require(keyFile as string);
+
+    const client = new JWT({
+        subject: 'p.slotinsky@chaika.com',
+        email: keys.client_email,
+        key: keys.private_key,
+        scopes,
+    });
+
+    const url = `https://www.googleapis.com/admin/directory/v1/users?domain=chaika.com`;
+    const res = await client.request({ url });
+    console.log(res.data);
+}
+
+main().catch(console.error);

@@ -1,7 +1,11 @@
+https://docs.docker.com/engine/install/ubuntu/  // install
+https://docs.docker.com/compose/install/    // install  docker-compose
+
+
 ssh -p 22 ${target_host} 'cd /home/gorod/opt/sber-marketing && nohup docker-compose up &'
 https://docs.docker.com/compose/compose-file/#command
 
-docker images - список доступных локально образов 
+docker images - список доступных локально образов
 docker search elasticsearch
 
 docker stat
@@ -16,9 +20,9 @@ docker run -p 8888:80 [CONTAINER] - форвардинг порта
 -d открепит (detach) терминал, -P сделает все открытые порты публичными и случайными,  --name имя, которое мы хотим дать контейнеру.
 docker port [CONTAINER] увидеть порты.
 
-docker stop ID 
+docker stop ID
 docker stop $(docker ps -q) //остановить все
-exit 
+exit
 
 DELETE
 ///////////////////////////////////

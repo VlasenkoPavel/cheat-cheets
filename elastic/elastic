@@ -5,6 +5,18 @@ https://www.elastic.co/guide/en/logstash/current/lookup-enrichment.html  // look
 https://stackoverflow.com/questions/11806584/treat-child-as-field-of-parent-in-elastic-search-query  // child search
 https://discuss.elastic.co/t/indexing-child-docs-using-bulk-api/10061/2  // bulk child indexing
 
+*******************************************************
+https://www.vultr.com/docs/how-to-install-and-configure-elastic-stack-elasticsearch-logstash-and-kibana-on-ubuntu-17-04#:~:text=The%20default%20username%20is%20elastic%20and%20password%20is%20changeme%20.
+add to /etc/elasticsearch/elasticsearch.yml:
+xpack.security.enabled: true
+
+bin/elasticsearch-setup-passwords auto -u "http://localhost:9201" //https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-passwords.html
+curl -XPUT -u elastic:changeme 'localhost:9200/_xpack/security/user/elastic/_password?pretty' -H 'Content-Type: application/json' -d'{"password":"123qwe"}'
+// https://www.vultr.com/docs/how-to-install-and-configure-elastic-stack-elasticsearch-logstash-and-kibana-on-ubuntu-17-04#:~:text=The%20default%20username%20is%20elastic%20and%20password%20is%20changeme%20.
+
+curl -H "Content-Type: application/json" -d '{ "password" : "123qwe" }' -X POST http://localhost:9200/_security/user/elastic/_password
+*******************************************************
+
 docker network create esnet
 docker run -d --name elasticsearch --net esnet -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.1.1
 docker run -d --name kibana --net esnet -p 5601:5601 kibana:7.1.1

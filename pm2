@@ -1,1 +1,2 @@
-pm2 show 0
+pm2 show 0  // info
+pm2 log 0  // log watching

@@ -1,0 +1,26 @@
+https://linuxize.com/post/how-to-set-or-change-timezone-in-linux/#:~:text=To%20change%20the%20time%20zone,zone%20you%20want%20to%20set.
+timedatectl
+ls -l /etc/localtime
+sudo timedatectl set-timezone <your_time_zone>
+
+import { JWT } from 'google-auth-library';
+
+const scopes = ['https://www.googleapis.com/auth/admin.directory.user'];
+
+async function main () {
+    const keyFile = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+    const keys = require(keyFile as string);
+
+    const client = new JWT({
+        subject: 'p.slotinsky@chaika.com',
+        email: keys.client_email,
+        key: keys.private_key,
+        scopes,
+    });
+
+    const url = `https://www.googleapis.com/admin/directory/v1/users?domain=chaika.com`;
+    const res = await client.request({ url });
+    console.log(res.data);
+}
+
+main().catch(console.error);

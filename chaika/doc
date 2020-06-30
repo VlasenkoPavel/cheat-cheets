@@ -1,9 +1,46 @@
-Теперь у нас есть demo-стенд: http://188.246.227.17
+https://chaikaclinics.atlassian.net/wiki/spaces/CMS/pages/22577193
+
 user: chaika
-password: P,Ys8E=^f9}af]$v
 
 $ ssh root@188.246.227.17
 
 https://github.com/gitChaika/chaika-cms
 
 ssh chaika@178.57.79.151 -p 42390
+
+*****************************************************************
+dev
+devchaika.club
+92.53.69.182
+
+Changed password for user apm_system
+PASSWORD apm_system = SNIAFZxszYRiPm1ibZVQ
+
+Changed password for user kibana_system
+PASSWORD kibana_system = zdjZEFN3dGqpPx2YKWBv
+
+Changed password for user kibana
+PASSWORD kibana = zdjZEFN3dGqpPx2YKWBv
+
+Changed password for user logstash_system
+PASSWORD logstash_system = 1SQodE6IzDvCNVXPvA9v
+
+Changed password for user beats_system
+PASSWORD beats_system = dW7LUVEJcXM07k4PurND
+
+Changed password for user remote_monitoring_user
+PASSWORD remote_monitoring_user = HZtUl4rurkXRJ8zmQ2aG
+
+Changed password for user elastic
+PASSWORD elastic = 123qwe  (old fnMsuAZpKtsF5XPbX54g)
+*****************************************************************
+
+demo
+demochaika.club
+37.9.7.84
+
+qa
+buildchaika.club
+185.137.234.201
+
+
