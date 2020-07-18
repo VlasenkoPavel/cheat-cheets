@@ -17,6 +17,7 @@ https://developers.google.com/admin-sdk/directory/v1/guides/prerequisites // dir
 
 https://cloud.google.com/iam/docs/service-accounts
 https://developers.google.com/identity/protocols/oauth2/service-account#delegatingauthority // service account authorization, Manage Domain Wide Delegation
+https://stackoverflow.com/questions/25530184/how-do-i-change-a-users-password-using-googles-directory-api-using-java // java examples
 
 
 Gsuite admin console -> Security -> API Controls (API PERMISSIONS) -> Domain-wide Delegation
@@ -79,3 +80,146 @@ async function main () {
 }
 
 main().catch(console.error);
+
+
+**********************
+
+#!/usr/bin/env node
+import fs from 'fs';
+import { google } from 'googleapis';
+import http from 'http';
+import { GSuiteAuthConfig } from 'chaika-config';
+import { ICommand } from 'chaika-app-components';
+import { execute } from '@core/execute';
+import { first, last } from 'lodash';
+import { waitResult } from 'chaika-utils';
+import { OAuth2Client } from 'google-auth-library';
+
+interface Deps {
+    gsuiteAuthConfig: GSuiteAuthConfig;
+}
+
+interface Credentials {
+    client_id: string;
+    project_id: string;
+    token_uri: string;
+    client_secret: string;
+    redirect_uris: string[];
+}
+
+class TokenGettingCommand implements ICommand {
+
+    private config: GSuiteAuthConfig;
+    private credentials!: Credentials;
+    private code?: string;
+    private authClient!: OAuth2Client;
+
+    constructor({ gsuiteAuthConfig }: Deps) {
+        this.config = gsuiteAuthConfig;
+    }
+
+    async execute(): Promise<void> {
+        console.log(this.config);
+        await this.init();
+        await this.getToken();
+        await this.getUserList();
+    }
+
+
+    private async getUserList() {
+        console.log('this.authClient:', this.authClient)
+        const service = google.admin({
+            version: 'directory_v1',
+            auth: this.authClient
+        });
+
+        const resp = await service.users.list({
+            customer: 'my_customer',
+            maxResults: 100,
+            orderBy: 'email',
+        });
+
+        // await service.users.insert({ requestBody: {
+        //     name: {
+        //         familyName: 'testFamilyName',
+        //         fullName: 'testFamilyName testPatron testName',
+        //         givenName: 'testName',
+        //     },
+        //     password: '123qwe_123qwe',
+        //     primaryEmail: 'testName@chaika.com'
+        // }});
+
+        console.log('userList:', resp.data.users?.map(it => it.primaryEmail))
+    }
+
+    private async init(): Promise<void> {
+        this.credentials = (await this.parseCredentials()).web;
+        await this.listenRedirectedRequest();
+        const { client_secret, client_id, redirect_uris} = this.credentials;
+        this.authClient = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
+    }
+
+    private async parseCredentials(): Promise<{ web: Credentials }> {
+        return new Promise((resolve, reject) => {
+            fs.readFile(this.config.credentials, (err: any, content: any) => {
+                if (err) {
+                    reject(err);
+                };
+                resolve(JSON.parse(content))
+            });
+        })
+    }
+
+    private listenRedirectedRequest() {
+        const server = http.createServer((req, res) => {
+            const codeHeaderPref = `${first(this.credentials.redirect_uris)}/?code=`;
+            this.code = req.rawHeaders.find(it => it.startsWith(codeHeaderPref))?.replace(codeHeaderPref, '');
+            res.end(); //end the response
+            server.close();
+            if (this.code) {
+                server.close();
+            }
+        }).listen(getPort(this.credentials));
+    }
+
+    private async getToken() {
+        console.log('Authorize this app by visiting this url:', this.gerAuthUrl());
+        await waitResult(() => this.code, { maxCount: 120 });
+
+        return new Promise((resolve, reject) => {
+            this.authClient.getToken(this.code!, (err: any, token: any) => {
+                if (err) {
+                    console.error('Error retrieving access token', err);
+                    return reject(err);
+                }
+
+                this.authClient.credentials = token;
+                this.storeToken(token);
+                return resolve();
+            })
+        })
+
+    }
+
+    private gerAuthUrl(): string {
+        return this.authClient.generateAuthUrl({ access_type: 'offline', scope: this.config.scopes });
+    }
+
+    private storeToken(token: any) {
+        return new Promise((resolve, reject) => {
+            fs.writeFile(this.config.token, JSON.stringify(token), (err: any) => {
+                if (err) {
+                    reject(err)
+                }
+                resolve();
+            });
+        })
+    }
+}
+
+function getPort(credentials: Credentials): number {
+    const uri = first(credentials.redirect_uris)!;
+    return Number(last(uri.split(':'))!);
+}
+
+execute(TokenGettingCommand);

@@ -203,8 +203,18 @@ tail +n ..начиная со строки name
 pm2 restart all //когда проблемы с файловым сервисом
 sudo /sbin/reboot // supervisor restart
 
-
+************************ disc space ***************************
 df -h //size
 du -h --max-depth=1 /var/lib/docker
 
+Linux find a biggest files in /
+$ sudo du -a /dir/ | sort -n -r | head -n 20
+OR
+$ sudo du -a / 2>/dev/null | sort -n -r | head -n 20
+*******************************************************************
+
 pushd ../../ && yarn build  // run comand from differen directory
+
+*********** grep *****************
+grep "str" filepath | wc -l
+grep -m 10 -B30 -A10 "BRPOPLPUSH" backend-ehr-error.log

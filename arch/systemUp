@@ -58,6 +58,7 @@ sudo gpasswd -a $USER docker  // или sudo gpasswd -a ${USER} docker
 sudo service docker restart
 newgrp docker
 https://medium.com/@frontman/%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%D1%82%D1%8C-%D1%81-docker-%D0%B1%D0%B5%D0%B7-sudo-76972e8587d7
+
 https://support.brother.com/g/b/downloadlist.aspx?c=eu_ot&lang=en&prod=dcp1610wr_eu&os=128#SelectLanguageType-625_0_1    // driver install tool
 
 linux-brprinter-installer-2.2.1-1.gz   //in google disk
@@ -144,7 +145,8 @@ sudo update-pciids               // if problem
 lspci | grep -E "VGA|3D"
 http://www.nvidia.ru/Download/driverResults.aspx/77579/ru
 
-https://askubuntu.com/questions/149206/how-to-install-nvidia-run    // x serverstophttps://rtfm.co.ua/ubuntu-ustanovka-drajverov-nvidia-na-primere-nvidia-geforce-gtx-550-ti/
+https://askubuntu.com/questions/149206/how-to-install-nvidia-run    // x serverstop
+https://rtfm.co.ua/ubuntu-ustanovka-drajverov-nvidia-na-primere-nvidia-geforce-gtx-550-ti/
 ************************************************************************************
 
 
@@ -261,4 +263,9 @@ https://subscription.packtpub.com/book/application_development/9781783986842/2/c
 *******masterpdf4*********
 sudo apt install libqt5printsupport5
 sudo apt install libqt5network5
+
+***************mouse*****************
+https://jabriffa.wordpress.com/2018/04/23/using-a-microsoft-bluetooth-mouse-on-ubuntu-16-04-lts/
+hciconfig -a // this can help
+http://web.archive.org/web/20170512194401/https://www.spathi.net/tag/arc-mouse-not-working-ubuntu/#content
 
