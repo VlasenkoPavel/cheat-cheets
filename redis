@@ -46,3 +46,15 @@ client.on("message", (channel, message) => {
 in redis-cli:
 publish pubsub "Hello Wonky!"
 (integer) 1
+
+************************docker*******************************************
+https://medium.com/better-programming/dockerizing-and-pythonizing-redis-41b1340979de
+https://kb.objectrocket.com/redis/run-redis-with-docker-compose-1055
+https://hub.docker.com/r/bitnami/redis/
+https://www.digitalocean.com/community/tutorials/how-to-configure-redis-replication-on-ubuntu-16-04
+
+*********************** BRPOPLPUSH UNBLOCKING error ***************************
+https://www.compose.com/articles/mastering-redis-high-availability-and-blocking-connections/
+https://issuehunt.io/r/OptimalBits/bull/issues/1738
+https://github.com/OptimalBits/bull/issues/1304
+https://github.com/OptimalBits/bull/issues/1746   //!!!

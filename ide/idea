@@ -1,6 +1,9 @@
 https://losst.ru/ustanovka-intellij-idea-na-ubuntu-16-04   // install
 https://ioboot.in/kak-smenit-temu-v-intellij-idea/  // color theme more batter add as plagin
 https://stackoverflow.com/questions/42846236/intellij-how-to-change-background-color-of-project-folder-window // files color
+
+https://programmer.ink/think/2020-latest-version-of-idea-activation-tutorial.html
+
 // awesome console plagin - for terminal clickable path
 `File | Settings | Editor | Color Scheme | General > Editor > Gutter background`
 
@@ -31,5 +34,7 @@ Ctrl+b - go to
 
 tips
 alt+shift+7 // all occurrence (usages)
+
+
 
 
