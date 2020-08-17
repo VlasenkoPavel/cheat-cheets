@@ -1,21 +1,43 @@
-i - режим insert
-: - режим ввода команд
-/ - режим поиска
-? - режим поиска от текущего места
-:85 - перейти к строке 85
-SHIFT + v  выделить строку
-:set number              включить нумерацию строк
-:set nonumber            отключить нумерацию строк
-:q - выход
-:w - сохранение 
-:wq - 
+https://www.cs.swarthmore.edu/oldhelp/vim/windows.html
+
+i       режим insert
+:       режим ввода команд (or SHIFT + :)
+/       режим поиска
+?       режим поиска от текущего места
+:85     перейти к строке 85
+
+:q      выход
+:w      сохранение 
+:wq
+
+y                   (yank) - copy
+yy                  copy line
+v                   visual mode
+V                   linewise visual mode
+SHIFT + v           выделить строку
+p                   (put) - paste
+u                   undo
+CTR-R, :red[o]      (redo) тмена отмены предыдущего действия
+dd                  delete line
+0, ^, home          go to line start
+$ or end            go to line end
+:123                go to line 123
+gg                  go to file start
+SHIFR + G           go to file end
+
+**** copy ******
+copy with xclip:
+https://vi.stackexchange.com/questions/84/how-can-i-copy-text-to-the-system-clipboard-from-vim
+select text using v,
+:'<,'>w !xclip -sel clip
+:'<,'>w !xclip -selection clipboard
+****************
 
 Команда dd удаляет одну текущую строку, на которой находится курсор.
 С помощью команды Nd и нажатия стрелки мы удаляем N симолов (строк) в зависимости от нажатой стрелки.
 Команды +d и d+$ удаляют строку до конца начиная с текущей позиции курсора.
 
 https://scabere.livejournal.com/62886.html  // 100 команд
-
 
 Файл настройки: ~/.vimrc
 Можно редактировать файлы через сеть, например
@@ -132,8 +154,9 @@ gU                        к верхнему регистру
 [#]<<                     сдвинуть строку влево
 set tabstop=#             для табуляции используется # пробелов
 set shiftwidth=#          в командах отступа используется # пробелов 
-set [no]expandtab         заменять ли табуляцию на соответствующее
-                            число пробелов
+set [no]expandtab         заменять ли табуляцию на соответствующее число пробелов
+
+https://stackoverflow.com/questions/2054627/how-do-i-change-tab-size-in-vim
 
 == Поиск и замена в файле ==
 /Выражение               поиск выражения в файле
@@ -150,8 +173,8 @@ N                        предыдущее совпадение
 :cp                      переход к предыдущему результату
 
 == Нумерация строк ==
-:set number              включить нумерацию строк
-:set nonumber            отключить нумерацию строк
+:set number, set nu              включить нумерацию строк
+:set nonumber, set nu!           отключить нумерацию строк
 
 == Работа с вкладками (a.k.a табами) ==
 :tabnew [fname]          создать таб

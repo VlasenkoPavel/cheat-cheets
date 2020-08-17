@@ -1,0 +1,12 @@
+# adding
+adduser user_name
+
+# add group
+groupadd group_name
+
+# add user to group
+adduser user_name group_name
+# or
+useradd –G group_name user_name
+# or 
+usermod –a –G group_name user_name

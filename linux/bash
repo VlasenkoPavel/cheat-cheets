@@ -1,0 +1,121 @@
+https://kapeli.com/cheat_sheets/Bash_Shortcuts.docset/Contents/Resources/Documents/index
+********** useful ***********
+clear line before/after cursor
+CTRL+U
+CTRL+K
+
+Go to the start/end of the command line
+CTRL+A
+CTRL+E
+
+Search the history backwards
+^R
+
+unalias/alias
+
+pushd, popd
+
+****** Shortcuts *********
+***** Command Editing Shortcuts *******
+
+Go to the start/end of the command line
+CTRL+A
+CTRL+E
+
+Delete from cursor to the start/end of the command line
+CTRL+U
+CTRL+K
+
+Delete from cursor to start/end of word (whole word if at the boundary)
+CTRL+W
+ALT+D
+
+Paste word or text that was cut using one of the deletion shortcuts (such as the one above) after the cursor
+CTRL+Y
+
+Move between start of command line and current cursor position (and back again)
+CTRL+XX
+
+Move backward/forward one word (or go to start of word the cursor is currently on)
+ALT+B
+ALT+F
+
+Capitalize to end of word starting at cursor (whole word if cursor is at the beginning of word)
+ALT+C
+
+Make uppercase from cursor to end of word
+ALT+U
+
+Make lowercase from cursor to end of word
+ALT+L
+
+Swap current word with previous
+ALT+T
+
+Move forward/backward one character
+CTRL+F
+CTRL+B
+
+Delete character after/before under cursor
+CTRL+D
+CTRL+H
+
+Swap character under cursor with the previous one
+CTRL+T
+
+****** Command Recall Shortcuts ******
+
+Search the history backwards
+CTRL+R
+
+Escape from history searching mode
+CTRL+G
+
+Previous command in history (i.e., walk back through the command history)
+CTRL+P
+
+Next command in history (i.e., walk forward through the command history)
+CTRL+N
+
+Use the last word of the previous command
+ALT+.
+
+******* Command Control Shortcuts **********
+Clear the screen
+CTRL+L
+
+Stops the output to the screen (for long running verbose command)
+CTRL+S
+
+Allow output to the screen (if previously stopped using command above)
+CTRL+Q
+
+Terminate the command
+CTRL+C
+
+Suspend/stop the command
+CTRL+Z
+
+***** Bash Bang Shortcuts ***********
+
+Run last command
+!!
+
+Run the most recent command that starts with blah
+!blah
+
+Print out the command that !blah would run (also adds it as the latest command in the command history
+!blah:p
+
+The last word of the previous command (same as ALT+.)
+!$
+
+Print out the word that !$ would substitute
+!$:p
+
+The previous command except for the first word (e.g., if you type find some_file.txt /, then !* would give you some_file.txt /)
+!*
+
+Print out what !* would substitute
+!*:p
+**************************
