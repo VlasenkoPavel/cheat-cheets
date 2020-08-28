@@ -1,0 +1,9 @@
+
+**** накат данных ****
+на удаленный сервер   
+pg_dump -C dbname | ssh -C remoteuser@remotehost "psql dbname"     
+
+c удаленного на локальный
+pg_dump -C -h remotehost -U remoteuser db_name | psql localhost -U localuser db_name 
+
+ssh user@remote_machine "pg_dump -U user_name -h localhost -p port db_name > file_on_your_local_machine.sql

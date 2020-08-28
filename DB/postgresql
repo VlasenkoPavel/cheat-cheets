@@ -1,4 +1,5 @@
 https://www.postgresqltutorial.com/psql-commands/   // commands
+http://www.project-open.com/en/howto-postgresql-port-secure-remote-access    // remote-access
 
 psql sber_marketing -c "DROP SCHEMA public CASCADE;CREATE SCHEMA public;GRANT ALL ON SCHEMA public TO postgres;GRANT ALL ON SCHEMA public TO public;"
 DROP SCHEMA public CASCADE;CREATE SCHEMA public;GRANT ALL ON SCHEMA public TO postgres;GRANT ALL ON SCHEMA public TO public;

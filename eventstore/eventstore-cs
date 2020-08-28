@@ -1,0 +1,13 @@
+https://stackoverflow.com/questions/62885856/eventstore-docker-running-but-cannot-access-url-from-host-port-not-working
+https://github.com/EventStore/EventStore/issues/2547
+
+curl -i -k https://127.0.0.1:2113/stats
+
+curl -i -k -d "@event.json" "https://127.0.0.1:2113/streams/newstream" -H "Content-Type:application/vnd.eventstore.events+json" -u "admin:changeit"
+
+curl -i -k -H "Accept:application/vnd.eventstore.atom+json" "https://127.0.0.1:2113/streams/newstream" -u "admin:changeit"
+
+printf '%s\n'
+printf '\n'
+
+curl -i -k https://127.0.0.1:2113/streams/newstream/0 -H "Accept: application/json" -u "admin:changeit" && printf '%s\n'

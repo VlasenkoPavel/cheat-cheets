@@ -1,0 +1,4 @@
+https://stackoverflow.com/questions/36454955/docker-and-netstat-netstat-is-not-showing-ports-exposed-by-docker-containers
+
+apt install net-tools
+netstat -nlp | grep 5432        show port listners (may need su rights)

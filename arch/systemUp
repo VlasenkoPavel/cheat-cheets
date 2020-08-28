@@ -2,6 +2,11 @@ https://www.tecmint.com/things-to-do-after-installing-ubuntu-20-04/    // 20.04 
 https://omgubuntu.ru/11-vieshchiei-kotoryie-nieobkhodimo-sdielat-poslie-ustanovki-ubuntu-18-04-lts/    //после установки
 https://itsfoss.com/things-to-do-after-installing-ubuntu-18-04/
 
+
+**** gforce driver, vscode suspend problem ******
+Sofrware & Update -> Additional drivers -> X.org X server (open source)
+***** 
+
 //////////////////////////////////////////////////////////
 Create a function in ~/.bashrc   :
 
@@ -270,3 +275,10 @@ https://jabriffa.wordpress.com/2018/04/23/using-a-microsoft-bluetooth-mouse-on-u
 hciconfig -a // this can help
 http://web.archive.org/web/20170512194401/https://www.spathi.net/tag/arc-mouse-not-working-ubuntu/#content
 
+https://unix.stackexchange.com/questions/61209/create-and-format-exfat-partition-from-linux // exFat
+
+******camera*******
+https://ubuntuforums.org/showthread.php?t=1980235
+lsusb
+sudo apt-get install cheese
+*****************

@@ -1,6 +1,7 @@
 https://www.cs.swarthmore.edu/oldhelp/vim/windows.html
 
 i       режим insert
+o       insert line bellow and inser text
 :       режим ввода команд (or SHIFT + :)
 /       режим поиска
 ?       режим поиска от текущего места
@@ -24,6 +25,22 @@ $ or end            go to line end
 :123                go to line 123
 gg                  go to file start
 SHIFR + G           go to file end
+0d^                 delete separators from begining to first not empty latter
+.                   repeat previous command
+
+***** repeat commands *****
+7,16normal 0d^     repeat normal command for lines from 1 to 16
+
+select text (CTRL + V)
+:'<,'>left                  // выровнять по левому краю
+
+https://vi.stackexchange.com/questions/12680/how-to-delete-all-white-spaces-until-first-character
+Method that will work only in vim:
+select text in visual selection mode (Ctrl+V).
+Move to the end of the range.
+Type 9<.  This will shift the selected lines left by nine shiftwidths.  
+If you still have lines with leading spaces, type . to repeat the shift command (i.e., another72 characters).
+Or, if you know that you have lines with more than 72 leading spaces (or nine tabs), just use 99<.
 
 **** copy ******
 copy with xclip:

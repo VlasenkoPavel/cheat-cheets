@@ -4,3 +4,8 @@ curl -v -X PUT -H 'userId:129' -H 'Content-Type:application/json' -d '{"userIds"
 curl -v -H 'userId:1' http://127.0.0.1:3001/task/f910db2c-197f-4c50-9167-81dcbc7b91a7 | jq
 curl -v -H 'userId:1' http://127.0.0.1:3001/task/f910db2c-197f-4c50-9167-81dcbc7b91a7 | json_format
 
+cat /etc/letsencrypt/live/devchaika.club/cert.pem > certRepo \
+& curl --cacert certRepo \
+    -v -d '{ "key": "value" }' \
+    -H "Content-Type: application/json" \
+    -X POST https://messengers.chaika.com/api/login
