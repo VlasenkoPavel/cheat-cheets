@@ -107,3 +107,18 @@ WHERE activity.id=subquery.id;
             CREATE EXTENSION "uuid-ossp";
             ALTER TABLE ACTIVITY ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();
 /////////////////////////////////////////////////
+
+CREATE TABLE order_referral_uuid
+    AS select order_id,
+    array_agg(jsonb_array_elements_text)::UUID[] as referral_ids
+    FROM (SELECT order_id, jsonb_array_elements_text(referral_ids) from orders) referral_ids GROUP BY order_id;
+
+ALTER TABLE orders ADD COLUMN referral_uuids UUID[];
+
+UPDATE orders SET referral_uuids = order_referral_uuid.referral_ids from order_referral_uuid where orders.order_id = order_referral_uuid.order_id;
+ALTER TABLE orders DROP COLUMN referral_ids;
+ALTER TABLE orders RENAME COLUMN referral_uuids TO referral_ids;
+ALTER TABLE orders ALTER COLUMN referral_ids SET NOT NULL;
+
+DROP TABLE order_referral_uuid;
+ 
