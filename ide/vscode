@@ -92,8 +92,10 @@ find по файлам /рядоом стрелка окрывающая rename
 f1 then show release notes
 
 https://code.visualstudio.com/docs/editor/editingevolved  //navigation
-f8 - перебо ошибок
+f8 - перебор ошибок
 ctr + , //открыть конфиг
+
+alt + shift + right arrow - expand selection
 
 plagins
 Prettier - Code formatter

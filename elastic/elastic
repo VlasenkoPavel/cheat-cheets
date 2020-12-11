@@ -28,7 +28,8 @@ docker run --rm -it -v /home/psvl/Desktop/Learning-Elastic-Stack-6/Chapter07/apa
 
 curl -G localhost:9200
 
-curl -XGET 'localhost:9200/user/_search?search_type=scan&scroll=10m&size=50' -d '{"query" : {"match_all" : {}}}'
+curl -XGET -u elastic:123qwe -H "Content-Type: application/json" 'localhost:9200/service_price/_search?size=50' -d '{"query" : {"match_all" : {}}}'
+curl -XGET -u elastic:123qwe -H "Content-Type: application/json" 'localhost:9200/user/_search?search_type=scan&scroll=10m&size=50' -d '{"query" : {"match_all" : {}}}'
 curl 'localhost:9200/_cat/indices?v'
 
 
@@ -138,8 +139,6 @@ query bool should // p 81.
 slop c.86
 constant_score //p 89
 boost // p 90
-
-
 
 
 GET /dictionary/_search

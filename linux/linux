@@ -211,6 +211,9 @@ tail +n ..начиная со строки name
 pm2 restart all //когда проблемы с файловым сервисом
 sudo /sbin/reboot // supervisor restart
 
+find . -name "node_modules" -type d -prune | xargs du -chs // show all node_modules
+find . -name "node_modules" -type d -prune -exec rm -rf '{}' + //remove all node_modules
+
 ************************ disc space ***************************
 df -h //size
 du -h --max-depth=1 /var/lib/docker

@@ -1,5 +1,9 @@
 https://www.cs.swarthmore.edu/oldhelp/vim/windows.html
 
+turn absolute line numbers on
+:set number
+:set nu
+
 i       режим insert
 o       insert line bellow and inser text
 :       режим ввода команд (or SHIFT + :)
