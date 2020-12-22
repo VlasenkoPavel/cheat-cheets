@@ -1,9 +1,11 @@
+https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/reindex_examples.html  // node examples
 https://kb.objectrocket.com/elasticsearch/how-to-update-a-document-in-elasticsearch-with-nodejs //node update
 https://stackoverflow.com/questions/18330541/how-to-handle-multiple-heterogeneous-inputs-with-logstash  //if in logstash
 https://dzone.com/articles/23-useful-elasticsearch-example-queries  // query example
 https://www.elastic.co/guide/en/logstash/current/lookup-enrichment.html  // lookup
 https://stackoverflow.com/questions/11806584/treat-child-as-field-of-parent-in-elastic-search-query  // child search
 https://discuss.elastic.co/t/indexing-child-docs-using-bulk-api/10061/2  // bulk child indexing
+https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/client-testing.html // mocking, testing
 
 *******************************************************
 https://www.vultr.com/docs/how-to-install-and-configure-elastic-stack-elasticsearch-logstash-and-kibana-on-ubuntu-17-04#:~:text=The%20default%20username%20is%20elastic%20and%20password%20is%20changeme%20.

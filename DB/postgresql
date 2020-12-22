@@ -2,6 +2,8 @@ SHOW config_file;
 SHOW max_connections;
 SHOW shared_buffers;
 
+https://levelup.gitconnected.com/working-with-a-jsonb-array-of-objects-in-postgresql-d2b7e7f4db87 // jsonb queries
+
 https://www.postgresqltutorial.com/psql-commands/   // commands
 http://www.project-open.com/en/howto-postgresql-port-secure-remote-access    // remote-access
 

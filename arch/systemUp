@@ -1,73 +1,38 @@
-https://www.tecmint.com/things-to-do-after-installing-ubuntu-20-04/    // 20.04 after install
-https://omgubuntu.ru/11-vieshchiei-kotoryie-nieobkhodimo-sdielat-poslie-ustanovki-ubuntu-18-04-lts/    //после установки
+**** after install
+https://www.tecmint.com/things-to-do-after-installing-ubuntu-20-04/
+https://omgubuntu.ru/11-vieshchiei-kotoryie-nieobkhodimo-sdielat-poslie-ustanovki-ubuntu-18-04-lts/
 https://itsfoss.com/things-to-do-after-installing-ubuntu-18-04/
 
 
-**** gforce driver, vscode suspend problem ******
+**** gforce driver, vscode suspend problem
 Sofrware & Update -> Additional drivers -> X.org X server (open source)
-***** 
 
-//////////////////////////////////////////////////////////
-Create a function in ~/.bashrc   :
-
-function set-title() {
-  if [[ -z "$ORIG" ]]; then
-    ORIG=$PS1
-  fi
-  TITLE="\[\e]2;$*\a\]"
-  PS1=${ORIG}${TITLE}
-}
-Then use your new command to set the terminal title. It works with spaces in the name too
-
-set-title my new tab title
-need restart
-//////////////////////////////////////////////////////////
-
+**** drivers and utils
 ubuntu-drivers devices
 sudo ubuntu-drivers autoinstall
 sudo apt-get update
 sudo apt-get install vim
 sudo apt-get update && sudo apt-get install curl
+
+**** git
 apt-get install git
 git config --global user.name "VlasenkoPavel"
 git config --global user.email psvlasenko@gmail.com
-
 http://www.linuxrussia.com/google-chrome-ubuntu.html    //chromehttps://help.github.com/articles/connecting-to-github-with-ssh/       //ssh it keys
 Tip: If xclip isn't working, you can locate the hidden .ssh folder, open the file in your favorite text editor, and copy it to your clipboard.      //!!!!!
 
+git clone ssh://git@gitlab.local:2222/tarach/test.git
+git clone https://VlasenkoPavel:**********@github.com/c7s/sber-marketing.git
+
+**** printer
 http://support.brother.com/g/b/downloadhowto.aspx?c=eu_ot&lang=en&prod=dcp1610wr_eu&os=128&dlid=dlf101533_000&flang=4&type3=559 //printer driver
+https://support.brother.com/g/b/downloadlist.aspx?c=eu_ot&lang=en&prod=dcp1610wr_eu&os=128#SelectLanguageType-625_0_1    // driver install tool
+linux-brprinter-installer-2.2.1-1.gz   //in google disk
 http://support.brother.com/g/b/downloadlist.aspx?c=eu_ot&lang=en&prod=dcp1610wr_eu&os=128
 на принтере WPS/AOS для связи с роутером, кнопка 4 - 5 сек
 MAY BE: PRINTERS->ADITIONAL SETINGS->PRINTER->PROPETIES->DIVISE URI CHANGE socket://192.168.0.10:9100 (IP принтера смотреть в нем)
-
 https://www.sysadminwiki.ru/wiki/%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0_%D0%BF%D1%80%D0%B8%D0%BD%D1%82%D0%B5%D1%80%D0%B0_Brother_%D0%B2_Linux //scan
 https://support.brother.com/g/b/downloadhowto.aspx?c=eu_ot&lang=en&prod=dcp1610w_eu_as&os=128&dlid=dlf006652_000&flang=4&type3=570
-
-https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-18-04 // node nvm 18.04
-https://github.com/creationix/nvm#installation    //nvm    need node
-https://www.digitalocean.com/community/tutorials/how-to-install-node-js-with-nvm-node-version-manager-on-a-vps
-
-https://yarnpkg.com/lang/en/docs/install/          // yarn
-
-https://code.visualstudio.com/docs/setup/linux  //vscode
-https://code.visualstudio.com/docs/setup/linux#_visual-studio-code-is-unable-to-watch-for-file-changes-in-this-large-workspace-error-enospc  //fs.inotify.max_user_watches=524288
-https://github.com/tonsky/FiraCode/wiki/Linux-instructions#installing-with-a-package-manager // FiraCode
-https://github.com/tonsky/FiraCode/wiki/Installing
-
-https://help.github.com/articles/connecting-to-github-with-ssh/       //ssh it keys
-Tip: If xclip isn't working, you can locate the hidden .ssh folder, open the file in your favorite text editor, and copy it to your clipboard.      //!!!!!
-
-http://support.brother.com/g/b/downloadhowto.aspx?c=eu_ot&lang=en&prod=dcp1610wr_eu&os=128&dlid=dlf101533_000&flang=4&type3=559 //printer driver
-
-https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1  //docker
-sudo gpasswd -a $USER docker  // или sudo gpasswd -a ${USER} docker
-sudo service docker restart
-newgrp docker
-https://medium.com/@frontman/%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%D1%82%D1%8C-%D1%81-docker-%D0%B1%D0%B5%D0%B7-sudo-76972e8587d7
-
-https://support.brother.com/g/b/downloadlist.aspx?c=eu_ot&lang=en&prod=dcp1610wr_eu&os=128#SelectLanguageType-625_0_1    // driver install tool
-
-linux-brprinter-installer-2.2.1-1.gz   //in google disk
 
 Step1. Download the tool.(linux-brprinter-installer-*.*.*-*.gz)
 The tool will be downloaded into the default "Download" directory.
@@ -93,10 +58,32 @@ The install process may take some time. Please wait until it is complete.
 menu -> ин.об устройстве -> конфигурация. сети
 DeviceURI -> 11?
 
-http://compizomania.blogspot.com/2014/02/guake-ubuntulinux-mint.html  //guake
+**** node
+https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-18-04 // node nvm 18.04
+https://github.com/creationix/nvm#installation    //nvm    need node
+https://www.digitalocean.com/community/tutorials/how-to-install-node-js-with-nvm-node-version-manager-on-a-vps
+
+**** yarn
+https://yarnpkg.com/lang/en/docs/install/          // yarn
+
+**** vscode
+https://code.visualstudio.com/docs/setup/linux  //vscode
+https://code.visualstudio.com/docs/setup/linux#_visual-studio-code-is-unable-to-watch-for-file-changes-in-this-large-workspace-error-enospc  //fs.inotify.max_user_watches=524288
+https://github.com/tonsky/FiraCode/wiki/Linux-instructions#installing-with-a-package-manager // FiraCode
+https://github.com/tonsky/FiraCode/wiki/Installing
+
+**** docker
+https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1
+sudo gpasswd -a $USER docker  // или sudo gpasswd -a ${USER} docker
+sudo service docker restart
+newgrp docker
+https://medium.com/@frontman/%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%D1%82%D1%8C-%D1%81-docker-%D0%B1%D0%B5%D0%B7-sudo-76972e8587d7
+
+**** guake
+http://compizomania.blogspot.com/2014/02/guake-ubuntulinux-mint.html
 автозагрузка приложений: startup aplications в меню приложений
 
-//////////stardict
+**** stardict
 http://fkn.ktu10.com/?q=node/9029   //StarDict
 sudo apt-get install stardict
 https://yadi.sk/d/OzdtXWkl3KEFUH  // dictionary
@@ -107,35 +94,7 @@ You need to then move the directories that will contain 3 files to
 for example:
 sudo mv dictDirectory/ /usr/share/stardict/dic/
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-https://freshnotes.org/2018/05/vklyuchenie-russkoj-raskladki-v-ubuntu-18-04/ //про переключение языков
-https://websiteforstudents.com/configure-ubuntu-18-04-lts-beta-keyboard-layout-for-native-languages/
-https://askubuntu.com/questions/967364/ubuntu-17-10-and-later-cant-change-the-input-switching-shortcut-to-altshift
-
-You can achieve this using gsettings (command-line configuration tool).
-
-Set forward switch to Shift+Alt(left)
-
-$ gsettings set org.gnome.desktop.wm.keybindings switch-input-source "['<Shift>Alt_L']"
-
-Set backward switch to Alt+Shift(left)
-
-$ gsettings set org.gnome.desktop.wm.keybindings switch-input-source-backward "['<Alt>Shift_L']"
-
-To see the current setting value use get command:
-
-$ gsettings get org.gnome.desktop.wm.keybindings switch-input-source
-$ gsettings get org.gnome.desktop.wm.keybindings switch-input-source-backward
-
-Examples of other key bindings:
-
-<Primary>space, Alt_R, <Shift>Control_R, <Shift><Super>space
-Changes will take effect immediately.
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-**************************** VIDEO DRIVER *****************************************
-VIDEO DRIVER
+**** video driver
 $ ubuntu-drivers devices
 $ sudo ubuntu-drivers autoinstall
 
@@ -153,12 +112,8 @@ http://www.nvidia.ru/Download/driverResults.aspx/77579/ru
 
 https://askubuntu.com/questions/149206/how-to-install-nvidia-run    // x serverstop
 https://rtfm.co.ua/ubuntu-ustanovka-drajverov-nvidia-na-primere-nvidia-geforce-gtx-550-ti/
-************************************************************************************
 
-
-git clone ssh://git@gitlab.local:2222/tarach/test.git
-git clone https://VlasenkoPavel:**********@github.com/c7s/sber-marketing.git
-
+**** python
 //python2.7  (3 не работает)
 apt-get update
 apt-get install python2.7
@@ -173,13 +128,13 @@ https://askubuntu.com/questions/45679/ssh-connection-problem-with-host-key-verif
 socket://192.168.000.011:9100
 http://support.brother.com/g/b/downloadhowto.aspx?c=eu_ot&lang=en&prod=dcp1610wr_eu&os=128&dlid=dlf101533_000&flang=4&type3=559 //printer driver
 
-
-http://staruml.io/download     // starUml
+**** starUml
+http://staruml.io/download
 https://askubuntu.com/questions/767479/how-to-install-staruml-and-its-dependencies  //libgcrypt11
 
-
+**** unity tweak tool
 sudo apt install unity-tweak-tool
-https://losst.ru/ustanovka-tem-v-ubuntu   //unity tweak tool
+https://losst.ru/ustanovka-tem-v-ubuntu
 
 
 https://askubuntu.com/questions/800730/dark-gtk-theme-for-ubuntu-16-04-unity  // arc-dark themeб Vivacious-zbackout theme
@@ -189,20 +144,18 @@ sudo apt-get update
 sudo apt-get install gtk-theme-config
 https://losst.ru/nastrojka-unity-v-ubuntu-15-10  //theme config
 
-********** java **********
+**** java
 https://www.digitalocean.com/community/tutorials/java-apt-get-ubuntu-16-04-ru
 https://andreyex.ru/ubuntu/kak-ustanovit-java-s-apt-na-ubuntu-18-04/
 https://help.ubuntu.ru/wiki/java
 http://nodde.ru:1017
-***********************************
 
-********** deluge (torrent) **********
+**** deluge (torrent)
 https://www.linuxbabe.com/bittorrent/install-deluge-bittorrent-client-ubuntu-18-04
 sudo add-apt-repository ppa:deluge-team/ppa
 sudo apt install deluge
-**************************************
 
-************* phpstorm *****************
+**** phpstorm
 sudo apt update
 sudo apt install vlc    //vls
 https://www.jetbrains.com/phpstorm/download/download-thanks.html?platform=linux
@@ -218,7 +171,6 @@ http://idea.wrbug.com/
 https://roothat.ru/how-to-activation-phpstorm-2017-2018-license-server/
 
 в поиске набрать color theme
-
 
 https://losst.ru/kak-ustanovit-tar-gz-v-ubuntu  //tar  make
 sudo dpkg -i *.deb
@@ -243,42 +195,109 @@ setting -> devices // set primary display
 
 sudo apt install -y postgresql-client  //psql
 
-********** pgcli **********
+**** pgcli
 https://www.pgcli.com/install
 python3 --version
 sudo apt install python3-pip
-
 https://github.com/dbcli/pgcli/compare/master...boerwastaken:postgresql-12#diff-8859be39408e4fbeea82b923784d9e65  //postgres 12 fix
 /usr/local/lib/python2.7/dist-packages/pgcli/pgcompleter.py
 /usr/local/lib/python2.7/dist-packages/pgcli/pgexecute.py
-************************************************************
 
-************ iphone ******************
+**** iphone
 sudo apt install ipheth-utils
 включаем режим модема на iPhone (tethering) - важно включить режим модема до подключения телефона к компьютеру
 подключаем телефон к компьютеру, после чего в системе появляется новый интерфейс (у меня он называется eth1).
 С помощью network manager-а подключаемся к сети
 
-https://websiteforstudents.com/set-apps-to-auto-startup-at-logon-on-ubuntu-17-10-18-04/  //autoload startup
-**********************************************
+**** autoload startup
+https://websiteforstudents.com/set-apps-to-auto-startup-at-logon-on-ubuntu-17-10-18-04/
 
-********** gitlab ***********
+
+**** gitlab
 https://subscription.packtpub.com/book/application_development/9781783986842/2/ch02lvl1sec20/adding-your-ssh-key-to-gitlab
 
 
-*******masterpdf4*********
+**** masterpdf4
 sudo apt install libqt5printsupport5
 sudo apt install libqt5network5
 
-***************mouse*****************
+**** mouse
 https://jabriffa.wordpress.com/2018/04/23/using-a-microsoft-bluetooth-mouse-on-ubuntu-16-04-lts/
 hciconfig -a // this can help
 http://web.archive.org/web/20170512194401/https://www.spathi.net/tag/arc-mouse-not-working-ubuntu/#content
 
+**** exfat
 https://unix.stackexchange.com/questions/61209/create-and-format-exfat-partition-from-linux // exFat
 
-******camera*******
+**** camera
 https://ubuntuforums.org/showthread.php?t=1980235
 lsusb
 sudo apt-get install cheese
-*****************
+
+**** .bash_aliases
+alias pgehr='docker exec -it chaika-postgres psql -U gorod ehr'
+alias clearehr='psql -h localhost -p 5432 -U gorod ehr -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public; GRANT ALL ON SCHEMA public TO gorod; GRANT ALL ON SCHEMA public TO public;"'
+alias pd=pushd
+alias pp=popd
+alias dropdb='dropdb -h localhost -p 5432 -U gorod'
+alias psql='psql -h localhost -p 5432 -U gorod'
+alias devdump='ssh root@devchaika.club "pg_dump -U gorod -h localhost -p 5432 ehr"'
+alias demodump='ssh root@demochaika.club "pg_dump -U gorod -h localhost -p 5432 ehr"'
+alias loaddevdump='devdump > /home/psvl/work/dumps/dev.sql && clearehr && psql ehr < /home/psvl/work/dumps/dev.sql'
+alias test:u="CMS_ENV=mock yarn jest --testPathPattern '(\\.)(test.ts)$' --logHeapUsage --maxWorkers=8"
+alias test:c='yarn test:i:core'
+alias test:s='yarn test:i:services'
+alias test:m='CMS_ENV=mock yarn jest'
+alias loaddemodump='demodump > /home/psvl/work/dumps/demo.sql && clearehr && psql ehr < /home/psvl/work/dumps/demo.sql'
+
+**** .vimrc
+set nu
+
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+**** .profile
+export EDITOR=vim
+export PGUSER=gorod
+export PGPASSWORD=123qwe
+
+**** .bashrc
+# Then use your new command to set the terminal title. It works with spaces in the name too.
+# set-title my new tab title
+# need restart
+function set-title() {
+  if [[ -z "$ORIG" ]]; then
+    ORIG=$PS1
+  fi
+  TITLE="\[\e]2;$*\a\]"
+  PS1=${ORIG}${TITLE}
+}
+if [ -f ~/.bash_aliases ]; then
+. ~/.bash_aliases
+fi
+
+**** keyboard languages
+https://freshnotes.org/2018/05/vklyuchenie-russkoj-raskladki-v-ubuntu-18-04/ //про переключение языков
+https://websiteforstudents.com/configure-ubuntu-18-04-lts-beta-keyboard-layout-for-native-languages/
+https://askubuntu.com/questions/967364/ubuntu-17-10-and-later-cant-change-the-input-switching-shortcut-to-altshift
+
+You can achieve this using gsettings (command-line configuration tool).
+
+Set forward switch to Shift+Alt(left)
+
+$ gsettings set org.gnome.desktop.wm.keybindings switch-input-source "['<Shift>Alt_L']"
+
+Set backward switch to Alt+Shift(left)
+
+$ gsettings set org.gnome.desktop.wm.keybindings switch-input-source-backward "['<Alt>Shift_L']"
+
+To see the current setting value use get command:
+
+$ gsettings get org.gnome.desktop.wm.keybindings switch-input-source
+$ gsettings get org.gnome.desktop.wm.keybindings switch-input-source-backward
+
+Examples of other key bindings:
+
+<Primary>space, Alt_R, <Shift>Control_R, <Shift><Super>space
+Changes will take effect immediately.
