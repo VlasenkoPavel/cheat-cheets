@@ -3,7 +3,6 @@ https://www.tecmint.com/things-to-do-after-installing-ubuntu-20-04/
 https://omgubuntu.ru/11-vieshchiei-kotoryie-nieobkhodimo-sdielat-poslie-ustanovki-ubuntu-18-04-lts/
 https://itsfoss.com/things-to-do-after-installing-ubuntu-18-04/
 
-
 **** gforce driver, vscode suspend problem
 Sofrware & Update -> Additional drivers -> X.org X server (open source)
 
@@ -20,6 +19,7 @@ git config --global user.name "VlasenkoPavel"
 git config --global user.email psvlasenko@gmail.com
 http://www.linuxrussia.com/google-chrome-ubuntu.html    //chromehttps://help.github.com/articles/connecting-to-github-with-ssh/       //ssh it keys
 Tip: If xclip isn't working, you can locate the hidden .ssh folder, open the file in your favorite text editor, and copy it to your clipboard.      //!!!!!
+https://subscription.packtpub.com/book/application_development/9781783986842/2/ch02lvl1sec20/adding-your-ssh-key-to-gitlab // ssh to gitlab
 
 git clone ssh://git@gitlab.local:2222/tarach/test.git
 git clone https://VlasenkoPavel:**********@github.com/c7s/sber-marketing.git
@@ -78,6 +78,9 @@ sudo gpasswd -a $USER docker  // или sudo gpasswd -a ${USER} docker
 sudo service docker restart
 newgrp docker
 https://medium.com/@frontman/%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%D1%82%D1%8C-%D1%81-docker-%D0%B1%D0%B5%D0%B7-sudo-76972e8587d7
+
+**** docker-compose
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04
 
 **** guake
 http://compizomania.blogspot.com/2014/02/guake-ubuntulinux-mint.html
@@ -145,10 +148,14 @@ sudo apt-get install gtk-theme-config
 https://losst.ru/nastrojka-unity-v-ubuntu-15-10  //theme config
 
 **** java
+https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-on-ubuntu-20-04
 https://www.digitalocean.com/community/tutorials/java-apt-get-ubuntu-16-04-ru
 https://andreyex.ru/ubuntu/kak-ustanovit-java-s-apt-na-ubuntu-18-04/
 https://help.ubuntu.ru/wiki/java
 http://nodde.ru:1017
+
+**** maven
+https://linuxize.com/post/how-to-install-apache-maven-on-ubuntu-20-04/
 
 **** deluge (torrent)
 https://www.linuxbabe.com/bittorrent/install-deluge-bittorrent-client-ubuntu-18-04
@@ -213,10 +220,6 @@ sudo apt install ipheth-utils
 https://websiteforstudents.com/set-apps-to-auto-startup-at-logon-on-ubuntu-17-10-18-04/
 
 
-**** gitlab
-https://subscription.packtpub.com/book/application_development/9781783986842/2/ch02lvl1sec20/adding-your-ssh-key-to-gitlab
-
-
 **** masterpdf4
 sudo apt install libqt5printsupport5
 sudo apt install libqt5network5
@@ -277,6 +280,10 @@ if [ -f ~/.bash_aliases ]; then
 . ~/.bash_aliases
 fi
 
+**** cms
+python2.7
+sudo apt-get install build-essential
+
 **** keyboard languages
 https://freshnotes.org/2018/05/vklyuchenie-russkoj-raskladki-v-ubuntu-18-04/ //про переключение языков
 https://websiteforstudents.com/configure-ubuntu-18-04-lts-beta-keyboard-layout-for-native-languages/
@@ -301,3 +308,21 @@ Examples of other key bindings:
 
 <Primary>space, Alt_R, <Shift>Control_R, <Shift><Super>space
 Changes will take effect immediately.
+
+**** droidcam
+https://www.dev47apps.com/droidcam/linux/
+https://github.com/umlaeute/v4l2loopback
+
+https://github.com/umlaeute/v4l2loopback/issues/306 // sudo modprobe v4l2loopback error problem
+Hi, (I think) I had the same problem and found a solution for how to get the module signed. I also have Ubuntu 20.04 LTS (running kernel 5.4.0.29), with secure boot enabled (installing works with secure boot disabled, but I didn't like this option). I tried a lot before this, but I guess these steps made it work:
+
+uninstall v4l2loopback with: sudo apt-get remove --auto-remove v4l2loopback-dkms
+install v4l2loopback again with: sudo apt-get install v4l2loopback-dkms
+You will get a message about 'Configuring Secure Boot', which offers you the opportunity to create a key for this module. Read carefully and continue with tab(s) and an enter. After setting the key/password and rebooting with the key/password:
+enter this in the terminal: sudo modprobe v4l2loopback (don't know if this is necessary, but this time I didn't get an error)
+install Iriun Webcam again with the deb file
+Hope it works for you too!
+
+sudo apt install adb // possibly need
+
+
