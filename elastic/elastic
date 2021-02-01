@@ -30,6 +30,8 @@ docker run --rm -it -v /home/psvl/Desktop/Learning-Elastic-Stack-6/Chapter07/apa
 
 curl -G localhost:9200
 
+curl -XPUT -u elastic:123qwe -H "Content-Type: application/json" 'http://localhost:9200/_cluster/settings' -d '{"transient" : {"cluster.routing.allocation.disk.watermark.flood_stage" : "99%","cluster.routing.allocation.disk.watermark.high" : "95%"}}'
+
 curl -XGET -u elastic:123qwe -H "Content-Type: application/json" 'localhost:9200/service_price/_search?size=50' -d '{"query" : {"match_all" : {}}}'
 curl -XGET -u elastic:123qwe -H "Content-Type: application/json" 'localhost:9200/user/_search?search_type=scan&scroll=10m&size=50' -d '{"query" : {"match_all" : {}}}'
 curl 'localhost:9200/_cat/indices?v'
@@ -182,8 +184,13 @@ GET /dictionary/_search
   "size": 100
 }
 
-****************cluster_block_exception************************
+**** cluster_block_exception
 https://selleo.com/til/posts/esrgfyxjee-how-to-fix-elasticsearch-forbidden12index-read-only
+https://kb.objectrocket.com/elasticsearch/how-to-adjust-an-elasticsearch-clusters-disk-allocation-watermark  // free space limits
+
+#### change limits
+curl -XPUT -u elastic:123qwe -H "Content-Typ'http://localhost:9200/_cluster/settings' -d '{"transient" : {"cluster.routing.allocation.disk.watermark.flood_stage" : "99%","cluster.routing.allocation.disk.watermark.high" : "95%"}}'
+#### unblock
 curl -XPUT -u elastic:123qwe -H "Content-Type: application/json" http://localhost:9200/_cluster/settings -d '{ "transient": { "cluster.routing.allocation.disk.threshold_enabled": false } }'
 curl -XPUT -u elastic:123qwe -H "Content-Type: application/json" http://localhost:9200/_all/_settings -d '{"index.blocks.read_only_allow_delete": null}'
 **************************

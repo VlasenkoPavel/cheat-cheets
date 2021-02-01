@@ -313,6 +313,9 @@ Changes will take effect immediately.
 https://www.dev47apps.com/droidcam/linux/
 https://github.com/umlaeute/v4l2loopback
 
+// may be:
+// $ sudo depmod  //after make install
+
 https://github.com/umlaeute/v4l2loopback/issues/306 // sudo modprobe v4l2loopback error problem
 Hi, (I think) I had the same problem and found a solution for how to get the module signed. I also have Ubuntu 20.04 LTS (running kernel 5.4.0.29), with secure boot enabled (installing works with secure boot disabled, but I didn't like this option). I tried a lot before this, but I guess these steps made it work:
 
@@ -325,4 +328,8 @@ Hope it works for you too!
 
 sudo apt install adb // possibly need
 
-
+**** redmivideo
+https://amdgpu-install.readthedocs.io/en/latest/install-script.html
+/usr/bin/amdgpu-uninstall (or amdgpu-pro-uninstall )// unistall
+sudo apt install linux-image-5.10.0-1008-oem // brightness problem fix
+sudo apt install linux-headers-oem-20.04-edge //linux headers
