@@ -1,3 +1,5 @@
+https://www.postgresql.org/docs/current/libpq-envars.html // variables
+
 SHOW config_file;
 SHOW max_connections;
 SHOW shared_buffers;
@@ -207,3 +209,4 @@ https://habr.com/ru/company/postgrespro/blog/333878/
 SP-GiST
 create index points_quad_idx on points using spgist(p);
 https://habr.com/ru/company/postgrespro/blog/337502/
+

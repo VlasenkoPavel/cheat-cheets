@@ -108,10 +108,18 @@ WHERE activity.id=subquery.id;
             ALTER TABLE ACTIVITY ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();
 /////////////////////////////////////////////////
 
+
+**** cast jsonb array to uuid array
 CREATE TABLE order_referral_uuid
     AS select order_id,
     array_agg(jsonb_array_elements_text)::UUID[] as referral_ids
     FROM (SELECT order_id, jsonb_array_elements_text(referral_ids) from orders) referral_ids GROUP BY order_id;
+
+SELECT unnest(
+    ARRAY(SELECT trim(value::text, '"') FROM jsonb_array_elements_text(body->'coAuthorIds'))::uuid[]
+) AS "coAuthorId", entity_id
+FROM "event_store"
+****
 
 ALTER TABLE orders ADD COLUMN referral_uuids UUID[];
 
@@ -121,4 +129,25 @@ ALTER TABLE orders RENAME COLUMN referral_uuids TO referral_ids;
 ALTER TABLE orders ALTER COLUMN referral_ids SET NOT NULL;
 
 DROP TABLE order_referral_uuid;
- 
+
+**** sequence
+SELECT c.relname FROM pg_class c WHERE c.relkind = 'S'; // show all sequence
+
+**** format
+format('select max(%I) from %I where %I = $1.%I', TG_ARGV[1], TG_TABLE_NAME, TG_ARGV[0], TG_ARGV[0]);
+format('SELECT $1.%I::TEXT', TG_ARGV[0]) INTO seqName USING NEW;
+format('CREATE SEQUENCE IF NOT EXISTS %I', seqName);
+format('SELECT nextval(%L)', seqName) INTO verStep USING NEW;
+
+You can just forget about the format() function like so:
+
+_nom_personne_like := 'TEST%';
+_type_activite_personne := 'SOMETHING';
+IF _nom_personne_like != '' THEN
+    _query := _query || ' AND personne_planning.nom_personne LIKE ' ||
+              quote_literal(_nom_personne_like);
+END IF;
+IF _type_activite_personne != '' THEN
+    _query := _query || ' AND personne_planning.type_activite = ' ||
+              quote_literal(_type_activite_personne);
+END IF;

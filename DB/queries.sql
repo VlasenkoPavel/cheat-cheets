@@ -22,3 +22,26 @@ UPDATE link_tmp
         link
     WHERE
         link_tmp.id = link.id;
+
+-- update using raw params
+UPDATE referral
+    SET rendered_service_id = (
+        SELECT rendered_service_id
+        FROM bi_rendered_service
+        WHERE bi_rendered_service.referral_id = referral.referral_id
+        limit 1
+    );
+
+-- array loop iterating iteration
+CREATE OR REPLACE FUNCTION update_bi_rendered_service(ids UUID[]) RETURNS VOID AS
+$$
+
+BEGIN
+    FOR i in array_lower(ids, 1)..array_upper(ids, 1) LOOP
+        RAISE NOTICE 'uuid: %', ids[i];
+    END LOOP;
+    -- FOR id IN (SELECT unnest(ids))
+    -- LOOP
+    -- END LOOP;
+END
+$$ LANGUAGE plpgsql;

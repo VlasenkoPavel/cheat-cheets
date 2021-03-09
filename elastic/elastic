@@ -40,6 +40,9 @@ curl 'localhost:9200/_cat/indices?v'
 GET indexname  //index mapping?
 GET /indexname/_mapping
 
+curl -k "127.0.0.1/schedule/slots/count?from=2021-02-26T06%3A00%3A00.000%2B00%3A00&to=2021-02-26T08%3A00%3A00.000%2B00%3A00&serviceId=2e5b8b51-585b-4bc3-96cb-327f04eb2b9d&organizationId=9d176a6b-63b6-4932-a897-69f1e7e39034&userId=04b9191c-48c4-4d33-848e-7cee0edaeb87&userId=04b9191c-48c4-4d33-848e-7cee0edaeb87&restrictions=null" -H "Host: backend.chaika.com" -H "user: {\"id\":\"73e31f43-75e2-4d3e-bdac-34fcacb8637f\",\"firstName\":\"Мария\",\"lastName\":\"Тагабилева\",\"email\":\"m.tagabileva@chaika.com\"}"
+
+
 
 
 /// GET
@@ -194,3 +197,12 @@ curl -XPUT -u elastic:123qwe -H "Content-Typ'http://localhost:9200/_cluster/sett
 curl -XPUT -u elastic:123qwe -H "Content-Type: application/json" http://localhost:9200/_cluster/settings -d '{ "transient": { "cluster.routing.allocation.disk.threshold_enabled": false } }'
 curl -XPUT -u elastic:123qwe -H "Content-Type: application/json" http://localhost:9200/_all/_settings -d '{"index.blocks.read_only_allow_delete": null}'
 **************************
+
+curl -XPOST -u elastic:123qwe -H "Content-Type: application/json" http://localhost:9200/ehr/_update/7646ddc9-aa11-4047-84c9-2b0979757f8d -d '{"doc": {"sex":"m"}}'
+curl -XGET -u elastic:123qwe -H "Content-Type: application/json" http://localhost:9200/ehr/_search -d '{"query": {"ids": {"values": ["7646ddc9-aa11-4047-84c9-2b0979757f8d","956c115b-6421-44db-80cd-e5bf12053cdd"]}}}' | jq
+
+*** chaika
+curl -XGET -u elastic:123qwe -H "Content-Type: application/json" http://localhost:9200/schedule_model/_search -d '{"query": {"ids": {"values": ["72a24af2-ef67-4ae5-a09b-fbaf1b3c55f3"]}}}' | jq
+curl -XDELETE -u elastic:123qwe -H "Content-Type: application/json" http://localhost:9200/schedule_model/_doc/eadeb187-e1b1-4cfc-817e-4ff3b1080f1b
+curl -XPOST -u elastic:123qwe -H "Content-Type: application/json" http://localhost:9200/schedule_model/_update/72a24af2-ef67-4ae5-a09b-fbaf1b3c55f3 -d '{"doc": {"joinField":{"name":"scheduleModel","parent": "ffb2c429-4a83-4fd4-8f65-85da9695294e"}}}'
+curl -XPOST -u elastic:123qwe -H "Content-Type: application/json" http://localhost:9200/schedule_model/_doc/ffb2c429-4a83-4fd4-8f65-85da9695294e -d '{"id":"ffb2c429-4a83-4fd4-8f65-85da9695294e","name":"Полякова Наира","type":"user", "joinField":{"name":"subject"}}'

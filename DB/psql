@@ -4,6 +4,7 @@ https://gist.github.com/igorpronin/f25cd61ffb976fbc6854b9c2684e5f01    // sheets
 https://postgrespro.ru/education/courses //курсы
 https://evileg.com/ru/post/12/   //про деревья массивы и т.д.
 http://haru-atari.com/ru/blog/2/using-postgresql-arrays-for-working-with-materialized-path //materialized-path
+https://www.postgresql.org/docs/current/libpq-envars.html // variables
 
 select count(*) from activity;
 psql > SELECT name, setting FROM pg_settings WHERE category = 'File Locations';

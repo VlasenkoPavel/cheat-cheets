@@ -14,10 +14,13 @@ https://www.shellhacks.com/ru/copy-files-ssh-10-examples/     //  scp
 https://habrahabr.ru/sandbox/52043/                           // чистим dash
 http://help.ubuntu.ru/wiki/%D0%BF%D0%B0%D0%BD%D0%B5%D0%BB%D1%8C_unity   // про uniti пилоложния и dash
 
-******* usb devices *********
+**** firewall
+https://community.vscale.io/hc/ru/community/posts/208348529-%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-%D1%84%D0%B0%D0%B5%D1%80%D0%B2%D0%BE%D0%BB%D0%B0-%D0%B2-Ubuntu-%D1%81-%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E-%D1%83%D1%82%D0%B8%D0%BB%D0%B8%D1%82%D1%8B-UFW
+
+**** usb devices
 lsusb
 
-******* logs ********
+**** logs
 https://vitux.com/view-system-log-files-ubuntu/
 dmesg
 *******
@@ -196,9 +199,18 @@ diff -u //другой формат
 
 file filename  //вывовди формфт файла
 
-find
+*** find
 find dirname -name filename -print  //найти filename в dirname
 внутри find джокерные симвлы в ''
+
+(man find EXAMPLES)
+find /tmp -name core -type f -print | xargs /bin/rm -f
+
+Find files named core in or below the directory /tmp and delete them.  Note that this will  work  incorrectly
+if there are any filenames containing newlines, single or double quotes, or spaces.
+****
+
+
 locate // поиск по индксам, быстрее но может не в ряде случаев может не найти
 find programs //////
 readlink -f $(which java)
@@ -229,3 +241,8 @@ pushd ../../ && yarn build  // run comand from differen directory
 *********** grep *****************
 grep "str" filepath | wc -l
 grep -m 10 -B30 -A10 "BRPOPLPUSH" backend-ehr-error.log
+
+****** open/close port
+sudo ufw deny 5432
+sudo ufw allow 5432
+https://community.vscale.io/hc/ru/community/posts/208348529-%D0%9D%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-%D1%84%D0%B0%D0%B5%D1%80%D0%B2%D0%BE%D0%BB%D0%B0-%D0%B2-Ubuntu-%D1%81-%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D1%8C%D1%8E-%D1%83%D1%82%D0%B8%D0%BB%D0%B8%D1%82%D1%8B-UFW
