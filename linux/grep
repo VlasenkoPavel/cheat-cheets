@@ -1,1 +1,3 @@
 grep -rni 'History' ./backend/src
+
+grep -o -m1 -P '.{0,24}myText.{0,39}' 'rendered_services.json' //24 chars before and 39 after first(m1) match(myText)

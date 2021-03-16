@@ -508,3 +508,31 @@ Add "disable-hardware-acceleration": true.
 Restart VS Code.
 Note: Do not use this setting unless you are seeing issues!
 ///////////////
+
+**** sftp
+{
+    "host": "78.155.197.132",
+    "port": 22,
+    "username": "chaikadev",
+    "privateKeyPath": "/home/psvl/.ssh/id_rsa",
+    "passphrase": "my passphrase",
+    "protocol": "sftp",
+    "agent": null,
+    "passive": false,
+    "interactiveAuth": true,
+    "remotePath": "/home/chaikadev/queries",
+    "uploadOnSave": true,
+    "syncMode": "update",
+    "watcher": {
+        "files": false,
+        "autoUpload": true,
+        "autoDelete": true
+    },
+    "ignore": [
+        "**/.vscode/**",
+        "**/.git/**",
+        "**/.DS_Store",
+        "**/node_modules/**",
+        "**/dist/**"
+    ]
+}
