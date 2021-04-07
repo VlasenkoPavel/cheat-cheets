@@ -203,6 +203,6 @@ curl -XGET -u elastic:123qwe -H "Content-Type: application/json" http://localhos
 
 *** chaika
 curl -XGET -u elastic:123qwe -H "Content-Type: application/json" http://localhost:9200/schedule_model/_search -d '{"query": {"ids": {"values": ["72a24af2-ef67-4ae5-a09b-fbaf1b3c55f3"]}}}' | jq
-curl -XDELETE -u elastic:123qwe -H "Content-Type: application/json" http://localhost:9200/schedule_model/_doc/eadeb187-e1b1-4cfc-817e-4ff3b1080f1b
+curl -XDELETE -u elastic:123qwe -H "Content-Type: application/json" http://localhost:9200/ehr/_doc/68e94dac-430d-4d27-830e-6336ec575fbb
 curl -XPOST -u elastic:123qwe -H "Content-Type: application/json" http://localhost:9200/schedule_model/_update/72a24af2-ef67-4ae5-a09b-fbaf1b3c55f3 -d '{"doc": {"joinField":{"name":"scheduleModel","parent": "ffb2c429-4a83-4fd4-8f65-85da9695294e"}}}'
 curl -XPOST -u elastic:123qwe -H "Content-Type: application/json" http://localhost:9200/schedule_model/_doc/ffb2c429-4a83-4fd4-8f65-85da9695294e -d '{"id":"ffb2c429-4a83-4fd4-8f65-85da9695294e","name":"Полякова Наира","type":"user", "joinField":{"name":"subject"}}'

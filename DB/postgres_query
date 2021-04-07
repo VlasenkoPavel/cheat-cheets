@@ -119,7 +119,45 @@ SELECT unnest(
     ARRAY(SELECT trim(value::text, '"') FROM jsonb_array_elements_text(body->'coAuthorIds'))::uuid[]
 ) AS "coAuthorId", entity_id
 FROM "event_store"
-****
+
+**** jsonb array item query
+SELECT from rendered_service_view where value->'plans' @> '[{"id":"c1e8a235-de8b-44c3-bac5-4828390b2851"}]';
+
+**** update jsonb array item
+https://www.freecodecamp.org/news/how-to-update-objects-inside-jsonb-arrays-with-postgresql-5c4e03be256a/
+https://stackoverflow.com/questions/38996212/using-jsonb-set-for-updating-specific-jsonb-array-value
+
+select
+    pos- 1 as elem_index
+from
+    samples,
+    jsonb_array_elements(sample->'result') with ordinality arr(elem, pos)
+where
+    id = 26 and
+    elem->>'8410' = 'FERR_R';
+
+update
+    samples
+set
+    sample =
+        jsonb_set(
+            sample,
+            array['result', elem_index::text, 'ratingtext'],
+            '"some individual text"'::jsonb,
+            true)
+from (
+    select
+        pos- 1 as elem_index
+    from
+        samples,
+        jsonb_array_elements(sample->'result') with ordinality arr(elem, pos)
+    where
+        id = 26 and
+        elem->>'8410' = 'FERR_R'
+    ) sub
+where
+    id = 26;
+******
 
 ALTER TABLE orders ADD COLUMN referral_uuids UUID[];
 

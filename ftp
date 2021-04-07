@@ -1,0 +1,2 @@
+ftp -n 188.40.57.105
+> get file-name
