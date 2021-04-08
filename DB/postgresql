@@ -1,10 +1,12 @@
 https://postgrespro.ru/
 https://www.postgresql.org/docs/current/libpq-envars.html // variables
+https://www.sinyawskiy.ru/invalid_locale.html // locale
 
 SHOW config_file;
 SHOW max_connections;
 SHOW shared_buffers;
 \dv *vk_**  // show all views with names start with "vk_"
+\copy (select last_name, first_name, patronymic, birth_date, phone from subscription_params where left(cause_of_failing, 21) = 'Ehr params correspond' and status = 'failed') To '/home/chaikadev/users-for-merge.csv' With CSV //to csv
 
 https://levelup.gitconnected.com/working-with-a-jsonb-array-of-objects-in-postgresql-d2b7e7f4db87 // jsonb queries
 
@@ -20,6 +22,7 @@ postgrespro.ru/doc/functions-aggregate.html
 JSON и JSONB и функции для работы с ними
 www.postgrespro.ru/docs/datatype-json
 www.postgrespro.ru/docs/functions-json
+https://wiki.postgresql.org/wiki/What%27s_new_in_PostgreSQL_9.5#JSONB-modifying_operators_and_functions
 
 Подробнее о настройках аутентификации:
 postgrespro.ru/doc/client-authentication.html

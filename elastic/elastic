@@ -183,7 +183,7 @@ GET /dictionary/_search
       "default_operator": "AND",
       "fuzzy_prefix_length": 2
     }
-  },
+  }
   "size": 100
 }
 
