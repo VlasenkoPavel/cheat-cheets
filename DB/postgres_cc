@@ -1,0 +1,42 @@
+=> \conninfo
+
+**** Параметры конфигурации
+Для всего экземпляраосновной файл параметров:
+    postgresql.conf
+    ALTER SYSTEM — postgresql.auto.conf
+Для текущего сеанса
+    SET/RESET
+    set_config()
+Просмотр текущего значения
+    SHOW
+    current_setting()
+    pg_settings  // view with settings
+
+SHOW work_mem;
+SELECT name, setting, unit FROM pg_settings WHERE name = 'work_mem';
+SELECT current_setting('work_mem');
+
+SET work_mem = '64MB'; // set parameter for current session only
+SET LOCAL work_mem = '64MB'; // set parameter fro current transaction
+ALTER SYSTEM SET work_mem TO '16MB';
+ALTER SYSTEM RESET work_mem;
+
+SELECT pg_reload_conf();
+
+\gx - расширенный формат вывода для одной команды
+=> \! pwd - operation system commands
+=> \o filename - sent query results to file
+=> \gexec
+
+=>\? variables //show variables
+=> \set VARIABLENAME VALUE /set variable name, register is important
+=> \echo :VARIABLENAME
+=> \unset VARIABLENAME
+
+SELECT current_value('work_mem') AS current_work_mem \gset; \\записать результат в переменную current_work_mem
+
+select
+    tablename, pg_total_relation_size(schemaname||'.'||tablename) as bytes
+from pg_tables
+ORDER BY bytes DESC
+LIMIT 5;  //5 bigest tables
