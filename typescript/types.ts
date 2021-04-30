@@ -1,3 +1,6 @@
+// index signature
+// https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-1.html
+
 export const enum Month {
     Jan = 'January'
 }
@@ -88,6 +91,44 @@ export interface MapConstructor {
     readonly prototype: Map<any, any>;
 }
 
+export type Options = {
+    [K in "noImplicitAny" | "strictNullChecks" | "strictFunctionTypes"]?: boolean;
+};
+
+export type PartialOptions = {
+    [K in "noImplicitAny" | "strictNullChecks" | "strictFunctionTypes"]?: boolean;
+};
+// same as
+//   type Options = {
+//       noImplicitAny?: boolean,
+//       strictNullChecks?: boolean,
+//       strictFunctionTypes?: boolean
+//   };
+
+type NewKeyType = 'test-name';
+// That’s why TypeScript 4.1
+export type MappedTypeWithNewKeys<T> = {
+    [K in keyof T as NewKeyType]: T[K]
+}
+
+export type Getters<T> = {
+    [K in keyof T as `get${Capitalize<string & K>}`]: () => T[K]
+};
+
+// Remove the 'kind' property
+export type RemoveKindField<T> = {
+    [K in keyof T as Exclude<K, "kind">]: T[K]
+};
+
+type ElementType<T> = T extends ReadonlyArray<infer U> ? ElementType<U> : T;
+function deepFlatten<T extends readonly unknown[]>(x: T): ElementType<T>[] {
+  throw "not implemented";
+}
+// All of these return the type 'number[]':
+deepFlatten([1, 2, 3]);
+deepFlatten([[1], [2, 3]]);
+deepFlatten([[1], [[2]], [[[3]]]]);
+
 // protected illegalStatusError(
 //     message: string = `Illegal operation for activity budget with status ${this.status}`
 // ): never {
@@ -95,3 +136,29 @@ export interface MapConstructor {
 // }
 
 // return illegalStatusError();
+
+//  4.2
+export declare function doStuff(...args: [...names: string[], shouldCapitalize: boolean]): void;
+
+
+export abstract class SuperClass {
+    abstract someMethod(): void;
+    badda() {}
+}
+
+export type AbstractConstructor<T> = abstract new (...args: any[]) => T
+
+export function withStyles<T extends AbstractConstructor<object>>(Ctor: T) {
+    abstract class StyledClass extends Ctor {
+        getStyles() {
+            // ...
+        }
+    }
+    return StyledClass;
+}
+
+export class SubClass extends withStyles(SuperClass) {
+    someMethod() {
+        this.someMethod()
+    }
+}

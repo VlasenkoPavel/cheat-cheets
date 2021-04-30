@@ -1,3 +1,4 @@
+**** dev1 l1
 => \conninfo
 
 **** Параметры конфигурации
@@ -40,3 +41,155 @@ select
 from pg_tables
 ORDER BY bytes DESC
 LIMIT 5;  //5 bigest tables
+
+**** dev1 l2
+стандартная реализация протокола (библиотекой libpq)
+=> \echo :AUTOCOMMIT
+=> \set AUTOCOMMIT off
+
+Подготовленные операторы
+=> PREPARE q(integer) AS
+    SELECT * FROM t WHERE id = $1;
+
+=> EXECUTE q(1);
+
+Открытый курсор представлен на сервере так называемым порталом. Это слово встречается в документации; в первом приближении можно считать «курсор» и «портал» синонимами
+Однако курсоры автоматически закрываются по завершению транзакции. (Исключение составляют курсоры, открытые с указанием WITH HOLD.)
+В первую очередь при старте сервера запускается процесс postmaster.
+Postmaster слушает входящие соединения. При появлении клиента postmaster порождает обслуживающий процесс (backend) и дальше каждый клиент общается со своим процессом.
+(MVCC, multiversion concurrency control)
+
+**** dev1 l3
+update = delete + insert;
+https://postgrespro.ru/docs/postgrespro/9.5/ddl-system-columns
+xmin-номер создавшей транзакции;
+xmax-номер удалившей транзакции;
+xact-статус транзакции;
+SELECT txid_current();  // transaction number
+SELECT *, xmin, xmax FROM tablename;
+vacuum full
+BEGIN ISOLATION LEVEL REPEATABLE READ;
+
+TRUNCATE вместо DELETE с последующей командой VACUUM.
+TRUNCATE немедленно удаляет всё содержимое таблицы, не требуя последующей очистки (VACUUM или VACUUM FULL)
+для высвобождения неиспользуемого дискового пространства. Недостатком такого подхода является нарушение строгой семантики MVCC.
+https://postgrespro.ru/docs/postgresql/12/routine-vacuuming
+
+**** dev1 l3
+INSERT INTO t SELECT id FROM generate_series(1,100000) AS id;
+
+EXPLAIN (analyze, buffers, costs off, timing off) SELECT * FROM t;
+Строка «Buffers: shared» показывает использование буферного кеша.
+read — количество буферов, в которые пришлось прочитать страницы с диска.
+hit — количество буферов, в которых нашлись нужные для запроса страницы.
+Planning Time - время планирования.
+Execution Time - время выполнения.
+
+Файлы журнала хранятся в отдельном каталоге; они не являются частью какой-либо базы данных.
+В этот каталог можно заглянуть в файловой системе, или воспользоваться функцией:
+=> SELECT * FROM pg_ls_waldir() ORDER BY name;
+
+При обычной остановке сервер выполняет контрольную точку, чтобы записать все грязные страницы на диск,
+но в режиме immediate сервер выключается без контрольной точки.
+student$ sudo pg_ctlcluster 12 main stop -m immediate --skip-systemctl-redirect // can be used as fail immitation
+sync/async fuxation моджно установить на уровне приложения для отдельных транзакций
+\l - db list
+\dn (describe namespace) список схем
+\dnS
+\dn+
+
+Специальные схемы:
+    public — по умолчанию в ней создаются все объекты
+    pg_catalog — системный каталог
+    information_schema — вариант системного каталог
+    аpg_temp — для временных таблиц
+https://postgrespro.ru/docs/postgresql/12/ddl-schemas
+
+**** dev1 l4
+
+=> EXPLAIN (analyze, buffers, costs off, timing off) SELECT * FROM t;
+read — количество буферов, в которые пришлось прочитать страницы с диска.
+hit — количество буферов, в которых нашлись нужные для запроса страницы.
+Журнал (WAL) - журналом предзаписи, write-ahead log
+
+Файлы журнала хранятся в отдельном каталоге; они не являются частью какой-либо базы данных.
+В этот каталог можно заглянуть в файловой системе или можно воспользоваться функцией:
+=> SELECT * FROM pg_ls_waldir() ORDER BY name;
+
+Останов в режиме immediate:sudo pg_ctlcluster 12 main stop -m immediate --skip-systemctl-redirect
+кэш системного каталога (видео ~13 мин)
+не журналируемая таблица работает быстрее (bi_rendered_service?)
+синхронная и асинхронная фиксация журнала (wal)
+
+**** dev1 l4
+\l - список баз данных
+Специальные схемы:
+public — по умолчанию в ней создаются все объекты
+pg_catalog — системный каталог
+information_schema — вариант системного каталога
+pg_temp — для временных табли
+
+Схема public используется по умолчанию для хранения объектов, если не выполнены иные настройки.
+Схема pg_catalog хранит объекты системного каталога. Системный каталог — это метаинформация об объектах,
+принадлежащих кластеру, которая хранится в самом кластере в виде таблиц.
+Альтернативное представление системного каталога (определенное в стандарте SQL)
+дает схема information_schema.Схема pg_temp служит для хранения временных таблиц.
+(На самом деле таблицы создаются в схемах pg_temp_1, pg_temp_2 и т. п. —у каждого пользователя своя схема.
+Но обращаются все пользователик ней как к pg_temp.)Есть и другие схемы, но они носят технический характер.
+https://postgrespro.ru/docs/postgresql/12/ddl-schemas
+
+\dn = describe namespace, список схем в psql
+\dnS + служебные схемы
+\dt public.* - таблица схемы
+
+Определение схемы объекта
+квалифицированное имя (схем а. имя) явно определяет схемуимя без квалификатора
+проверяется в схемах, указанных в пути поиска
+
+Путь поиска определяется параметром search_path,
+реальное значение — функция current_schemasне включаются несуществующие схемы и схемы,
+к которым нет доступасхемы pg_temp и pg_catalog неявно включены первыми,если не указаны в search_pathпервая
+явно указанная в пути схема используется для создания объектов
+
+SHOW search_path;
+
+Конструкция «$user» обозначает схему с тем же именем, что и имя текущего пользователя (в нашем случае — student)
+
+SELECT current_schemas(true);
+SET search_path = public, special; - на уровне сеанса
+ALTER DATABASE data_logical SET search_path = public, special; - на уровне базы
+
+https://postgrespro.ru/docs/postgresql/12/catalogs
+https://postgrespro.ru/docs/postgresql/12/app-psql
+https://postgrespro.ru/docs/postgresql/12/datatype-oid
+
+SELECT datname FROM pg_database;
+
+Мы всегда можем посмотреть, какие запросы выполняет команда:
+\set ECHO_HIDDEN on
+then \l for example
+
+SELECT nspname FROM pg_namespace;
+
+А такие объекты, как таблицы и индексы, можно посмотреть так:
+=> SELECT relname, relkind, relnamespace
+FROM pg_class WHERE relname = 't';
+
+Все столбцы здесь начинаются на rel (relation, отношение).
+relkind — тип объекта (r — таблица, i — индекс и т. п.);
+relnamespace — схема.
+
+Поле relnamespace имеет тип oid; вот соответствующая строка таблицы pg_namespace:
+=> SELECT oid, nspname FROM pg_namespace WHERE nspname = 'special'
+
+Для удобства преобразования между текстовым представлением и oid можно воспользоваться приведением к типу regnamespace:
+=> SELECT relname, relkind, relnamespace::regnamespace::text
+FROM pg_class WHERE relname = 't';
+
+А вот как можно получить список объектов в схеме, например, pg_catalog:
+
+=> SELECT relname, relkind FROM pg_class
+WHERE relnamespace = 'pg_catalog'::regnamespace LIMIT 5;
+
+=> \conninfo
+\c dbname - connect to anather db from psql
